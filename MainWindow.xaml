@@ -20,7 +20,7 @@
             </DockPanel.Background>
             <Button Style="{StaticResource closeCaptionButtonStyle}" Click="ButtonBase_OnClick" DockPanel.Dock="Right" Width="40"/>
             <Button Style="{StaticResource minCaptionButtonStyle}" Click="ButtonBase_OnClick_1" DockPanel.Dock="Right" Width="40"/>
-            <TextBlock DockPanel.Dock="Left" Text="StartColorChanger" TextAlignment="Center" VerticalAlignment="Center" FontSize="20" Foreground="White" MouseLeftButtonDown="UIElement_OnMouseLeftButtonDown"/>
+            <TextBlock DockPanel.Dock="Left" Text="Saber Startmenu DIYer" TextAlignment="Center" VerticalAlignment="Center" FontSize="20" Foreground="White" MouseLeftButtonDown="UIElement_OnMouseLeftButtonDown"/>
         </DockPanel>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -29,20 +29,155 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition/>
-                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="35"></RowDefinition>
             </Grid.RowDefinitions>
-            <ListBox x:Name="appList" Margin="2">
+            <ListBox x:Name="appList" Margin="2" SelectionChanged="AppList_OnSelectionChanged">
                 <ListBox.Background>
                     <SolidColorBrush Color="White" Opacity="0.6"/>
                 </ListBox.Background>
             </ListBox>
-            <Grid Grid.Column="1" Margin="2">
+            <Grid Grid.Row="0" Grid.Column="1" Margin="2">
                 <Grid.Background>
-                    <SolidColorBrush Color="Black" Opacity="0.2"></SolidColorBrush>
+                    <SolidColorBrush Color="Black" Opacity="0.4"></SolidColorBrush>
                 </Grid.Background>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="154"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="74"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="150"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Grid.Row="0" Grid.RowSpan="5" Margin="5">
+                    <TextBlock Text="名称:" Foreground="White" FontSize="16"/>
+                    <TextBox FontSize="16" Margin="2"/>
+                    <TextBlock Text="背景颜色" Foreground="White" FontSize="16"/>
+                    <DockPanel>
+                        <Button x:Name="defineColor" DockPanel.Dock="Right" Content="定义颜色" FontSize="16" Margin="2" Visibility="Collapsed" Click="DefineColor_OnClick"/>
+                        <ComboBox x:Name="colorSelector" DockPanel.Dock="Left" Margin="2" Height="30" SelectionChanged="Selector_OnSelectionChanged">
+                            <ComboBox.Items>
+                                <ComboBoxItem>
+                                    <StackPanel Orientation="Horizontal" Margin="2">
+                                        <Ellipse Width="20" Fill="Black" />
+                                        <TextBlock Text="黑" FontSize="16"></TextBlock>
+                                    </StackPanel>
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+                                    <StackPanel Orientation="Horizontal" Margin="2">
+                                        <Ellipse Width="20" Fill="Silver" />
+                                        <TextBlock Text="银" FontSize="16"></TextBlock>
+                                    </StackPanel>
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+                                    <StackPanel Orientation="Horizontal" Margin="2">
+                                        <Ellipse Width="20" Fill="Gray" />
+                                        <TextBlock Text="灰" FontSize="16"></TextBlock>
+                                    </StackPanel>
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+                                    <StackPanel Orientation="Horizontal" Margin="2">
+                                        <Ellipse Width="20" Fill="White" />
+                                        <TextBlock Text="白" FontSize="16"></TextBlock>
+                                    </StackPanel>
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+                                    <StackPanel Orientation="Horizontal" Margin="2">
+                                        <Ellipse Width="20" Fill="Maroon" />
+                                        <TextBlock Text="栗" FontSize="16"></TextBlock>
+                                    </StackPanel>
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+                                    <StackPanel Orientation="Horizontal" Margin="2">
+                                        <Ellipse Width="20" Fill="Red" />
+                                        <TextBlock Text="红" FontSize="16"></TextBlock>
+                                    </StackPanel>
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+                                    <StackPanel Orientation="Horizontal" Margin="2">
+                                        <Ellipse Width="20" Fill="Purple" />
+                                        <TextBlock Text="紫" FontSize="16"></TextBlock>
+                                    </StackPanel>
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+                                    <StackPanel Orientation="Horizontal" Margin="2">
+                                        <Ellipse Width="20" Fill="Fuchsia" />
+                                        <TextBlock Text="紫红" FontSize="16"></TextBlock>
+                                    </StackPanel>
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+                                    <StackPanel Orientation="Horizontal" Margin="2">
+                                        <Ellipse Width="20" Fill="Green" />
+                                        <TextBlock Text="绿" FontSize="16"></TextBlock>
+                                    </StackPanel>
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+                                    <StackPanel Orientation="Horizontal" Margin="2">
+                                        <Ellipse Width="20" Fill="Lime" />
+                                        <TextBlock Text="青柠" FontSize="16"></TextBlock>
+                                    </StackPanel>
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+                                    <StackPanel Orientation="Horizontal" Margin="2">
+                                        <Ellipse Width="20" Fill="Olive" />
+                                        <TextBlock Text="橄榄" FontSize="16"></TextBlock>
+                                    </StackPanel>
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+                                    <StackPanel Orientation="Horizontal" Margin="2">
+                                        <Ellipse Width="20" Fill="Yellow" />
+                                        <TextBlock Text="黄" FontSize="16"></TextBlock>
+                                    </StackPanel>
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+                                    <StackPanel Orientation="Horizontal" Margin="2">
+                                        <Ellipse Width="20" Fill="Navy" />
+                                        <TextBlock Text="藏青" FontSize="16"></TextBlock>
+                                    </StackPanel>
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+                                    <StackPanel Orientation="Horizontal" Margin="2">
+                                        <Ellipse Width="20" Fill="Blue" />
+                                        <TextBlock Text="蓝" FontSize="16"></TextBlock>
+                                    </StackPanel>
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+                                    <StackPanel Orientation="Horizontal" Margin="2">
+                                        <Ellipse Width="20" Fill="Teal" />
+                                        <TextBlock Text="青" FontSize="16"></TextBlock>
+                                    </StackPanel>
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+                                    <StackPanel Orientation="Horizontal" Margin="2">
+                                        <Ellipse Width="20" Fill="Aqua" />
+                                        <TextBlock Text="湖绿" FontSize="16"></TextBlock>
+                                    </StackPanel>
+                                </ComboBoxItem>
+
+                                <ComboBoxItem x:Name="defineColorItem">
+                                    <StackPanel Orientation="Horizontal" Margin="2">
+                                        <Ellipse Width="20" Fill="Black" />
+                                        <TextBlock Text="自定义" FontSize="16"></TextBlock>
+                                    </StackPanel>
+                                </ComboBoxItem>
+                            </ComboBox.Items>
+                        </ComboBox>
+                    </DockPanel>
+                    
+                </StackPanel>
+                <TextBlock Text="大磁贴预览：" FontSize="16" Foreground="White" Grid.Row="0" Grid.Column="1"/>
+                <TextBlock Text="小磁贴预览：" FontSize="16" Foreground="White" Grid.Column="1" Grid.Row="2"/>
+                <Grid Grid.Row="1" Grid.Column="1" Width="150" Height="150" >
+                    <Grid.Background>
+                        <SolidColorBrush Color="Black"/>
+                    </Grid.Background>
+                    <TextBlock HorizontalAlignment="Left" VerticalAlignment="Bottom" Text="没有载入图标" TextWrapping="Wrap" Foreground="White"></TextBlock>
+                </Grid>
             </Grid>
-            <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal">
-                <Button Style="{StaticResource CoreButton}" Click="ButtonBase_OnClick_2">
+            <DockPanel Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0">
+                <Button Style="{StaticResource CoreButton}" Click="ButtonBase_OnClick_2" Margin="2" DockPanel.Dock="Left">
                     <Button.Background>
                         <SolidColorBrush Color="MediumSlateBlue" Opacity="0.6"/>
                     </Button.Background>
@@ -51,7 +186,46 @@
                         <TextBlock Text="刷新列表" VerticalAlignment="Center" FontSize="16" Margin="4" Foreground="White"></TextBlock>
                     </StackPanel>
                 </Button>
-            </StackPanel>
+                <Button Style="{StaticResource CoreButton}" Click="ButtonBase_OnClick_3" Margin="2" DockPanel.Dock="Left">
+                    <Button.Background>
+                        <SolidColorBrush Color="SkyBlue" Opacity="0.6"/>
+                    </Button.Background>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="WpfImages/Message.png"/>
+                        <TextBlock Text="关于" VerticalAlignment="Center" FontSize="16" Margin="4" Foreground="White"></TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button Style="{StaticResource CoreButton}" Click="ButtonBase_OnClick_2" Margin="2" DockPanel.Dock="Right" Width="200">
+                    <Button.Background>
+                        <SolidColorBrush Color="HotPink" Opacity="0.6"/>
+                    </Button.Background>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Image Source="WpfImages/save.png" Visibility="Visible"/>
+                        
+                        <TextBlock Text="保存" VerticalAlignment="Center" FontSize="16" Margin="4" Foreground="White"></TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button Style="{StaticResource CoreButton}" Click="ButtonBase_OnClick_2" Margin="2" DockPanel.Dock="Right" Width="120">
+                    <Button.Background>
+                        <SolidColorBrush Color="Green" Opacity="0.6"/>
+                    </Button.Background>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Image Source="WpfImages/cross.png"/>
+                        <TextBlock Text="恢复默认" VerticalAlignment="Center" FontSize="16" Margin="4" Foreground="White"></TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button Style="{StaticResource CoreButton}" Click="ButtonBase_OnClick_4" Margin="2" DockPanel.Dock="Left" Width="200">
+                    <Button.Background>
+                        <SolidColorBrush Color="Yellow" Opacity="0.6"/>
+                    </Button.Background>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Image Source="WpfImages/explorer.png"/>
+                        <TextBlock Text="打开开始菜单文件夹" VerticalAlignment="Center" FontSize="16" Margin="4" Foreground="Black"></TextBlock>
+                    </StackPanel>
+                </Button>
+                <TextBlock/>
+            </DockPanel>
+            
         </Grid>
     </Grid>
 </Window>
