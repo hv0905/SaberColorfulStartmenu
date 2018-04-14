@@ -14,5 +14,9 @@
             <RowDefinition Height="20"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0">
+            <Button Style="{StaticResource closeCaptionButtonStyle}" Click="ButtonBase_OnClick"></Button>
+            <Button></Button>
+        </DockPanel>
     </Grid>
 </Window>
