@@ -13,5 +13,13 @@ namespace StartBgChanger
     /// </summary>
     public partial class App : Application
     {
+        public static readonly string CommonStartMenu = Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu);
+        public static readonly string StartMenu = Environment.GetFolderPath(Environment.SpecialFolder.StartMenu);
+
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+        }
     }
 }

@@ -19,3 +19,5 @@ E:\源程序\C#VB\StartBgChanger\StartBgChanger\obj\Debug\StartBgChanger.csproj.
 E:\源程序\C#VB\StartBgChanger\StartBgChanger\obj\Debug\StartBgChanger.csproj.CoreCompileInputs.cache
 E:\源程序\C#VB\StartBgChanger\StartBgChanger\obj\Debug\StartBgChanger.exe
 E:\源程序\C#VB\StartBgChanger\StartBgChanger\obj\Debug\StartBgChanger.pdb
+E:\源程序\C#VB\StartBgChanger\StartBgChanger\obj\Debug\Interop.IWshRuntimeLibrary.dll
+E:\源程序\C#VB\StartBgChanger\StartBgChanger\obj\Debug\StartBgChanger.csproj.ResolveComReference.cache

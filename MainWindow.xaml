@@ -11,12 +11,47 @@
     </Window.Background>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="30"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0">
-            <Button Style="{StaticResource closeCaptionButtonStyle}" Click="ButtonBase_OnClick"></Button>
-            <Button></Button>
+            <DockPanel.Background>
+                <SolidColorBrush Color="Black" Opacity="0.4"></SolidColorBrush>
+            </DockPanel.Background>
+            <Button Style="{StaticResource closeCaptionButtonStyle}" Click="ButtonBase_OnClick" DockPanel.Dock="Right" Width="40"/>
+            <Button Style="{StaticResource minCaptionButtonStyle}" Click="ButtonBase_OnClick_1" DockPanel.Dock="Right" Width="40"/>
+            <TextBlock DockPanel.Dock="Left" Text="StartColorChanger" TextAlignment="Center" VerticalAlignment="Center" FontSize="20" Foreground="White" MouseLeftButtonDown="UIElement_OnMouseLeftButtonDown"/>
         </DockPanel>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="30"></RowDefinition>
+            </Grid.RowDefinitions>
+            <ListBox x:Name="appList" Margin="2">
+                <ListBox.Background>
+                    <SolidColorBrush Color="White" Opacity="0.6"/>
+                </ListBox.Background>
+            </ListBox>
+            <Grid Grid.Column="1" Margin="2">
+                <Grid.Background>
+                    <SolidColorBrush Color="Black" Opacity="0.2"></SolidColorBrush>
+                </Grid.Background>
+            </Grid>
+            <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal">
+                <Button Style="{StaticResource CoreButton}" Click="ButtonBase_OnClick_2">
+                    <Button.Background>
+                        <SolidColorBrush Color="MediumSlateBlue" Opacity="0.6"/>
+                    </Button.Background>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="WpfImages/refresh.png"/>
+                        <TextBlock Text="刷新列表" VerticalAlignment="Center" FontSize="16" Margin="4" Foreground="White"></TextBlock>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>
