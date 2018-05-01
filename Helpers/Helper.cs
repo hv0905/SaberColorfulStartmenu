@@ -10,17 +10,23 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 using IWshRuntimeLibrary;
+using Color = System.Windows.Media.Color;
 
 namespace StartBgChanger.Helpers
 {
     public static class Helper
     {
-
+        public static WshShell mainShell;
         [DllImport("gdi32")]
         static extern int DeleteObject(IntPtr o);
 
         [DllImport("shell32.dll")]
         private static extern int ExtractIconEx(string lpszFile, int niconIndex, IntPtr[] phiconLarge, IntPtr[] phiconSmall, int nIcons);
+
+        static Helper()
+        {
+            mainShell = new WshShell();
+        }
 
         public static string[] GetAllFilesByDir(string dirPath)
         {
@@ -53,19 +59,6 @@ namespace StartBgChanger.Helpers
             return files.ToArray();
         }
 
-
-        public static string GetShortcutTarget(string shortcutPath)
-        {
-            if (System.IO.File.Exists(shortcutPath))
-            {
-                WshShell shell = new WshShell();
-                IWshShortcut wshShortcut = (IWshShortcut)shell.CreateShortcut(shortcutPath);
-                return wshShortcut.TargetPath;
-
-            }
-            return "";
-        }
-
         public static BitmapSource GetBitmapSourceFromBitmap(this Bitmap target)
         {
             IntPtr hbitmap = target.GetHbitmap();
@@ -92,6 +85,7 @@ namespace StartBgChanger.Helpers
             return largeIcons.Select(Icon.FromHandle).ToArray();
         }
 
-
+        public static Color ToMediaColor(this System.Drawing.Color color) => 
+            Color.FromArgb(color.A, color.R, color.G, color.B);
     }
 }

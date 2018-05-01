@@ -81,5 +81,15 @@ namespace StartBgChanger.Properties {
                 return ResourceManager.GetString("About", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Icon 龙_飞车 {
+            get {
+                object obj = ResourceManager.GetObject("龙_飞车", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
     }
 }

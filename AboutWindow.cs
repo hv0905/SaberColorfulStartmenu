@@ -31,9 +31,7 @@ namespace StartBgChanger
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("explorer", "http://hv0905.github.io/saber_startmenu_diyer/index.html");
-
-
+            Process.Start("explorer", "http://hv0905.github.io/saber_startmenu_diyer/");
         }
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
