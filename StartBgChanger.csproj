@@ -172,5 +172,8 @@
   <ItemGroup>
     <None Include="龙_飞车.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Windows 9 Icons %28313%29.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

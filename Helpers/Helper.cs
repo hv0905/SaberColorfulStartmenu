@@ -1,22 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 using IWshRuntimeLibrary;
 using Color = System.Windows.Media.Color;
+using File = System.IO.File;
 
 namespace StartBgChanger.Helpers
 {
     public static class Helper
     {
-        public static WshShell mainShell;
+        public static readonly WshShell MainShell;
         [DllImport("gdi32")]
         static extern int DeleteObject(IntPtr o);
 
@@ -25,7 +28,7 @@ namespace StartBgChanger.Helpers
 
         static Helper()
         {
-            mainShell = new WshShell();
+            MainShell = new WshShell();
         }
 
         public static string[] GetAllFilesByDir(string dirPath)
@@ -87,5 +90,31 @@ namespace StartBgChanger.Helpers
 
         public static Color ToMediaColor(this System.Drawing.Color color) => 
             Color.FromArgb(color.A, color.R, color.G, color.B);
+
+
+
+        public static string GetPathWithPathWithEnvimentArgs(string path)
+        {
+            if (!path.Contains("%")) return path;
+            var ps = Process.Start(new ProcessStartInfo()
+            {
+                FileName = "cmd.exe",
+                Arguments = $"/C \"echo {path}\"",
+                CreateNoWindow = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false
+            });
+            // ReSharper disable once PossibleNullReferenceException
+            return ps.StandardOutput.ReadLine().Trim();
+        }
+
+        public static void UpdateFile(string path)
+        {
+            if (File.Exists(path))
+            {
+                File.SetLastWriteTime(path,DateTime.Now);
+            }
+        }
     }
 }
