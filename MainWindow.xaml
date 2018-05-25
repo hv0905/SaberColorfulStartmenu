@@ -4,12 +4,22 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StartBgChanger" Loaded="MainWindow_OnLoaded"
-        xmlns:input="clr-namespace:System.Windows.Input;assembly=PresentationCore"
+        xmlns:input="clr-namespace:System.Windows.Input;assembly=PresentationCore" SnapsToDevicePixels="True"
         mc:Ignorable="d" Style="{StaticResource BorderlessWindowStyle}" MinWidth="800" MinHeight="450"
-        Title="MainWindow" Height="450" Width="800">
+        Title="SaberStartmenuDiyer 开始菜单定制工具" Height="450" Width="800">
     <Window.Background>
         <ImageBrush ImageSource="WpfImages/dva_12.jpg"/>
     </Window.Background>
+    <Window.Resources>
+        <Storyboard x:Key="saveDoneStory">
+            <ColorAnimation From="HotPink" To="CornflowerBlue" Duration="0:0:0.5" Storyboard.TargetName="saveButton_Bg" Storyboard.TargetProperty="Color"/>
+            <DoubleAnimation From="1" To="0" Duration="0:0:0.5" Storyboard.TargetName="saveButton_Save" Storyboard.TargetProperty="Opacity"/>
+            <DoubleAnimation From="0" To="1" Duration="0:0:0.5" Storyboard.TargetName="saveButton_Saved" Storyboard.TargetProperty="Opacity"/>
+            <ColorAnimation From="CornflowerBlue" To="HotPink" Duration="0:0:0.5" BeginTime="0:0:3.5" Storyboard.TargetName="saveButton_Bg" Storyboard.TargetProperty="Color"/>
+            <DoubleAnimation From="0" To="1" Duration="0:0:0.5" BeginTime="0:0:3.5" Storyboard.TargetName="saveButton_Save" Storyboard.TargetProperty="Opacity"/>
+            <DoubleAnimation From="1" To="0" Duration="0:0:0.5" BeginTime="0:0:3.5" Storyboard.TargetName="saveButton_Saved" Storyboard.TargetProperty="Opacity"/>
+        </Storyboard>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -55,8 +65,8 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" Grid.Row="0" Grid.RowSpan="5" Margin="5">
                     <TextBlock Text="设定" FontSize="16" Foreground="White"/>
-                    <ComboBox x:Name="modeSelctor" FontSize="16" SelectedIndex="0" SelectionChanged="Selector_OnSelectionChanged_1" >
-                        <ComboBoxItem Content="默认(跟随系统)"/>
+                    <ComboBox x:Name="modeSelctor"  FontSize="16" SelectedIndex="0" SelectionChanged="Selector_OnSelectionChanged_1" >
+                        <ComboBoxItem Content="默认"/>
                         <ComboBoxItem Content="自定义"/>
                     </ComboBox>
                     <TextBlock Text="背景颜色" Foreground="White" FontSize="16" Visibility="{Binding Visibility, ElementName=colorSelector}"/>
@@ -191,10 +201,10 @@
                         <ComboBoxItem Content="黑色（适用亮背景）"/>
                     </ComboBox>
                     <CheckBox x:Name="largeAppNameCheck" Visibility="{Binding Visibility,ElementName=colorSelector}" Content="在150x150大磁贴中显示应用名" IsChecked="True" FontSize="16" Foreground="White" Margin="2" Checked="LargeAppNameCheck_OnChecked" Unchecked="LargeAppNameCheck_OnChecked"/>
-                    <CheckBox x:Name="defineLargeIconCheck" Visibility="{Binding Visibility,ElementName=colorSelector}" Content="大磁贴自定义图标" IsChecked="False" FontSize="16" Foreground="White" Margin="2" Checked="LargeAppNameCheck_OnChecked" Unchecked="LargeAppNameCheck_OnChecked"/>
-                    <Button Visibility="{Binding Visibility, ElementName=colorSelector}" Content="选择大磁贴图标. . ." FontSize="16" Click="ButtonBase_OnClick_7" IsEnabled="{Binding IsChecked, ElementName=defineLargeIconCheck}"/>
-                    <CheckBox x:Name="defineSmallIconCheck" Visibility="{Binding Visibility,ElementName=colorSelector}" Content="小磁贴自定义图标" IsChecked="False" FontSize="16" Foreground="White" Margin="2" Checked="LargeAppNameCheck_OnChecked" Unchecked="LargeAppNameCheck_OnChecked"/>
-                    <Button Visibility="{Binding Visibility,ElementName=colorSelector}" Content="选择小磁贴图标. . ." FontSize="16" IsEnabled="{Binding IsChecked, ElementName=defineSmallIconCheck}"/>
+                    <CheckBox x:Name="defineLargeIconCheck" Visibility="{Binding Visibility,ElementName=colorSelector}" Content="大磁贴自定义图标" IsChecked="False" FontSize="16" Foreground="White" Margin="2" Checked="LargeAppNameCheck_OnChecked" Unchecked="LargeAppNameCheck_OnChecked" Opacity="0"/>
+                    <Button x:Name="defineLargeIconButton" Visibility="{Binding Visibility, ElementName=colorSelector}" Content="选择大磁贴图标. . ." FontSize="16" Click="ButtonBase_OnClick_7" IsEnabled="{Binding IsChecked, ElementName=defineLargeIconCheck}" Opacity="0"/>
+                    <CheckBox x:Name="defineSmallIconCheck" Visibility="{Binding Visibility,ElementName=colorSelector}" Content="小磁贴自定义图标" IsChecked="False" FontSize="16" Foreground="White" Margin="2" Checked="LargeAppNameCheck_OnChecked" Unchecked="LargeAppNameCheck_OnChecked" Opacity="0"/>
+                    <Button x:Name="defineSmallIconButton" Visibility="{Binding Visibility,ElementName=colorSelector}" Content="选择小磁贴图标. . ." FontSize="16" IsEnabled="{Binding IsChecked, ElementName=defineSmallIconCheck}" Click="ButtonBase_OnClick_8" Opacity="0"/>
                 </StackPanel>
                 <TextBlock Text="大磁贴预览：" FontSize="16" Foreground="White" Grid.Row="0" Grid.Column="1" Visibility="{Binding Visibility, ElementName=colorSelector}"/>
                 <TextBlock Text="小磁贴预览：" FontSize="16" Foreground="White" Grid.Column="1" Grid.Row="2" Visibility="{Binding Visibility, ElementName=colorSelector}"/>
@@ -202,18 +212,21 @@
                     <Grid.Background>
                         <SolidColorBrush x:Name="previewColor" Color="Black"/>
                     </Grid.Background>
-                    <Image x:Name="preview_LargeImg" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Image x:Name="preview_LargeImg" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="None"/>
                     <TextBlock x:Name="preview_LargeText" HorizontalAlignment="Left" VerticalAlignment="Bottom" Text="没有载入图标" TextWrapping="Wrap" Foreground="White"></TextBlock>
                 </Grid>
                 <Grid Grid.Row="3" Grid.Column="1" Width="70" Height="70" Visibility="{Binding Visibility, ElementName=colorSelector}">
                     <Grid.Background>
                         <SolidColorBrush Color="{Binding Color, ElementName=previewColor}"/>
                     </Grid.Background>
-                    <Image x:Name="preview_SmallImg" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Image x:Name="preview_SmallImg" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="None"/>
 
                 </Grid>
             </Grid>
-            <DockPanel Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0">
+            <DockPanel Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" Margin="2">
+                <DockPanel.Background>
+                    <SolidColorBrush Color="Black" Opacity="0.4"></SolidColorBrush>
+                </DockPanel.Background>
                 <Button Style="{StaticResource CoreButton}" Click="ButtonBase_OnClick_2" Margin="2" DockPanel.Dock="Left">
                     <Button.Background>
                         <SolidColorBrush Color="MediumSlateBlue" Opacity="0.6"/>
@@ -232,27 +245,28 @@
                         <TextBlock Text="关于" VerticalAlignment="Center" FontSize="16" Margin="4" Foreground="White"></TextBlock>
                     </StackPanel>
                 </Button>
-                <Button Style="{StaticResource CoreButton}" Click="ButtonBase_OnClick_6" Margin="2" DockPanel.Dock="Right" Width="200">
+                <Button x:Name="saveButton" Style="{StaticResource CoreButton}" Click="ButtonBase_OnClick_6" Margin="2" DockPanel.Dock="Right" Width="200">
                     <Button.Background>
-                        <SolidColorBrush Color="HotPink" Opacity="0.6"/>
+                        <SolidColorBrush x:Name="saveButton_Bg" Color="HotPink" Opacity="0.6"/>
                     </Button.Background>
                     <Grid>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel x:Name="saveButton_Save" Orientation="Horizontal" HorizontalAlignment="Center">
                             <Image Source="WpfImages/save.png" Visibility="Visible"/>
                             <TextBlock Text="保存" VerticalAlignment="Center" FontSize="16" Margin="4" Foreground="White"></TextBlock>
                         </StackPanel>
-                        <StackPanel Visibility="Collapsed">
-                            <Image Source="WpfImages/Message.png"/>
+                        <StackPanel Opacity="0" x:Name="saveButton_Saved" Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Image Source="WpfImages/ok.png"/>
+                            <TextBlock Text="已保存" VerticalAlignment="Center" FontSize="16" Margin="4" Foreground="White"></TextBlock>
                         </StackPanel>
                     </Grid>
                 </Button>
-                <Button Style="{StaticResource CoreButton}" Click="ButtonBase_OnClick_4" Margin="2" DockPanel.Dock="Left" Width="200">
+                <Button Style="{StaticResource CoreButton}" Click="ButtonBase_OnClick_4" Margin="2" DockPanel.Dock="Left" Width="200" ToolTip="使用资源管理器打开开始菜单文件夹">
                     <Button.Background>
-                        <SolidColorBrush Color="Yellow" Opacity="0.6"/>
+                        <SolidColorBrush Color="Orange" Opacity="0.6"/>
                     </Button.Background>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <Image Source="WpfImages/explorer.png"/>
-                        <TextBlock Text="打开开始菜单文件夹" VerticalAlignment="Center" FontSize="16" Margin="4" Foreground="Black"></TextBlock>
+                        <TextBlock Text="打开开始菜单文件夹" VerticalAlignment="Center" FontSize="16" Margin="4" Foreground="White"></TextBlock>
                     </StackPanel>
                 </Button>
                 <TextBlock/>
@@ -261,3 +275,4 @@
         </Grid>
     </Grid>
 </Window>
+    

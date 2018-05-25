@@ -1,10 +1,15 @@
-﻿using System;
+﻿#define DISABLE_LOGOS
+
+
+
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace StartBgChanger
 {
@@ -20,6 +25,11 @@ namespace StartBgChanger
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+        }
+
+        private void App_OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            new ErrorReport(e.Exception).ShowDialog();
         }
     }
 }

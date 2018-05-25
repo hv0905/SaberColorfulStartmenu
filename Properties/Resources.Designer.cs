@@ -70,7 +70,7 @@ namespace StartBgChanger.Properties {
         ///本程序部分图标取自 Windows 9 Icons 作者: dtafalonso
         ///参考: dtafalonso.deviantart.com/art/Windows-9-icons-359505915
         ///
-        ///背景：取自百度贴吧
+        ///背景：取自b站，如果你知道原作者可以在github反馈。
         ///
         ///基于C# WPF .Net Framework 4.6.2 使用Visual Studio 2017 Community编译
         ///
@@ -83,12 +83,12 @@ namespace StartBgChanger.Properties {
         }
         
         /// <summary>
-        ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Icon unknown {
+        internal static System.Drawing.Bitmap unknown {
             get {
                 object obj = ResourceManager.GetObject("unknown", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

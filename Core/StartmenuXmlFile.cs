@@ -1,5 +1,7 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -15,27 +17,56 @@ namespace StartBgChanger.Core
         private XmlDocument _doc;
         //private FileStream _xmlFile;
         private XmlElement _visualElements;
+        private string _largeIconLoc;
+        private string _smallIconLoc;
         public string ColorStr { get; set; }
-        public string LargeIconLoc { get; set; }
-        public string SmallIconLoc { get; set; }
+
+        public string LargeIconLoc
+        {
+            // ReSharper disable once AssignNullToNotNullAttribute
+            get
+            {
+                if (_largeIconLoc != null)
+                    return _largeIconLoc[2] != ':'
+                        ? Path.Combine(Path.GetDirectoryName(FileName), _largeIconLoc)
+                        : _largeIconLoc;
+                else return null;
+            }
+            set => _largeIconLoc = value;
+        }
+
+        public string SmallIconLoc
+        {
+            get
+            {
+                if (_smallIconLoc != null)
+                    return _smallIconLoc[2] != ':'
+                        // ReSharper disable once AssignNullToNotNullAttribute
+                        ? Path.Combine(Path.GetDirectoryName(FileName), _smallIconLoc)
+                        : _smallIconLoc;
+                else return null;
+            }
+
+            set => _smallIconLoc = value;
+        }
+
         public bool ShowTitleOnLargeIcon { get; set; }
         public TextCol TxtForeground { get; set; }
 
 
         public static StartmenuXmlFile Load(string fileName)
         {
-           
+
             var sxf = new StartmenuXmlFile();
             sxf.FileName = fileName;
             //sxf._xmlFile = File.Open(fileName, FileMode.Open, FileAccess.ReadWrite);
             sxf._doc = new XmlDocument();
             sxf._doc.Load(sxf.FileName);
             var root = sxf._doc.DocumentElement;
+            // ReSharper disable once PossibleNullReferenceException
             sxf._visualElements = (XmlElement)(root.GetElementsByTagName("VisualElements")[0]);
 
             sxf.ColorStr = sxf._visualElements.Attributes["BackgroundColor"].Value;
-            sxf.LargeIconLoc = sxf._visualElements.Attributes["Square150x150Logo"].Value;
-            sxf.SmallIconLoc = sxf._visualElements.Attributes["Square70x70Logo"].Value;
             sxf.ShowTitleOnLargeIcon = sxf._visualElements.Attributes["ShowNameOnSquare150x150Logo"].Value == "on";
             sxf.TxtForeground = sxf._visualElements.Attributes["ForegroundText"].Value == "light" ? TextCol.light : TextCol.dark;
             if (sxf._visualElements.HasAttribute("Square150x150Logo"))
@@ -88,10 +119,13 @@ namespace StartBgChanger.Core
 
         private StartmenuXmlFile() { }
 
+        /// <summary>
+        /// 将更改保存到<see cref="FileName"/>中
+        /// </summary>
         public void Save()
         {
             _visualElements.Attributes["BackgroundColor"].Value = ColorStr;
-            _visualElements.Attributes["ShowNameOnSquare150x150Logo"].Value = ShowTitleOnLargeIcon ? "on":"off";
+            _visualElements.Attributes["ShowNameOnSquare150x150Logo"].Value = ShowTitleOnLargeIcon ? "on" : "off";
             _visualElements.Attributes["ForegroundText"].Value = TxtForeground.ToString();
             //可选项
             if (_visualElements.HasAttribute("Square150x150Logo"))
@@ -102,7 +136,7 @@ namespace StartBgChanger.Core
                 }
                 else
                 {
-                    _visualElements.Attributes["Square150x150Logo"].Value = LargeIconLoc;
+                    _visualElements.Attributes["Square150x150Logo"].Value = _largeIconLoc;
                 }
             }
             else
@@ -110,7 +144,7 @@ namespace StartBgChanger.Core
                 if (!string.IsNullOrEmpty(LargeIconLoc))
                 {
                     _visualElements.Attributes.Append(_doc.CreateAttribute("Square150x150Logo"));
-                     _visualElements.Attributes["Square150x150Logo"].Value = LargeIconLoc;
+                    _visualElements.Attributes["Square150x150Logo"].Value = _largeIconLoc;
                 }
             }
             if (_visualElements.HasAttribute("Square70x70Logo"))
@@ -121,7 +155,7 @@ namespace StartBgChanger.Core
                 }
                 else
                 {
-                    _visualElements.Attributes["Square70x70Logo"].Value = SmallIconLoc;
+                    _visualElements.Attributes["Square70x70Logo"].Value = _smallIconLoc;
                 }
             }
             else
@@ -129,19 +163,23 @@ namespace StartBgChanger.Core
                 if (!string.IsNullOrEmpty(SmallIconLoc))
                 {
                     _visualElements.Attributes.Append(_doc.CreateAttribute("Square70x70Logo"));
-                    _visualElements.Attributes["Square70x70Logo"].Value = SmallIconLoc;
+                    _visualElements.Attributes["Square70x70Logo"].Value = _smallIconLoc;
                 }
             }
-            
+
             _doc.Save(FileName);
             //_xmlFile.Flush();
         }
 
-
-        public enum TextCol
+        /// <summary>
+        ///指定文字颜色 
+        /// </summary>
+        public enum TextCol : int
         {
-            light,
-            dark,
+            // ReSharper disable once InconsistentNaming
+            light = 0,
+            // ReSharper disable once InconsistentNaming
+            dark = 1,
         }
 
     }
