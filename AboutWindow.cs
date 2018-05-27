@@ -8,10 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using StartBgChanger.Properties;
+using SaberColorfulStartmenu.Properties;
 using Application = System.Windows.Application;
 
-namespace StartBgChanger
+namespace SaberColorfulStartmenu
 {
     public partial class AboutWindow : Form
     {
@@ -44,7 +44,7 @@ namespace StartBgChanger
 
         private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("explorer", "https://github.com/hv0905/StartBgChanger/");
+            Process.Start("explorer", "https://github.com/hv0905/SaberColorfulStartmenu/");
         }
 
         private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

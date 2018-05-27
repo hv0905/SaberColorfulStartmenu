@@ -16,7 +16,7 @@ using Color = System.Windows.Media.Color;
 using ColorConverter = System.Windows.Media.ColorConverter;
 using File = System.IO.File;
 
-namespace StartBgChanger.Helpers
+namespace SaberColorfulStartmenu.Helpers
 {
     public static class Helper
     {

@@ -6,14 +6,15 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Media;
 using System.Diagnostics;
 using System.Reflection;
 using System.Net.Mail;
-using StartBgChanger;
+using SaberColorfulStartmenu;
+using System.Windows.Forms;
 
-namespace StartBgChanger
+
+namespace SaberColorfulStartmenu
 {
     public partial class ErrorReport : Form
     {
@@ -30,8 +31,8 @@ namespace StartBgChanger
 
         private void button6_Click(object sender, EventArgs e)
         {
-            System.Windows.Application.Current.Shutdown();
-            Application.ExitThread();
+            System.Windows.Application.Current.Shutdown(-1);
+            Environment.Exit(-1);
         }
 
         private void button5_Click(object sender, EventArgs e)

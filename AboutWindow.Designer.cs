@@ -1,4 +1,4 @@
-﻿namespace StartBgChanger
+﻿namespace SaberColorfulStartmenu
 {
     partial class AboutWindow
     {

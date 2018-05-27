@@ -1,7 +1,7 @@
-﻿<Application x:Class="StartBgChanger.App"
+﻿<Application x:Class="SaberColorfulStartmenu.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:StartBgChanger" DispatcherUnhandledException="App_OnDispatcherUnhandledException"
+             xmlns:local="clr-namespace:SaberColorfulStartmenu" DispatcherUnhandledException="App_OnDispatcherUnhandledException"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
          <ResourceDictionary>

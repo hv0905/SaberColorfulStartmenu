@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IWshRuntimeLibrary;
-using StartBgChanger.Helpers;
+using SaberColorfulStartmenu.Helpers;
 using File = System.IO.File;
 // ReSharper disable AssignNullToNotNullAttribute
 
-namespace StartBgChanger.Core
+namespace SaberColorfulStartmenu.Core
 {
     public class StartmenuShortcutInfo
     {
