@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        Loaded="MainWindow_OnLoaded"
+        Loaded="MainWindow_OnLoaded" Closing="MainWindow_OnClosing"
         xmlns:input="clr-namespace:System.Windows.Input;assembly=PresentationCore" SnapsToDevicePixels="True"
         mc:Ignorable="d" Style="{StaticResource BorderlessWindowStyle}" MinWidth="800" MinHeight="450"
         Title="Saber's Colorful Startmenu 开始菜单定制工具" Height="480" Width="800">

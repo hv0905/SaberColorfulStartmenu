@@ -309,6 +309,8 @@ namespace SaberColorfulStartmenu
                 UpdatePreview();
         }
 
+        private void MainWindow_OnClosing(object sender, CancelEventArgs e) =>
+            e.Cancel = !SaveCheck();
         #endregion
 
         #region 方法
@@ -428,6 +430,7 @@ namespace SaberColorfulStartmenu
                 modeSelctor.SelectedIndex = 0;
                 //set everything to empty
                 _nowColor = Colors.Black;
+                _nowColorString = "black";
                 _largeIcon = _smallIcon = null;
                 defineLargeIconCheck.IsChecked = defineSmallIconCheck.IsChecked = false;
                 txtColorSelector.SelectedIndex = 0;
@@ -612,13 +615,18 @@ namespace SaberColorfulStartmenu
         private bool SaveCheck()
         {
             if (!_saveFlag) return true;
-            if (MessageBox.Show("更改尚未保存，放弃更改？", "警告", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No) != MessageBoxResult.Yes)
+            // ReSharper disable once SwitchStatementMissingSomeCases
+            switch (MessageBox.Show("更改尚未保存，是否保存？", "警告", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning,
+                MessageBoxResult.Cancel))
             {
-                return false;
+                case MessageBoxResult.Yes:
+                    return Save();
+                case MessageBoxResult.No:
+                    _saveFlag = false;
+                    return true;
+                default:
+                    return false;
             }
-
-            _saveFlag = false;
-            return true;
         }
 
         private bool Save()

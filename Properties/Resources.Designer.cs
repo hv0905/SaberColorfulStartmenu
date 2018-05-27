@@ -61,9 +61,11 @@ namespace SaberColorfulStartmenu.Properties {
         }
         
         /// <summary>
-        ///   查找类似 SaberStartmenuDIYer for Win10 Only
+        ///   查找类似 Saber&apos;s Colorful Startmenu Version:0.7 Preview
         ///
         ///作者：HV0905
+        ///
+        ///仅支持Win10操作系统
         ///
         ///本程序可以通过修改快捷方式文件下的visualelementsmanifest.xml对开始菜单图标进行定制
         ///
@@ -79,6 +81,15 @@ namespace SaberColorfulStartmenu.Properties {
         internal static string About {
             get {
                 return ResourceManager.GetString("About", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Saber&apos;s Colorful Startmenu 的本地化字符串。
+        /// </summary>
+        internal static string AppName {
+            get {
+                return ResourceManager.GetString("AppName", resourceCulture);
             }
         }
         

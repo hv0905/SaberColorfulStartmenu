@@ -118,9 +118,11 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="About" xml:space="preserve">
-    <value>SaberStartmenuDIYer for Win10 Only
+    <value>Saber's Colorful Startmenu Version:0.7 Preview
 
 作者：HV0905
+
+仅支持Win10操作系统
 
 本程序可以通过修改快捷方式文件下的visualelementsmanifest.xml对开始菜单图标进行定制
 
@@ -132,6 +134,9 @@
 基于C# WPF .Net Framework 4.6.2 使用Visual Studio 2017 Community编译
 
 本程序开放源代码,任何人可以免费散布/重新编译本程序,如需下载源代码，请前往Github页面。</value>
+  </data>
+  <data name="AppName" xml:space="preserve">
+    <value>Saber's Colorful Startmenu</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="unknown" type="System.Resources.ResXFileRef, System.Windows.Forms">

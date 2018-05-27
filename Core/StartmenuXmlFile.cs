@@ -112,7 +112,7 @@ namespace SaberColorfulStartmenu.Core
 
 
             _doc.AppendChild(_doc.CreateComment(
-                "本文件由SaberStartmenuDiyer创建。不要修改或删除本文件否则可能导致开始菜单自定义效果丢失。如需修改开始菜单自定义效果，请使用SaberStartmenuDiyer。"));
+                $"本文件由{Properties.Resources.AppName}创建。不要修改或删除本文件否则可能导致开始菜单自定义效果丢失。如需修改开始菜单自定义效果，请使用{Properties.Resources.AppName}。"));
             _doc.Save(FileName);
             //_xmlFile.Flush();
         }
