@@ -118,7 +118,6 @@ namespace SaberColorfulStartmenu.Helpers
             foreach (var item in smallIcons)
             {
                 DestroyIcon(item);
-                
             }
             return result;
         }
@@ -143,8 +142,12 @@ namespace SaberColorfulStartmenu.Helpers
             //简单粗暴的解决方案=.=
             // ReSharper disable once PossibleNullReferenceException
             return ps.StandardOutput.ReadLine()?.Trim();
+            
         }
 
+        /// <summary>
+        /// 强制更新文件
+        /// </summary>
         public static void UpdateFile(string path)
         {
             if (File.Exists(path))

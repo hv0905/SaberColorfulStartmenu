@@ -1,15 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using SaberColorfulStartmenu.Properties;
-using Application = System.Windows.Application;
 
 namespace SaberColorfulStartmenu
 {
@@ -55,15 +47,7 @@ namespace SaberColorfulStartmenu
 
         private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (MessageBox.Show("这些功能尚未发布\n可能还未完善，启用后可能会发生很多错误\n继续？", "⚠警告", MessageBoxButtons.YesNo,
-                MessageBoxIcon.Warning) == DialogResult.Yes)
-            {
-                var mw = ((MainWindow) Application.Current.MainWindow);
-                mw.defineLargeIconCheck.Opacity = mw.defineSmallIconCheck.Opacity = mw.defineLargeIconButton.Opacity = mw.defineSmallIconButton.Opacity= 1d;
-                functionEnabled = true;
-                linkLabel5.Enabled = false;
-            }
-
+            MessageBox.Show("This release have not any preview functions.\n Enjoy~","BETA Notice");
         }
     }
 }

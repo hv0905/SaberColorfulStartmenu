@@ -47,9 +47,11 @@ namespace SaberColorfulStartmenu
         private int _nowWorkingId = -1;
         private __WinForm.ColorDialog _colorDialog;
         private OpenFileDialog _openFile;
-        private Bitmap _largeIcon, _smallIcon;
+        //private Bitmap _largeIcon, _smallIcon;
+        private Bitmap _icon;
         private StartmenuShortcutInfo _nowInfo;
-        private string _newLargeIconLoc, _newSmallIconLoc;
+        //private string _newLargeIconLoc, _newSmallIconLoc;
+        private string _nowIconLoc;
 
         #endregion
 
@@ -80,18 +82,6 @@ namespace SaberColorfulStartmenu
             SaveCheck();
             appList.Items.Clear();
             RefreshList();
-        }
-
-        private void ButtonBase_OnClick_8(object sender, RoutedEventArgs e)
-        {
-            _openFile.Title = "选择70x70小图标 建议比例：1：1";
-            if (!(_openFile.ShowDialog() ?? false)) return;
-            var fs = File.Open(_openFile.FileName, FileMode.Open, FileAccess.Read);
-            _saveFlag = true;
-            _newSmallIconLoc = _openFile.FileName;
-            _smallIcon = new Bitmap(fs);
-            UpdatePreview();
-            fs.Close();
         }
 
         private void ButtonBase_OnClick_3(object sender, RoutedEventArgs e) => new AboutWindow().Show();
@@ -176,7 +166,7 @@ namespace SaberColorfulStartmenu
             }
             catch (FormatException)
             {
-                Debug.WriteLine("ChangeColor Stoped.");
+                Debug.WriteLine("ChangeColor Canceled.");
                 // ignored
             }
         }
@@ -203,8 +193,8 @@ namespace SaberColorfulStartmenu
             {
                 var fs = File.Open(_openFile.FileName, FileMode.Open, FileAccess.Read);
                 _saveFlag = true;
-                _newLargeIconLoc = _openFile.FileName;
-                _largeIcon = new Bitmap(fs);
+                _nowIconLoc = _openFile.FileName;
+                _icon = new Bitmap(fs);
                 UpdatePreview();
                 fs.Close();
             }
@@ -293,8 +283,11 @@ namespace SaberColorfulStartmenu
                 case 16://自定义
                     try
                     {
-                        _nowColor = Helper.GetColorFromRgbString(defineColorText.Text);
-                        _nowColorString = defineColorText.Text;
+                        if (!_sysChangeing)
+                        {
+                            _nowColor = Helper.GetColorFromRgbString(defineColorText.Text);
+                            _nowColorString = defineColorText.Text;
+                        }
                     }
                     catch (FormatException)
                     {
@@ -431,8 +424,8 @@ namespace SaberColorfulStartmenu
                 //set everything to empty
                 _nowColor = Colors.Black;
                 _nowColorString = "black";
-                _largeIcon = _smallIcon = null;
-                defineLargeIconCheck.IsChecked = defineSmallIconCheck.IsChecked = false;
+                _icon = null;
+                defineIconCheck.IsChecked = false;
                 txtColorSelector.SelectedIndex = 0;
                 colorSelector.SelectedIndex = 0;
 
@@ -515,38 +508,40 @@ namespace SaberColorfulStartmenu
                             break;
                     }
 
-                    if (!string.IsNullOrEmpty(_nowInfo.XmlFile.LargeIconLoc))
-                    {
-                        if (File.Exists(_nowInfo.XmlFile.LargeIconLoc))
-                        {
-                            Debug.WriteLine(
-                                $"Load large icon successfully with file location{_nowInfo.XmlFile.LargeIconLoc}");
-                            _largeIcon = new Bitmap(_nowInfo.XmlFile.LargeIconLoc);
-                        }
-                        else if (Directory.Exists(Path.GetDirectoryName(_nowInfo.XmlFile.LargeIconLoc)))
-                        {
-                            var files = Directory.GetFiles(Path.GetDirectoryName(_nowInfo.XmlFile.LargeIconLoc));
-                            // ReSharper disable once AssignNullToNotNullAttribute
-                            var regex = new Regex(Path.Combine(Path.GetDirectoryName(_nowInfo.XmlFile.LargeIconLoc),
-                                                      Path.GetFileNameWithoutExtension(_nowInfo.XmlFile
-                                                          .LargeIconLoc)).RegexFree() + "\\.scale-\\d+\\" +
-                                                  Path.GetExtension(_nowInfo.XmlFile.LargeIconLoc));
-                            var lastFileName = files.LastOrDefault(a => regex.IsMatch(a));
-                            if (!string.IsNullOrEmpty(lastFileName))
-                            {
-                                Debug.WriteLine($"Load large icon successfully with file location{lastFileName}");
-                                _largeIcon = new Bitmap(lastFileName);
-                            }
-                        }
-                    }
-
+                    //                    if (!string.IsNullOrEmpty(_nowInfo.XmlFile.LargeIconLoc))
+                    //                    {
+                    //                        if (File.Exists(_nowInfo.XmlFile.LargeIconLoc))
+                    //                        {
+                    //                            Debug.WriteLine(
+                    //                                $"Load large icon successfully with file location{_nowInfo.XmlFile.LargeIconLoc}");
+                    //                            _icon = new Bitmap(_nowInfo.XmlFile.LargeIconLoc);
+                    //                        }
+                    //                        else if (Directory.Exists(Path.GetDirectoryName(_nowInfo.XmlFile.LargeIconLoc)))
+                    //                        {
+                    //                            var files = Directory.GetFiles(Path.GetDirectoryName(_nowInfo.XmlFile.LargeIconLoc));
+                    //                            // ReSharper disable once AssignNullToNotNullAttribute
+                    //                            var regex = new Regex(Path.Combine(Path.GetDirectoryName(_nowInfo.XmlFile.LargeIconLoc),
+                    //                                                      Path.GetFileNameWithoutExtension(_nowInfo.XmlFile
+                    //                                                          .LargeIconLoc)).RegexFree() + "\\.scale-\\d+\\" +
+                    //                                                  Path.GetExtension(_nowInfo.XmlFile.LargeIconLoc));
+                    //                            var lastFileName = files.LastOrDefault(a => regex.IsMatch(a));
+                    //                            if (!string.IsNullOrEmpty(lastFileName))
+                    //                            {
+                    //                                Debug.WriteLine($"Load large icon successfully with file location{lastFileName}");
+                    //                                _largeIcon = new Bitmap(lastFileName);
+                    //                            }
+                    //                        }
+                    //                    }
+                    var tryLarge = false;
+                    geticonLoc:
                     if (!string.IsNullOrEmpty(_nowInfo.XmlFile.SmallIconLoc))
                     {
                         if (File.Exists(_nowInfo.XmlFile.SmallIconLoc))
                         {
                             Debug.WriteLine(
                                 $"Load small icon successfully with file location{_nowInfo.XmlFile.SmallIconLoc}");
-                            _largeIcon = new Bitmap(_nowInfo.XmlFile.SmallIconLoc);
+                            _icon = new Bitmap(_nowInfo.XmlFile.SmallIconLoc);
+                            defineIconCheck.IsChecked = true;
                         }
                         else if (Directory.Exists(Path.GetDirectoryName(_nowInfo.XmlFile.SmallIconLoc)))
                         {
@@ -561,20 +556,50 @@ namespace SaberColorfulStartmenu
                             if (!string.IsNullOrEmpty(lastFileName))
                             {
                                 Debug.WriteLine($"Load small icon successfully with file location{lastFileName}");
-                                _largeIcon = new Bitmap(lastFileName);
+                                _icon = new Bitmap(lastFileName);
+                                defineIconCheck.IsChecked = true;
                             }
                         }
+                        else
+                        {
+                            if (!tryLarge && !string.IsNullOrEmpty(_nowInfo.XmlFile.LargeIconLoc))
+                            {
+                                tryLarge = true;
+                                _nowInfo.XmlFile.SmallIconLoc = _nowInfo.XmlFile.LargeIconLoc;
+                                goto geticonLoc;
+                            }
+                            _nowInfo.XmlFile.LargeIconLoc = _nowInfo.XmlFile.SmallIconLoc = string.Empty;
+                            _icon = null;
+                            defineIconCheck.IsChecked = false;
+                        }
+                    }
+                    else
+                    {
+                        if (!tryLarge && !string.IsNullOrEmpty(_nowInfo.XmlFile.LargeIconLoc))
+                        {
+                            tryLarge = true;
+                            _nowInfo.XmlFile.SmallIconLoc = _nowInfo.XmlFile.LargeIconLoc;
+                            goto geticonLoc;
+                        }
+                        _icon = null;
+                        defineIconCheck.IsChecked = false;
                     }
 
                     txtColorSelector.SelectedIndex = (int)_nowInfo.XmlFile.TxtForeground;
                 }
                 catch
                 {
+#if DEBUG
+                    throw;
+#endif
+#pragma warning disable 162
+                    // ReSharper disable once HeuristicUnreachableCode
                     MessageBox.Show("读取配置文件时发生错误\n已重置到初始值", "错误", MessageBoxButton.OK, MessageBoxImage.Warning);
                     File.Delete(_nowInfo.XmlFileLocation);
                     _nowInfo.XmlFile = null;
                     Load();
                     return;
+#pragma warning restore 162
                 }
             }
             UpdatePreview();
@@ -587,26 +612,17 @@ namespace SaberColorfulStartmenu
             previewColor.Color = _nowColor;
             preview_LargeText.Foreground = (txtColorSelector.SelectedIndex == 0) ? Brushes.White : Brushes.Black;
             preview_LargeText.Visibility = largeAppNameCheck.IsChecked ?? false ? Visibility.Visible : Visibility.Hidden;
-            if (_largeIcon == null || !(defineLargeIconCheck.IsChecked ?? false))
-            {
-                preview_LargeImg.Source = _iconList[_nowWorkingId].GetBitmapSourceFromBitmap();
-                preview_LargeImg.Stretch = Stretch.None;
-            }
-            else
-            {
-                preview_LargeImg.Source = _largeIcon.GetBitmapSourceFromBitmap();
-                preview_LargeImg.Stretch = (_largeIcon.Size.Width > 150 || _largeIcon.Size.Height > 150) ? Stretch.Uniform : Stretch.None;
-            }
 
-            if (_smallIcon == null || !(defineSmallIconCheck.IsChecked ?? false))
+            if (_icon == null || !(defineIconCheck.IsChecked ?? false))
             {
-                preview_SmallImg.Source = _iconList[_nowWorkingId].GetBitmapSourceFromBitmap();
-                preview_SmallImg.Stretch = Stretch.None;
+                preview_SmallImg.Source = preview_LargeImg.Source = _iconList[_nowWorkingId].GetBitmapSourceFromBitmap();
+                preview_SmallImg.Stretch = preview_LargeImg.Stretch = Stretch.None;
             }
             else
             {
-                preview_SmallImg.Source = _smallIcon.GetBitmapSourceFromBitmap();
-                preview_SmallImg.Stretch = (_smallIcon.Size.Width > 70 || _smallIcon.Size.Height > 70) ? Stretch.Uniform : Stretch.None;
+                preview_SmallImg.Source = preview_LargeImg.Source = _icon.GetBitmapSourceFromBitmap();
+                preview_SmallImg.Stretch = (_icon.Size.Width > 70 || _icon.Size.Height > 70) ? Stretch.Uniform : Stretch.None;
+                preview_LargeImg.Stretch = (_icon.Size.Width > 150 || _icon.Size.Height > 150) ? Stretch.Uniform : Stretch.None;
             }
 
             preview_LargeText.Text = Path.GetFileNameWithoutExtension(_fileList[_nowWorkingId]);
@@ -658,32 +674,33 @@ namespace SaberColorfulStartmenu
                     "__StartmenuIcons__");
                 if (!Directory.Exists(pathName))
                     Directory.CreateDirectory(pathName);
-                //文件名：[DIR]\__StartmenuIcons__\[SHA1].png
-                if (!string.IsNullOrEmpty(_newLargeIconLoc) && (defineLargeIconCheck.IsChecked ?? false))
-                {
-                    //计算SHA1
-                    var fs = File.Open(_newLargeIconLoc, FileMode.Open, FileAccess.Read);
-                    var fileName = Path.Combine(pathName,
-                                       BitConverter.ToString(sha1.ComputeHash(fs)).Replace("-", string.Empty)) + Path.GetExtension(_newLargeIconLoc);
-                    fs.Close();
-                    if (!File.Exists(fileName)) //拷贝图像到目录
-                        File.Copy(_newLargeIconLoc, fileName);
-                    _nowInfo.XmlFile.LargeIconLoc = fileName;
-                }
+                //                文件名：[DIR]\__StartmenuIcons__\[SHA1].png
+                //                                if (!string.IsNullOrEmpty(_newLargeIconLoc) && (defineLargeIconCheck.IsChecked ?? false))
+                //                                {
+                //                                    //计算SHA1
+                //                                    var fs = File.Open(_newLargeIconLoc, FileMode.Open, FileAccess.Read);
+                //                                    var fileName = Path.Combine(pathName,
+                //                                                       BitConverter.ToString(sha1.ComputeHash(fs)).Replace("-", string.Empty)) + Path.GetExtension(_newLargeIconLoc);
+                //                                    fs.Close();
+                //                                    if (!File.Exists(fileName)) //拷贝图像到目录
+                //                                        File.Copy(_newLargeIconLoc, fileName);
+                //                                    _nowInfo.XmlFile.LargeIconLoc = fileName;
+                //                                }
 
-                if (!string.IsNullOrEmpty(_newSmallIconLoc) && (defineSmallIconCheck.IsChecked ?? false))
+                if (!string.IsNullOrEmpty(_nowIconLoc) && (defineIconCheck.IsChecked ?? false))
                 {
                     //计算SHA1
-                    var fs = File.Open(_newSmallIconLoc, FileMode.Open, FileAccess.Read);
+                    var fs = File.Open(_nowIconLoc, FileMode.Open, FileAccess.Read);
                     var fileName = Path.Combine(pathName,
-                                       BitConverter.ToString(sha1.ComputeHash(fs)).Replace("-", string.Empty)) + Path.GetExtension(_newSmallIconLoc);
+                                       BitConverter.ToString(sha1.ComputeHash(fs)).Replace("-", string.Empty)) + Path.GetExtension(_nowIconLoc);
                     fs.Close();
                     if (!File.Exists(fileName)) //拷贝图像到目录
-                        File.Copy(_newSmallIconLoc, fileName);
-                    _nowInfo.XmlFile.SmallIconLoc = fileName;
+                        File.Copy(_nowIconLoc, fileName);
+                    _nowInfo.XmlFile.SmallIconLoc = _nowInfo.XmlFile.LargeIconLoc = fileName;
                 }
                 _nowInfo.XmlFile.Save();
             }
+            //Update file and let the explorer reload the link
             Helper.UpdateFile(_nowInfo.Location);
             _saveFlag = false;
             return true;

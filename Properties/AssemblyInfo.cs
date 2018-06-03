@@ -7,11 +7,11 @@ using System.Windows;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("SaberColorfulStartmenu")]
+[assembly: AssemblyTitle("Saber's Colorful Startmenu")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("HV0905 Studio")]
-[assembly: AssemblyProduct("SaberColorfulStartmenu")]
+[assembly: AssemblyProduct("Saber's Colorful Startmenu")]
 [assembly: AssemblyCopyright("2018 HV0905 Studio")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -53,3 +53,5 @@ using System.Windows;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("0.7.0.0")]
 [assembly: AssemblyFileVersion("0.7.0.0")]
+[assembly: NeutralResourcesLanguage("zh-Hans")]
+
