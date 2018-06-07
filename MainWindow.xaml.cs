@@ -31,13 +31,12 @@ using Image = System.Windows.Controls.Image;
 
 namespace SaberColorfulStartmenu
 {
-
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>
     public partial class MainWindow
     {
-        #region 字段
+        #region Fields
 
         private List<string> _fileList = new List<string>();
         private List<Bitmap> _iconList = new List<Bitmap>();
@@ -65,11 +64,11 @@ namespace SaberColorfulStartmenu
             _colorDialog.AnyColor = true;
             _colorDialog.FullOpen = true;
             _openFile.AddExtension = true;
-            _openFile.Filter = "图像文件|*.png;*.jpg;*.jpeg;*.bmp";
+            _openFile.Filter = "图像文件|*.png;*.jpg;*.jpeg;*.gif";
             RefreshList();
         }
 
-        #region 事件
+        #region Events
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e) => Close();
 
@@ -82,6 +81,7 @@ namespace SaberColorfulStartmenu
             SaveCheck();
             appList.Items.Clear();
             RefreshList();
+            
         }
 
         private void ButtonBase_OnClick_3(object sender, RoutedEventArgs e) => new AboutWindow().Show();
@@ -107,8 +107,18 @@ namespace SaberColorfulStartmenu
                 appList.SelectedIndex = _nowWorkingId;
                 return;
             }
+            var first = _nowWorkingId == -1;
             _nowWorkingId = appList.SelectedIndex;
-            Load();
+            if (first)
+            {
+                ChangeStory_OnCompleted(null,null);
+            }
+            else
+            {
+                var sb = (Storyboard) Resources["ChangeStory_1"];
+                sb.Begin();
+            }
+            //Load();
         }
 
         private void Selector_OnSelectionChanged_1(object sender, SelectionChangedEventArgs e)
@@ -142,14 +152,12 @@ namespace SaberColorfulStartmenu
 
         private void ButtonBase_OnClick_5(object sender, RoutedEventArgs e)
         {
-            if (_colorDialog.ShowDialog() == __WinForm.DialogResult.OK)
-            {
-                _saveFlag = true;
-                _nowColor = _colorDialog.Color.ToMediaColor();
-                _nowColorString = _nowColor.ToRgbString();
-                defineColorText.Text = _nowColorString;
-                UpdatePreview();
-            }
+            if (_colorDialog.ShowDialog() != __WinForm.DialogResult.OK) return;
+            _saveFlag = true;
+            _nowColor = _colorDialog.Color.ToMediaColor();
+            _nowColorString = _nowColor.ToRgbString();
+            defineColorText.Text = _nowColorString;
+            UpdatePreview();
         }
 
         private void DefineColorText_OnKeyUp(object sender, KeyEventArgs e)
@@ -198,7 +206,10 @@ namespace SaberColorfulStartmenu
                 UpdatePreview();
                 fs.Close();
             }
-            finally { }
+            catch(Exception ex)
+            {
+                MessageBox.Show($"图片载入失败\n未知错误，无法读取此文件\n详细信息：{ex.Message}", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
         }
 
@@ -304,9 +315,16 @@ namespace SaberColorfulStartmenu
 
         private void MainWindow_OnClosing(object sender, CancelEventArgs e) =>
             e.Cancel = !SaveCheck();
+
+        private void ChangeStory_OnCompleted(object sender, EventArgs e)
+        {
+            Load();
+            var sb = (Storyboard)Resources["ChangeStory_2"];
+            sb.Begin();
+        }
         #endregion
 
-        #region 方法
+        #region Functions
 
         private void RefreshList()
         {
@@ -533,6 +551,7 @@ namespace SaberColorfulStartmenu
                     //                        }
                     //                    }
                     var tryLarge = false;
+                    var tryDir = true;
                     geticonLoc:
                     if (!string.IsNullOrEmpty(_nowInfo.XmlFile.SmallIconLoc))
                     {
@@ -543,7 +562,7 @@ namespace SaberColorfulStartmenu
                             _icon = new Bitmap(_nowInfo.XmlFile.SmallIconLoc);
                             defineIconCheck.IsChecked = true;
                         }
-                        else if (Directory.Exists(Path.GetDirectoryName(_nowInfo.XmlFile.SmallIconLoc)))
+                        else if (Directory.Exists(Path.GetDirectoryName(_nowInfo.XmlFile.SmallIconLoc)) && tryDir)
                         {
                             // ReSharper disable once AssignNullToNotNullAttribute
                             var files = Directory.GetFiles(Path.GetDirectoryName(_nowInfo.XmlFile.SmallIconLoc));
@@ -559,6 +578,8 @@ namespace SaberColorfulStartmenu
                                 _icon = new Bitmap(lastFileName);
                                 defineIconCheck.IsChecked = true;
                             }
+                            tryDir = false;
+                            goto geticonLoc;
                         }
                         else
                         {
@@ -571,6 +592,7 @@ namespace SaberColorfulStartmenu
                             _nowInfo.XmlFile.LargeIconLoc = _nowInfo.XmlFile.SmallIconLoc = string.Empty;
                             _icon = null;
                             defineIconCheck.IsChecked = false;
+                            
                         }
                     }
                     else
@@ -596,7 +618,6 @@ namespace SaberColorfulStartmenu
                     // ReSharper disable once HeuristicUnreachableCode
                     MessageBox.Show("读取配置文件时发生错误\n已重置到初始值", "错误", MessageBoxButton.OK, MessageBoxImage.Warning);
                     File.Delete(_nowInfo.XmlFileLocation);
-                    _nowInfo.XmlFile = null;
                     Load();
                     return;
 #pragma warning restore 162
@@ -706,8 +727,7 @@ namespace SaberColorfulStartmenu
             return true;
         }
 
-        #endregion
-
+#endregion
 
     }
 }

@@ -32,7 +32,7 @@ namespace SaberColorfulStartmenu.Core
                         : _largeIconLoc;
                 else return null;
             }
-            set => _largeIconLoc = value;
+            set  => _largeIconLoc = value;
         }
 
         public string SmallIconLoc
