@@ -3,10 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        Loaded="MainWindow_OnLoaded" Closing="MainWindow_OnClosing"
+        Loaded="MainWindow_OnLoaded" Closing="MainWindow_OnClosing" StateChanged="MainWindow_OnStateChanged"
         xmlns:input="clr-namespace:System.Windows.Input;assembly=PresentationCore" SnapsToDevicePixels="True"
         mc:Ignorable="d" Style="{StaticResource BorderlessWindowStyle}" MinWidth="800" MinHeight="450"
-        Title="Saber's Colorful Startmenu 开始菜单定制工具" Height="480" Width="800">
+        Title="Saber's Colorful Startmenu 开始菜单定制工具" Height="480" Width="880">
     <Window.Background>
         <ImageBrush ImageSource="WpfImages/dva_12.jpg"/>
     </Window.Background>
@@ -44,7 +44,7 @@
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
-                <ColumnDefinition Width="600"/>
+                <ColumnDefinition Width="680"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -190,6 +190,43 @@
                             </ComboBoxItem>
                         </ComboBox.Items>
                     </ComboBox>
+                    <Grid HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="270"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Margin="2" Orientation="Horizontal">
+                            <RadioButton Margin="1" x:Name="colorSelector_1" Checked="ToggleButton_OnChecked" GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30" Height="30" Background="Black" Foreground="White" ToolTip="黑" IsChecked="True"/>
+                            <RadioButton Margin="1" x:Name="colorSelector_2" Checked="ToggleButton_OnChecked" GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30" Height="30" Background="Silver" Foreground="Black" ToolTip="银"/>
+                            <RadioButton Margin="1" x:Name="colorSelector_3" Checked="ToggleButton_OnChecked" GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30" Height="30" Background="Gray" Foreground="White" ToolTip="灰"/>
+                            <RadioButton Margin="1" x:Name="colorSelector_4" Checked="ToggleButton_OnChecked" GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30" Height="30" Background="White" Foreground="Black" ToolTip="白"/>
+                            <RadioButton Margin="1" x:Name="colorSelector_5" Checked="ToggleButton_OnChecked" GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30" Height="30" Background="Maroon" Foreground="White" ToolTip="栗"/>
+                            <RadioButton Margin="1" x:Name="colorSelector_6" Checked="ToggleButton_OnChecked" GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30" Height="30" Background="Red" Foreground="White" ToolTip="红"/>
+                            <RadioButton Margin="1" x:Name="colorSelector_7" Checked="ToggleButton_OnChecked" GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30" Height="30" Background="Purple" Foreground="White" ToolTip="紫"/>
+                            <RadioButton Margin="1" x:Name="colorSelector_8" Checked="ToggleButton_OnChecked" GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30" Height="30" Background="Fuchsia" Foreground="White" ToolTip="紫红"/>
+
+
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Margin="2">
+                            <RadioButton Margin="1" x:Name="colorSelector_9" Checked="ToggleButton_OnChecked" GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30" Height="30" Background="Green" Foreground="White" ToolTip="绿"/>
+                            <RadioButton Margin="1" x:Name="colorSelector_10" Checked="ToggleButton_OnChecked" GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30" Height="30" Background="Lime" Foreground="White" ToolTip="青柠"/>
+                            <RadioButton Margin="1" x:Name="colorSelector_11" Checked="ToggleButton_OnChecked" GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30" Height="30" Background="Olive" Foreground="White" ToolTip="橄榄"/>
+                            <RadioButton Margin="1" x:Name="colorSelector_12" Checked="ToggleButton_OnChecked" GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30" Height="30" Background="Yellow" Foreground="Black" ToolTip="黄"/>
+                            <RadioButton Margin="1" x:Name="colorSelector_13" Checked="ToggleButton_OnChecked" GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30" Height="30" Background="Navy" Foreground="White" ToolTip="藏青"/>
+                            <RadioButton Margin="1" x:Name="colorSelector_14" Checked="ToggleButton_OnChecked" GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30" Height="30" Background="Blue" Foreground="White" ToolTip="蓝"/>
+                            <RadioButton Margin="1" x:Name="colorSelector_15" Checked="ToggleButton_OnChecked" GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30" Height="30" Background="Teal" Foreground="White" ToolTip="青"/>
+                            <RadioButton Margin="1" x:Name="colorSelector_16" Checked="ToggleButton_OnChecked" GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30" Height="30" Background="Aqua" Foreground="White" ToolTip="湖绿"/>
+
+                        </StackPanel>
+                        <RadioButton  x:Name="colorSelector_17" Checked="ToggleButton_OnChecked" GroupName="Color" Grid.Column="1"
+                                      Grid.Row="0" Grid.RowSpan="2" Style="{StaticResource BlockRadioButtonStyle}" Width="60" Height="60" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" ToolTip="自定义">
+                            <Image Source="WpfImages/color_grid.png"></Image>
+                        </RadioButton>
+                    </Grid>
                     <GroupBox x:Name="group_Color" Header="自定义颜色" Foreground="White" Background="{x:Null}">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -216,6 +253,7 @@
                     <CheckBox x:Name="largeAppNameCheck" Visibility="{Binding Visibility,ElementName=colorSelector}" Content="在150x150大磁贴中显示应用名" IsChecked="True" FontSize="16" Foreground="White" Margin="2" Checked="LargeAppNameCheck_OnChecked" Unchecked="LargeAppNameCheck_OnChecked"/>
                     <CheckBox x:Name="defineIconCheck" Visibility="{Binding Visibility,ElementName=colorSelector}" Content="自定义图标" IsChecked="False" FontSize="16" Foreground="White" Margin="2" Checked="LargeAppNameCheck_OnChecked" Unchecked="LargeAppNameCheck_OnChecked" Opacity="1"/>
                     <Button Visibility="{Binding Visibility, ElementName=colorSelector}" Content="选择图标. . ." FontSize="16" Click="ButtonBase_OnClick_7" IsEnabled="{Binding IsChecked, ElementName=defineIconCheck}" Opacity="1"/>
+                    <RadioButton Style="{StaticResource BlockRadioButtonStyle}" Foreground="Red" Width="50" Height="50"/>
                     <!--<TextBlock Text="注意：在选择了大磁贴图标后，你必须选择小磁贴图标" FontSize="16" Foreground="HotPink" Visibility="{Binding Visibility, ElementName=colorSelector}"/>-->
                 </StackPanel>
                 <TextBlock Text="大磁贴预览：" FontSize="16" Foreground="White" Grid.Row="0" Grid.Column="1" Visibility="{Binding Visibility, ElementName=colorSelector}"/>

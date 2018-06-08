@@ -54,6 +54,8 @@ namespace SaberColorfulStartmenu
 
         #endregion
 
+        #region Events
+
         public MainWindow()
         {
             _colorDialog = new __WinForm.ColorDialog();
@@ -67,8 +69,6 @@ namespace SaberColorfulStartmenu
             _openFile.Filter = "图像文件|*.png;*.jpg;*.jpeg;*.gif";
             RefreshList();
         }
-
-        #region Events
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e) => Close();
 
@@ -322,6 +322,13 @@ namespace SaberColorfulStartmenu
             var sb = (Storyboard)Resources["ChangeStory_2"];
             sb.Begin();
         }
+
+        private void MainWindow_OnStateChanged(object sender, EventArgs e)
+        {
+            if (WindowState == WindowState.Maximized)
+                WindowState = WindowState.Normal;
+        }
+
         #endregion
 
         #region Functions
@@ -723,11 +730,16 @@ namespace SaberColorfulStartmenu
             }
             //Update file and let the explorer reload the link
             Helper.UpdateFile(_nowInfo.Location);
+            
             _saveFlag = false;
             return true;
         }
 
 #endregion
 
+        private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
+        {
+            
+        }
     }
 }

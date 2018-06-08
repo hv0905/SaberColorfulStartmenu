@@ -1,0 +1,43 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:SaberColorfulStartmenu">
+
+    <Style x:Key="BlockRadioButtonStyle" TargetType="RadioButton">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RadioButton">
+                    <Border x:Name="mainBorder" BorderThickness="2" BorderBrush="{TemplateBinding Foreground}" Background="{TemplateBinding Background}">
+                        <Grid>
+                            <ContentControl Content="{TemplateBinding Content}"/>
+                            <TextBlock x:Name="rightTick" HorizontalAlignment="Right" Opacity="0" VerticalAlignment="Top" FontSize="16" Foreground="{TemplateBinding Foreground}" FontFamily="Segoe MDL2 Assets" Text="&#xE73D;"></TextBlock>
+                        </Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="Pressed"/>
+                                <VisualState x:Name="MouseOver"/>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="CheckStates">
+                                <VisualState x:Name="Checked">
+                                    <Storyboard>
+                                        <ThicknessAnimation Storyboard.TargetName="mainBorder" Storyboard.TargetProperty="BorderThickness" From="0" To="2" Duration="0:0:0:0.1"/>
+                                        <DoubleAnimation Storyboard.TargetName="rightTick" Storyboard.TargetProperty="Opacity" To="1" From="0" Duration="0:0:0:0.1"/>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Unchecked" >
+                                    <Storyboard>
+                                        <ThicknessAnimation Storyboard.TargetName="mainBorder" Storyboard.TargetProperty="BorderThickness" From="2" To="0" Duration="0:0:0:0.1"/>
+                                        <DoubleAnimation Storyboard.TargetName="rightTick" Storyboard.TargetProperty="Opacity" To="0" From="1" Duration="0:0:0:0.1"/>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Indeterminate" />
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Background" Value="{x:Null}"></Setter>
+    </Style>
+
+</ResourceDictionary>

@@ -11,6 +11,7 @@
                  <ResourceDictionary Source="Themes/ControlButton.xaml"/>
                 <ResourceDictionary Source="Themes/CoreButton.xaml"/>
                  <ResourceDictionary Source="Themes/Simple.xaml"/>
+                 <ResourceDictionary Source="Themes/BlockRadioButton.xaml"/>
             </ResourceDictionary.MergedDictionaries>
          </ResourceDictionary>
     </Application.Resources>
