@@ -23,16 +23,6 @@ namespace SaberColorfulStartmenu
         public static readonly string StartMenu = Environment.GetFolderPath(Environment.SpecialFolder.StartMenu);
 
 
-        protected override void OnStartup(StartupEventArgs e)
-        {
-            base.OnStartup(e);
-        }
-
-        protected override void OnExit(ExitEventArgs e)
-        {
-            base.OnExit(e);
-        }
-
         private void App_OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             new ErrorReport(e.Exception).ShowDialog();

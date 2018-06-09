@@ -1,8 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:SaberColorfulStartmenu">
-    
-    
+
+
     <LinearGradientBrush x:Key="CloseBrush" StartPoint="1,0.5" EndPoint="0,0.5">
         <GradientStop Color="#FF000000" Offset="0"/>
         <GradientStop Color="#FF000000" Offset="1"/>
@@ -26,11 +26,11 @@
         <DoubleAnimation From="1" To="0" Duration="0:0:0.15" BeginTime="0:0:0.15" Storyboard.TargetProperty="OpacityMask.(GradientBrush.GradientStops)[2].Offset"/>
         <ColorAnimation To="#00000000" Duration="0" Storyboard.TargetProperty="OpacityMask.(GradientBrush.GradientStops)[2].Color"/>
     </Storyboard>
-    
+
     <!--一般的淡入淡出效果-->
     <DoubleAnimation x:Key="OpaOpen" Duration="0:0:0.2" From="0" To="1"/>
     <DoubleAnimation x:Key="OpaClose" Duration="0:0:0.2" From="1" To="0"/>
-    
+
     <!--移动渐失效果
     请为使用本效果的控件配置TranslateTransform，将其放置在TransFormGroup的第一个
     -->
@@ -50,5 +50,5 @@
         <DoubleAnimation From="-40" To="0" Duration="0:0:0.2" Storyboard.TargetProperty="RenderTransform.Children[0].X"/>
         <DoubleAnimation From="0" To="1" Duration="0:0:0.2" Storyboard.TargetProperty="Opacity"/>
     </Storyboard>
-    
+
 </ResourceDictionary>

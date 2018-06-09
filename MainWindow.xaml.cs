@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -81,7 +82,7 @@ namespace SaberColorfulStartmenu
             SaveCheck();
             appList.Items.Clear();
             RefreshList();
-            
+
         }
 
         private void ButtonBase_OnClick_3(object sender, RoutedEventArgs e) => new AboutWindow().Show();
@@ -111,11 +112,11 @@ namespace SaberColorfulStartmenu
             _nowWorkingId = appList.SelectedIndex;
             if (first)
             {
-                ChangeStory_OnCompleted(null,null);
+                ChangeStory_OnCompleted(null, null);
             }
             else
             {
-                var sb = (Storyboard) Resources["ChangeStory_1"];
+                var sb = (Storyboard)Resources["ChangeStory_1"];
                 sb.Begin();
             }
             //Load();
@@ -134,10 +135,11 @@ namespace SaberColorfulStartmenu
             {
                 colorSelector.Visibility = Visibility.Visible;
                 // ReSharper disable once PossibleUnintendedReferenceComparison
-                if (colorSelector.SelectedItem == defineColorItem)
-                {
-                    group_Color.Visibility = Visibility.Visible;
-                }
+                //                if (colorSelector.SelectedItem == defineColorItem)
+                //                {
+                //                    group_Color.Visibility = Visibility.Visible;
+                //                }
+                group_Color.Visibility = colorSelector_17.IsChecked ?? false ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 
@@ -206,7 +208,7 @@ namespace SaberColorfulStartmenu
                 UpdatePreview();
                 fs.Close();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show($"图片载入失败\n未知错误，无法读取此文件\n详细信息：{ex.Message}", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -219,99 +221,99 @@ namespace SaberColorfulStartmenu
                 ((Storyboard)Resources["saveDoneStory"]).Begin();
         }
 
-        private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (!_loaded) return;
-            if (!_sysChangeing) _saveFlag = true;
-            // ReSharper disable once PossibleUnintendedReferenceComparison
-            group_Color.Visibility = colorSelector.SelectedItem == defineColorItem ? Visibility.Visible : Visibility.Collapsed;
-            switch (colorSelector.SelectedIndex)
-            {
-                case 0://固定色区
-                    _nowColorString = "black";
-                    _nowColor = Colors.Black;
-                    break;
-                case 1:
-                    _nowColorString = "silver";
-                    _nowColor = Colors.Silver;
-                    break;
-                case 2:
-                    _nowColorString = "gray";
-                    _nowColor = Colors.Gray;
-                    break;
-                case 3:
-                    _nowColorString = "white";
-                    _nowColor = Colors.White;
-                    break;
-                case 4:
-                    _nowColorString = "maroon";
-                    _nowColor = Colors.Maroon;
-                    break;
-                case 5:
-                    _nowColorString = "red";
-                    _nowColor = Colors.Red;
-                    break;
-                case 6:
-                    _nowColorString = "purple";
-                    _nowColor = Colors.Purple;
-                    break;
-                case 7:
-                    _nowColorString = "fuchsia";
-                    _nowColor = Colors.Fuchsia;
-                    break;
-                case 8:
-                    _nowColorString = "green";
-                    _nowColor = Colors.Green;
-                    break;
-                case 9:
-                    _nowColorString = "lime";
-                    _nowColor = Colors.Lime;
-                    break;
-                case 10:
-                    _nowColorString = "olive";
-                    _nowColor = Colors.Olive;
-                    break;
-                case 11:
-                    _nowColorString = "yellow";
-                    _nowColor = Colors.Yellow;
-                    break;
-                case 12:
-                    _nowColorString = "navy";
-                    _nowColor = Colors.Navy;
-                    break;
-                case 13:
-                    _nowColorString = "blue";
-                    _nowColor = Colors.Blue;
-                    break;
-                case 14:
-                    _nowColorString = "teal";
-                    _nowColor = Colors.Teal;
-                    break;
-                case 15:
-                    _nowColorString = "aqua";
-                    _nowColor = Colors.Aqua;
-                    break;
-                case 16://自定义
-                    try
-                    {
-                        if (!_sysChangeing)
-                        {
-                            _nowColor = Helper.GetColorFromRgbString(defineColorText.Text);
-                            _nowColorString = defineColorText.Text;
-                        }
-                    }
-                    catch (FormatException)
-                    {
-                        defineColorText.Text = "#000000";
-                        _nowColorString = "black";
-                        _nowColor = Colors.Black;
-                    }
-
-                    break;
-            }
-            if (!_sysChangeing)
-                UpdatePreview();
-        }
+        //        private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        //        {
+        //            if (!_loaded) return;
+        //            if (!_sysChangeing) _saveFlag = true;
+        //            // ReSharper disable once PossibleUnintendedReferenceComparison
+        //            group_Color.Visibility = colorSelector.SelectedItem == defineColorItem ? Visibility.Visible : Visibility.Collapsed;
+        //            switch (colorSelector.SelectedIndex)
+        //            {
+        //                case 0://固定色区
+        //                    _nowColorString = "black";
+        //                    _nowColor = Colors.Black;
+        //                    break;
+        //                case 1:
+        //                    _nowColorString = "silver";
+        //                    _nowColor = Colors.Silver;
+        //                    break;
+        //                case 2:
+        //                    _nowColorString = "gray";
+        //                    _nowColor = Colors.Gray;
+        //                    break;
+        //                case 3:
+        //                    _nowColorString = "white";
+        //                    _nowColor = Colors.White;
+        //                    break;
+        //                case 4:
+        //                    _nowColorString = "maroon";
+        //                    _nowColor = Colors.Maroon;
+        //                    break;
+        //                case 5:
+        //                    _nowColorString = "red";
+        //                    _nowColor = Colors.Red;
+        //                    break;
+        //                case 6:
+        //                    _nowColorString = "purple";
+        //                    _nowColor = Colors.Purple;
+        //                    break;
+        //                case 7:
+        //                    _nowColorString = "fuchsia";
+        //                    _nowColor = Colors.Fuchsia;
+        //                    break;
+        //                case 8:
+        //                    _nowColorString = "green";
+        //                    _nowColor = Colors.Green;
+        //                    break;
+        //                case 9:
+        //                    _nowColorString = "lime";
+        //                    _nowColor = Colors.Lime;
+        //                    break;
+        //                case 10:
+        //                    _nowColorString = "olive";
+        //                    _nowColor = Colors.Olive;
+        //                    break;
+        //                case 11:
+        //                    _nowColorString = "yellow";
+        //                    _nowColor = Colors.Yellow;
+        //                    break;
+        //                case 12:
+        //                    _nowColorString = "navy";
+        //                    _nowColor = Colors.Navy;
+        //                    break;
+        //                case 13:
+        //                    _nowColorString = "blue";
+        //                    _nowColor = Colors.Blue;
+        //                    break;
+        //                case 14:
+        //                    _nowColorString = "teal";
+        //                    _nowColor = Colors.Teal;
+        //                    break;
+        //                case 15:
+        //                    _nowColorString = "aqua";
+        //                    _nowColor = Colors.Aqua;
+        //                    break;
+        //                case 16://自定义
+        //                    try
+        //                    {
+        //                        if (!_sysChangeing)
+        //                        {
+        //                            _nowColor = Helper.GetColorFromRgbString(defineColorText.Text);
+        //                            _nowColorString = defineColorText.Text;
+        //                        }
+        //                    }
+        //                    catch (FormatException)
+        //                    {
+        //                        defineColorText.Text = "#000000";
+        //                        _nowColorString = "black";
+        //                        _nowColor = Colors.Black;
+        //                    }
+        //
+        //                    break;
+        //            }
+        //            if (!_sysChangeing)
+        //                UpdatePreview();
+        //        }
 
         private void MainWindow_OnClosing(object sender, CancelEventArgs e) =>
             e.Cancel = !SaveCheck();
@@ -327,6 +329,109 @@ namespace SaberColorfulStartmenu
         {
             if (WindowState == WindowState.Maximized)
                 WindowState = WindowState.Normal;
+        }
+
+        private void ColorSelector_OnChecked(object sender, RoutedEventArgs e)
+        {
+            // ReSharper disable PossibleUnintendedReferenceComparison
+            if (!_loaded) return;
+            group_Color.Visibility = colorSelector_17.IsChecked ?? false ? Visibility.Visible : Visibility.Collapsed;
+            if (sender == colorSelector_1)
+            {
+                _nowColorString = "black";
+                _nowColor = Colors.Black;
+            }
+            else if (sender == colorSelector_2)
+            {
+                _nowColorString = "silver";
+                _nowColor = Colors.Silver;
+            }
+            else if (sender == colorSelector_3)
+            {
+                _nowColorString = "gray";
+                _nowColor = Colors.Gray;
+            }
+            else if (sender == colorSelector_4)
+            {
+                _nowColorString = "white";
+                _nowColor = Colors.White;
+            }
+            else if (sender == colorSelector_5)
+            {
+                _nowColorString = "maroon";
+                _nowColor = Colors.Maroon;
+            }
+            else if (sender == colorSelector_6)
+            {
+                _nowColorString = "red";
+                _nowColor = Colors.Red;
+            }
+            else if (sender == colorSelector_7)
+            {
+                _nowColorString = "purple";
+                _nowColor = Colors.Purple;
+            }
+            else if (sender == colorSelector_8)
+            {
+                _nowColorString = "fuchsia";
+                _nowColor = Colors.Fuchsia;
+            }
+            else if (sender == colorSelector_9)
+            {
+                _nowColorString = "green";
+                _nowColor = Colors.Green;
+            }
+            else if (sender == colorSelector_10)
+            {
+                _nowColorString = "lime";
+                _nowColor = Colors.Lime;
+            }
+            else if (sender == colorSelector_11)
+            {
+                _nowColorString = "olive";
+                _nowColor = Colors.Olive;
+            }
+            else if (sender == colorSelector_12)
+            {
+                _nowColorString = "yellow";
+                _nowColor = Colors.Yellow;
+            }
+            else if (sender == colorSelector_13)
+            {
+                _nowColorString = "navy";
+                _nowColor = Colors.Navy;
+            }
+            else if (sender == colorSelector_14)
+            {
+                _nowColorString = "blue";
+                _nowColor = Colors.Blue;
+            }
+            else if (sender == colorSelector_15)
+            {
+                _nowColorString = "teal";
+                _nowColor = Colors.Teal;
+            }
+            else if (sender == colorSelector_16)
+            {
+                _nowColorString = "aqua";
+                _nowColor = Colors.Aqua;
+            }
+            else if (!_sysChangeing && sender == colorSelector_17)
+            {//自定义
+                try
+                {
+                    _nowColor = Helper.GetColorFromRgbString(defineColorText.Text);
+                    _nowColorString = defineColorText.Text;
+                }
+                catch (FormatException)
+                {
+                    defineColorText.Text = "#000000";
+                    _nowColorString = "black";
+                    _nowColor = Colors.Black;
+                }
+            }
+            if (!_sysChangeing) UpdatePreview();
+            // ReSharper restore PossibleUnintendedReferenceComparison
         }
 
         #endregion
@@ -452,7 +557,8 @@ namespace SaberColorfulStartmenu
                 _icon = null;
                 defineIconCheck.IsChecked = false;
                 txtColorSelector.SelectedIndex = 0;
-                colorSelector.SelectedIndex = 0;
+                //colorSelector.SelectedIndex = 0;
+                colorSelector_1.IsChecked = true;
 
             }
             else
@@ -460,76 +566,159 @@ namespace SaberColorfulStartmenu
                 try
                 {
                     modeSelctor.SelectedIndex = 1;
+                    //                    switch (_nowInfo.XmlFile.ColorStr)
+                    //                    {
+                    //                        case "black":
+                    //                            _nowColor = Colors.Black;
+                    //                            colorSelector.SelectedIndex = 0;
+                    //                            break;
+                    //                        case "silver":
+                    //                            _nowColor = Colors.Silver;
+                    //                            colorSelector.SelectedIndex = 1;
+                    //                            break;
+                    //                        case "gray":
+                    //                            _nowColor = Colors.Gray;
+                    //                            colorSelector.SelectedIndex = 2;
+                    //                            break;
+                    //                        case "white":
+                    //                            _nowColor = Colors.White;
+                    //                            colorSelector.SelectedIndex = 3;
+                    //                            break;
+                    //                        case "maroon":
+                    //                            _nowColor = Colors.Maroon;
+                    //                            colorSelector.SelectedIndex = 4;
+                    //                            break;
+                    //                        case "red":
+                    //                            _nowColor = Colors.Red;
+                    //                            colorSelector.SelectedIndex = 5;
+                    //                            break;
+                    //                        case "purple":
+                    //                            _nowColor = Colors.Purple;
+                    //                            colorSelector.SelectedIndex = 6;
+                    //                            break;
+                    //                        case "fuchsia":
+                    //                            _nowColor = Colors.Fuchsia;
+                    //                            colorSelector.SelectedIndex = 7;
+                    //                            break;
+                    //                        case "green":
+                    //                            _nowColor = Colors.Green;
+                    //                            colorSelector.SelectedIndex = 8;
+                    //                            break;
+                    //                        case "lime":
+                    //                            _nowColor = Colors.Lime;
+                    //                            colorSelector.SelectedIndex = 9;
+                    //                            break;
+                    //                        case "olive":
+                    //                            _nowColor = Colors.Olive;
+                    //                            colorSelector.SelectedIndex = 10;
+                    //                            break;
+                    //                        case "yellow":
+                    //                            _nowColor = Colors.Yellow;
+                    //                            colorSelector.SelectedIndex = 11;
+                    //                            break;
+                    //                        case "navy":
+                    //                            _nowColor = Colors.Navy;
+                    //                            colorSelector.SelectedIndex = 12;
+                    //                            break;
+                    //                        case "blue":
+                    //                            _nowColor = Colors.Blue;
+                    //                            colorSelector.SelectedIndex = 13;
+                    //                            break;
+                    //                        case "teal":
+                    //                            _nowColor = Colors.Teal;
+                    //                            colorSelector.SelectedIndex = 14;
+                    //                            break;
+                    //                        case "aqua":
+                    //                            _nowColor = Colors.Aqua;
+                    //                            colorSelector.SelectedIndex = 15;
+                    //                            break;
+                    //                        default:
+                    //                            _nowColor = Helper.GetColorFromRgbString(_nowInfo.XmlFile.ColorStr);
+                    //                            colorSelector.SelectedIndex = 16;
+                    //                            defineColorText.Text = _nowInfo.XmlFile.ColorStr;
+                    //                            break;
+                    //                    }
+
                     switch (_nowInfo.XmlFile.ColorStr)
                     {
                         case "black":
-                            _nowColor = Colors.Black;
-                            colorSelector.SelectedIndex = 0;
+                            //                            _nowColor = Colors.Black;
+                            colorSelector_1.IsChecked = true;
                             break;
                         case "silver":
-                            _nowColor = Colors.Silver;
-                            colorSelector.SelectedIndex = 1;
+                            //                            _nowColor = Colors.Silver;
+                            colorSelector_2.IsChecked = true;
                             break;
                         case "gray":
-                            _nowColor = Colors.Gray;
-                            colorSelector.SelectedIndex = 2;
+                            //                            _nowColor = Colors.Gray;
+                            colorSelector_3.IsChecked = true;
                             break;
                         case "white":
-                            _nowColor = Colors.White;
-                            colorSelector.SelectedIndex = 3;
+                            //                            _nowColor = Colors.White;
+                            colorSelector_4.IsChecked = true;
                             break;
                         case "maroon":
-                            _nowColor = Colors.Maroon;
-                            colorSelector.SelectedIndex = 4;
+                            //                            _nowColor = Colors.Maroon;
+                            colorSelector_5.IsChecked = true;
                             break;
                         case "red":
-                            _nowColor = Colors.Red;
-                            colorSelector.SelectedIndex = 5;
+                            //                            _nowColor = Colors.Red;
+                            colorSelector_6.IsChecked = true;
                             break;
                         case "purple":
-                            _nowColor = Colors.Purple;
-                            colorSelector.SelectedIndex = 6;
+                            //                            _nowColor = Colors.Purple;
+                            colorSelector_7.IsChecked = true;
                             break;
                         case "fuchsia":
-                            _nowColor = Colors.Fuchsia;
-                            colorSelector.SelectedIndex = 7;
+                            //                            _nowColor = Colors.Fuchsia;
+                            colorSelector_8.IsChecked = true;
                             break;
                         case "green":
-                            _nowColor = Colors.Green;
-                            colorSelector.SelectedIndex = 8;
+                            //                            _nowColor = Colors.Green;
+                            colorSelector_9.IsChecked = true;
                             break;
                         case "lime":
-                            _nowColor = Colors.Lime;
-                            colorSelector.SelectedIndex = 9;
+                            //                            _nowColor = Colors.Lime;
+                            colorSelector_10.IsChecked = true;
                             break;
                         case "olive":
-                            _nowColor = Colors.Olive;
-                            colorSelector.SelectedIndex = 10;
+                            //                            _nowColor = Colors.Olive;
+                            colorSelector_11.IsChecked = true;
                             break;
                         case "yellow":
-                            _nowColor = Colors.Yellow;
-                            colorSelector.SelectedIndex = 11;
+                            //                            _nowColor = Colors.Yellow;
+                            colorSelector_12.IsChecked = true;
                             break;
                         case "navy":
-                            _nowColor = Colors.Navy;
-                            colorSelector.SelectedIndex = 12;
+                            //                            _nowColor = Colors.Navy;
+                            colorSelector_13.IsChecked = true;
                             break;
                         case "blue":
-                            _nowColor = Colors.Blue;
-                            colorSelector.SelectedIndex = 13;
+                            //                            _nowColor = Colors.Blue;
+                            colorSelector_14.IsChecked = true;
                             break;
                         case "teal":
-                            _nowColor = Colors.Teal;
-                            colorSelector.SelectedIndex = 14;
+                            //                            _nowColor = Colors.Teal;
+                            colorSelector_15.IsChecked = true;
                             break;
                         case "aqua":
-                            _nowColor = Colors.Aqua;
-                            colorSelector.SelectedIndex = 15;
+                            //                            _nowColor = Colors.Aqua;
+                            colorSelector_16.IsChecked = true;
                             break;
                         default:
-                            _nowColor = Helper.GetColorFromRgbString(_nowInfo.XmlFile.ColorStr);
-                            colorSelector.SelectedIndex = 16;
-                            defineColorText.Text = _nowInfo.XmlFile.ColorStr;
+                            try
+                            {
+                                _nowColor = Helper.GetColorFromRgbString(_nowInfo.XmlFile.ColorStr);
+                                _nowColorString = _nowInfo.XmlFile.ColorStr;
+                                colorSelector_17.IsChecked = true;
+                                defineColorText.Text = _nowInfo.XmlFile.ColorStr;
+                            }
+                            catch (FormatException)
+                            {
+                                _nowInfo.XmlFile.ColorStr = "black";
+                                _nowColor = Colors.Black;
+                                colorSelector_1.IsChecked = true;
+                            }
                             break;
                     }
 
@@ -599,7 +788,7 @@ namespace SaberColorfulStartmenu
                             _nowInfo.XmlFile.LargeIconLoc = _nowInfo.XmlFile.SmallIconLoc = string.Empty;
                             _icon = null;
                             defineIconCheck.IsChecked = false;
-                            
+
                         }
                     }
                     else
@@ -730,16 +919,11 @@ namespace SaberColorfulStartmenu
             }
             //Update file and let the explorer reload the link
             Helper.UpdateFile(_nowInfo.Location);
-            
+
             _saveFlag = false;
             return true;
         }
 
-#endregion
-
-        private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
-        {
-            
-        }
+        #endregion
     }
 }
