@@ -23,11 +23,6 @@ namespace SaberColorfulStartmenu
         public static readonly string StartMenu = Environment.GetFolderPath(Environment.SpecialFolder.StartMenu);
 
 
-        private void App_OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
-        {
-            new ErrorReport(e.Exception).ShowDialog();
-        }
-
-
+        private void App_OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e) => new ErrorReport(e.Exception).ShowDialog();
     }
 }

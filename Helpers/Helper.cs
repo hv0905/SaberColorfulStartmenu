@@ -27,7 +27,7 @@ namespace SaberColorfulStartmenu.Helpers
         /// </summary>
         /// <param name="hObject">句柄</param>
         /// <returns>是否成功删除</returns>
-        [DllImport("gdi32",EntryPoint = "DeleteObject")]
+        [DllImport("gdi32", EntryPoint = "DeleteObject")]
         public static extern bool DeleteHBitmap(IntPtr hObject);
 
         /// <summary>
@@ -42,7 +42,8 @@ namespace SaberColorfulStartmenu.Helpers
         /// 从exe dll中导出图标
         /// </summary>
         [DllImport("shell32.dll")]
-        private static extern int ExtractIconEx(string lpszFile, int niconIndex, IntPtr[] phiconLarge, IntPtr[] phiconSmall, int nIcons);
+        private static extern int ExtractIconEx(string lpszFile, int niconIndex, IntPtr[] phiconLarge,
+            IntPtr[] phiconSmall, int nIcons);
 
         static Helper()
         {
@@ -56,7 +57,7 @@ namespace SaberColorfulStartmenu.Helpers
         /// <returns></returns>
         public static string[] GetAllFilesByDir(string dirPath)
         {
-            var dirs = new List<string> { dirPath };
+            var dirs = new List<string> {dirPath};
             // ReSharper disable once ForCanBeConvertedToForeach
             for (var i = 0; i < dirs.Count; i++)
             {
@@ -69,6 +70,7 @@ namespace SaberColorfulStartmenu.Helpers
                     // ignored
                 }
             }
+
             var files = new List<string>();
             foreach (var itemDir in dirs)
             {
@@ -95,7 +97,8 @@ namespace SaberColorfulStartmenu.Helpers
             var hbitmap = target.GetHbitmap();
             try
             {
-                return Imaging.CreateBitmapSourceFromHBitmap(hbitmap, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                return Imaging.CreateBitmapSourceFromHBitmap(hbitmap, IntPtr.Zero, Int32Rect.Empty,
+                    BitmapSizeOptions.FromEmptyOptions());
             }
             finally
             {
@@ -119,12 +122,12 @@ namespace SaberColorfulStartmenu.Helpers
             {
                 DestroyIcon(item);
             }
+
             return result;
         }
 
-        public static Color ToMediaColor(this System.Drawing.Color color) => 
+        public static Color ToMediaColor(this System.Drawing.Color color) =>
             Color.FromArgb(color.A, color.R, color.G, color.B);
-
 
 
         public static string ConvertEnviromentArgsInPath(string path)
@@ -138,11 +141,10 @@ namespace SaberColorfulStartmenu.Helpers
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 UseShellExecute = false
-            });//使用cmd的ECHO命令进行转换
+            }); //使用cmd的ECHO命令进行转换
             //简单粗暴的解决方案=.=
             // ReSharper disable once PossibleNullReferenceException
             return ps.StandardOutput.ReadLine()?.Trim();
-            
         }
 
         /// <summary>
@@ -152,7 +154,7 @@ namespace SaberColorfulStartmenu.Helpers
         {
             if (File.Exists(path))
             {
-                File.SetLastWriteTime(path,DateTime.Now);
+                File.SetLastWriteTime(path, DateTime.Now);
             }
         }
 
@@ -161,7 +163,7 @@ namespace SaberColorfulStartmenu.Helpers
 
         // ReSharper disable once PossibleNullReferenceException
         public static Color GetColorFromRgbString(string rgbString)
-            => (Color)ColorConverter.ConvertFromString($"#FF{rgbString.Substring(1)}");
+            => (Color) ColorConverter.ConvertFromString($"#FF{rgbString.Substring(1)}");
 
 
         /// <summary>
@@ -177,6 +179,5 @@ namespace SaberColorfulStartmenu.Helpers
                 .Replace("|", "\\|").Replace("{", "\\{").Replace("}", "\\}").Replace("?", "\\?").Replace("+", "\\+");
             return sb.ToString();
         }
-
     }
 }

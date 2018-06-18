@@ -51,6 +51,12 @@ namespace SaberColorfulStartmenu.Core
                 XmlFile = StartmenuXmlFile.Load(XmlFileLocation);
             }
         }
+
+        public string GetExistIconFile()
+        {
+            throw new NotImplementedException();
+        }
+        
         
     }
 }

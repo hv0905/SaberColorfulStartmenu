@@ -8,7 +8,7 @@
                 <ControlTemplate TargetType="RadioButton">
                     <Border x:Name="mainBorder" BorderThickness="0.5" BorderBrush="{TemplateBinding Foreground}" Background="{TemplateBinding Background}">
                         <Grid>
-                            <ContentControl Content="{TemplateBinding Content}"/>
+                            <ContentPresenter Content="{TemplateBinding Content}"/>
                             <TextBlock x:Name="rightTick" HorizontalAlignment="Right" Opacity="0" VerticalAlignment="Top" FontSize="16" Foreground="{TemplateBinding Foreground}" FontFamily="Segoe MDL2 Assets" Text="&#xE73D;"></TextBlock>
                         </Grid>
                         <VisualStateManager.VisualStateGroups>

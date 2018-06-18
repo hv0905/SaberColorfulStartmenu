@@ -250,7 +250,8 @@
                     <CheckBox x:Name="largeAppNameCheck" Visibility="{Binding Visibility,ElementName=colorSelector}" Content="在150x150大磁贴中显示应用名" IsChecked="True" FontSize="16" Foreground="White" Margin="2" Checked="LargeAppNameCheck_OnChecked" Unchecked="LargeAppNameCheck_OnChecked"/>
                     <CheckBox x:Name="defineIconCheck" Visibility="{Binding Visibility,ElementName=colorSelector}" Content="自定义图标" IsChecked="False" FontSize="16" Foreground="White" Margin="2" Checked="LargeAppNameCheck_OnChecked" Unchecked="LargeAppNameCheck_OnChecked" Opacity="1"/>
                     <Button Visibility="{Binding Visibility, ElementName=colorSelector}" Content="选择图标. . ." FontSize="16" Click="ButtonBase_OnClick_7" IsEnabled="{Binding IsChecked, ElementName=defineIconCheck}" Opacity="1"/>
-                    <!--<TextBlock Text="注意：在选择了大磁贴图标后，你必须选择小磁贴图标" FontSize="16" Foreground="HotPink" Visibility="{Binding Visibility, ElementName=colorSelector}"/>-->
+                    <TextBlock x:Name="txtDevDefIco" Visibility="Collapsed" Text="提示：该应用开发者可能已经定义自定义图标&#13;如果图标显示不正常或者想更换其它图标点击下面的按钮清除图标pri" Foreground="HotPink" FontSize="16"/>
+                    <Button Content="清除由开发者提供的图标" Visibility="{Binding Visibility ,ElementName=txtDevDefIco}" Click="CleanIcon_OnClick" FontSize="16"/>
                 </StackPanel>
                 <TextBlock Text="大磁贴预览：" FontSize="16" Foreground="White" Grid.Row="0" Grid.Column="1" Visibility="{Binding Visibility, ElementName=colorSelector}"/>
                 <TextBlock Text="小磁贴预览：" FontSize="16" Foreground="White" Grid.Column="1" Grid.Row="2" Visibility="{Binding Visibility, ElementName=colorSelector}"/>

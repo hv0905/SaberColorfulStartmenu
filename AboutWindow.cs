@@ -8,10 +8,7 @@ namespace SaberColorfulStartmenu
     public partial class AboutWindow : Form
     {
 
-        public AboutWindow()
-        {
-            InitializeComponent();
-        }
+        public AboutWindow() => InitializeComponent();
 
         private void button1_Click(object sender, EventArgs e) => Close();
 

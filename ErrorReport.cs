@@ -24,10 +24,7 @@ namespace SaberColorfulStartmenu
             textBox1.Text = $"Message:\r\n{e.Message}\r\nTargetSite:\r\n{e.TargetSite}\r\nINFO:\r\n{e}\r\n";
         }
 
-        private void ErrorReport_Load(object sender, EventArgs e)
-        {
-            SystemSounds.Hand.Play();
-        }
+        private void ErrorReport_Load(object sender, EventArgs e) => SystemSounds.Hand.Play();
 
         private void button6_Click(object sender, EventArgs e)
         {
@@ -35,10 +32,7 @@ namespace SaberColorfulStartmenu
             Environment.Exit(-1);
         }
 
-        private void button5_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
+        private void button5_Click(object sender, EventArgs e) => Close();
 
         private void button4_Click(object sender, EventArgs e)
         {

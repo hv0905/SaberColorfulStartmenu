@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -12,43 +11,46 @@ namespace SaberColorfulStartmenu.Core
 {
     public class StartmenuXmlFile
     {
-
         public string FileName { get; private set; }
         private XmlDocument _doc;
         //private FileStream _xmlFile;
         private XmlElement _visualElements;
-        private string _largeIconLoc;
-        private string _smallIconLoc;
+        private string _largeLogoLoc;
+        private string _smallLogoLoc;
         public string ColorStr { get; set; }
 
-        public string LargeIconLoc
-        {
-            // ReSharper disable once AssignNullToNotNullAttribute
-            get
-            {
-                if (_largeIconLoc != null)
-                    return _largeIconLoc[2] != ':'
-                        ? Path.Combine(Path.GetDirectoryName(FileName), _largeIconLoc)
-                        : _largeIconLoc;
-                else return null;
-            }
-            set  => _largeIconLoc = value;
-        }
+//        public string LargeLogoLoc
+//        {
+//            // ReSharper disable once AssignNullToNotNullAttribute
+//            get
+//            {
+//                if (!string.IsNullOrEmpty(_largeLogoLoc))
+//                    return _largeLogoLoc[2] != ':'
+//                        ? Path.Combine(Path.GetDirectoryName(FileName), _largeLogoLoc)
+//                        : _largeLogoLoc;
+//                else return null;
+//            }
+//            set => _largeLogoLoc = value;
+//        }
+//
+//        public string SmallLogoLoc
+//        {
+//            get
+//            {
+//                if (!string.IsNullOrEmpty(_smallLogoLoc))
+//                    return _smallLogoLoc[2] != ':' //不是磁盘
+//                        // ReSharper disable once AssignNullToNotNullAttribute
+//                        ? Path.Combine(Path.GetDirectoryName(FileName), _smallLogoLoc)
+//                        : _smallLogoLoc;
+//                else return null;
+//            }
+//
+//            set => _smallLogoLoc = value;
+//        }
 
-        public string SmallIconLoc
-        {
-            get
-            {
-                if (_smallIconLoc != null)
-                    return _smallIconLoc[2] != ':'
-                        // ReSharper disable once AssignNullToNotNullAttribute
-                        ? Path.Combine(Path.GetDirectoryName(FileName), _smallIconLoc)
-                        : _smallIconLoc;
-                else return null;
-            }
+        public string LargeLogoLoc { get; set; }
 
-            set => _smallIconLoc = value;
-        }
+        public string SmallLogoLoc { get; set; }
 
         public bool ShowTitleOnLargeIcon { get; set; }
         public TextCol TxtForeground { get; set; }
@@ -56,43 +58,44 @@ namespace SaberColorfulStartmenu.Core
 
         public static StartmenuXmlFile Load(string fileName)
         {
-
-            var sxf = new StartmenuXmlFile();
-            sxf.FileName = fileName;
+            var sxf = new StartmenuXmlFile
+            {
+                FileName = fileName,
+                _doc = new XmlDocument()
+            };
             //sxf._xmlFile = File.Open(fileName, FileMode.Open, FileAccess.ReadWrite);
-            sxf._doc = new XmlDocument();
             sxf._doc.Load(sxf.FileName);
             var root = sxf._doc.DocumentElement;
             // ReSharper disable once PossibleNullReferenceException
-            sxf._visualElements = (XmlElement)(root.GetElementsByTagName("VisualElements")[0]);
+            sxf._visualElements = (XmlElement) (root.GetElementsByTagName("VisualElements")[0]);
 
             sxf.ColorStr = sxf._visualElements.Attributes["BackgroundColor"].Value;
             sxf.ShowTitleOnLargeIcon = sxf._visualElements.Attributes["ShowNameOnSquare150x150Logo"].Value == "on";
-            sxf.TxtForeground = sxf._visualElements.Attributes["ForegroundText"].Value == "light" ? TextCol.light : TextCol.dark;
+            sxf.TxtForeground = sxf._visualElements.Attributes["ForegroundText"].Value == "light"
+                ? TextCol.light
+                : TextCol.dark;
             if (sxf._visualElements.HasAttribute("Square150x150Logo"))
             {
-                sxf.LargeIconLoc = sxf._visualElements.Attributes["Square150x150Logo"].Value;
+                sxf.LargeLogoLoc = sxf._visualElements.Attributes["Square150x150Logo"].Value;
             }
+
             if (sxf._visualElements.HasAttribute("Square70x70Logo"))
             {
-                sxf.SmallIconLoc = sxf._visualElements.Attributes["Square70x70Logo"].Value;
+                sxf.SmallLogoLoc = sxf._visualElements.Attributes["Square70x70Logo"].Value;
             }
+
             return sxf;
         }
 
 
-        public static StartmenuXmlFile LoadOrNew(string fileName)
-        {
-            if (File.Exists(fileName))
-            {
-                return Load(fileName);
-            }
-            else
-            {
-                return new StartmenuXmlFile(fileName);
-            }
-        }
+        public static StartmenuXmlFile LoadOrNew(string fileName) =>
+            File.Exists(fileName) ? Load(fileName) : new StartmenuXmlFile(fileName);
 
+        /// <summary>
+        /// Create a new StartmenuXmlFile
+        /// Warning:If the loc has an exist file,it will be cover when <see cref="Save"/>
+        /// </summary>
+        /// <param name="fileName"></param>
         public StartmenuXmlFile(string fileName)
         {
             FileName = fileName;
@@ -117,7 +120,9 @@ namespace SaberColorfulStartmenu.Core
             //_xmlFile.Flush();
         }
 
-        private StartmenuXmlFile() { }
+        private StartmenuXmlFile()
+        {
+        }
 
         /// <summary>
         /// 将更改保存到<see cref="FileName"/>中
@@ -130,40 +135,41 @@ namespace SaberColorfulStartmenu.Core
             //可选项
             if (_visualElements.HasAttribute("Square150x150Logo"))
             {
-                if (string.IsNullOrEmpty(LargeIconLoc))
+                if (string.IsNullOrEmpty(LargeLogoLoc))
                 {
                     _visualElements.RemoveAttribute("Square150x150Logo");
                 }
                 else
                 {
-                    _visualElements.Attributes["Square150x150Logo"].Value = _largeIconLoc;
+                    _visualElements.Attributes["Square150x150Logo"].Value = _largeLogoLoc;
                 }
             }
             else
             {
-                if (!string.IsNullOrEmpty(LargeIconLoc))
+                if (!string.IsNullOrEmpty(LargeLogoLoc))
                 {
                     _visualElements.Attributes.Append(_doc.CreateAttribute("Square150x150Logo"));
-                    _visualElements.Attributes["Square150x150Logo"].Value = _largeIconLoc;
+                    _visualElements.Attributes["Square150x150Logo"].Value = _largeLogoLoc;
                 }
             }
+
             if (_visualElements.HasAttribute("Square70x70Logo"))
             {
-                if (string.IsNullOrEmpty(SmallIconLoc))
+                if (string.IsNullOrEmpty(SmallLogoLoc))
                 {
                     _visualElements.RemoveAttribute("Square70x70Logo");
                 }
                 else
                 {
-                    _visualElements.Attributes["Square70x70Logo"].Value = _smallIconLoc;
+                    _visualElements.Attributes["Square70x70Logo"].Value = _smallLogoLoc;
                 }
             }
             else
             {
-                if (!string.IsNullOrEmpty(SmallIconLoc))
+                if (!string.IsNullOrEmpty(SmallLogoLoc))
                 {
                     _visualElements.Attributes.Append(_doc.CreateAttribute("Square70x70Logo"));
-                    _visualElements.Attributes["Square70x70Logo"].Value = _smallIconLoc;
+                    _visualElements.Attributes["Square70x70Logo"].Value = _smallLogoLoc;
                 }
             }
 
@@ -171,16 +177,21 @@ namespace SaberColorfulStartmenu.Core
             //_xmlFile.Flush();
         }
 
+        public string GetFullPath(string loc) => loc[2] != ':' //不是磁盘
+            // ReSharper disable once AssignNullToNotNullAttribute
+            ? Path.Combine(Path.GetDirectoryName(FileName), loc)
+            : loc;
+
+
         /// <summary>
         ///指定文字颜色 
         /// </summary>
-        public enum TextCol : int
+        public enum TextCol
         {
             // ReSharper disable once InconsistentNaming
             light = 0,
             // ReSharper disable once InconsistentNaming
             dark = 1,
         }
-
     }
 }
