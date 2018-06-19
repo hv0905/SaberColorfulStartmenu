@@ -46,12 +46,12 @@
                         <Rectangle x:Name="rect" Fill="{TemplateBinding Background}" Opacity="1"/>
                         <Rectangle x:Name="disableCover" Fill="LightGray" Opacity="0"/>
                         <Border BorderThickness="1" BorderBrush="White"/>
-                        <ContentControl Content="{TemplateBinding Content}"/>
+                        <ContentControl Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
+        <Setter Property="FontSize" Value="16"/>
     </Style>
 
     <!--<Style x:Key="CoreComboBox" TargetType="ComboBox">

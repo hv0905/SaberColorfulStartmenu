@@ -224,7 +224,10 @@
                             <Image Source="WpfImages/color_grid.png"></Image>
                         </RadioButton>
                     </Grid>
-                    <GroupBox x:Name="group_Color" Header="自定义颜色" Foreground="White" Background="{x:Null}">
+                    <GroupBox x:Name="group_Color" RenderTransformOrigin="0.5,0" Header="自定义颜色" Foreground="White" Background="{x:Null}">
+                        <GroupBox.RenderTransform>
+                            <ScaleTransform ScaleY="1"/>
+                        </GroupBox.RenderTransform>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
@@ -239,7 +242,7 @@
                             <Ellipse x:Name="defineColorPreview" Grid.Row="0" Grid.Column="1" Fill="Black" Width="25" Height="25"/>
                             <TextBlock Text="RGB颜色" Grid.Row="1" Grid.Column="0" FontSize="16"/>
                             <TextBox x:Name="defineColorText" Text="#000000" Grid.Column="1" Grid.Row="1" FontSize="14" Margin="2" MaxLength="7" input:InputMethod.IsInputMethodEnabled="False" KeyUp="DefineColorText_OnKeyUp"/>
-                            <Button Grid.Row="0" Grid.Column="2" Content="调色板" Margin="2" FontSize="16" Click="ButtonBase_OnClick_5"></Button>
+                            <Button Style="{StaticResource CoreButton}" Grid.Row="0" Grid.Column="2" Content="调色板" Margin="2" FontSize="16" Click="ButtonBase_OnClick_5"></Button>
                         </Grid>
                     </GroupBox>
                     <TextBlock Text="文字颜色：" FontSize="16" Foreground="White" Visibility="{Binding Visibility, ElementName=colorSelector}" />
@@ -249,9 +252,10 @@
                     </ComboBox>
                     <CheckBox x:Name="largeAppNameCheck" Visibility="{Binding Visibility,ElementName=colorSelector}" Content="在150x150大磁贴中显示应用名" IsChecked="True" FontSize="16" Foreground="White" Margin="2" Checked="LargeAppNameCheck_OnChecked" Unchecked="LargeAppNameCheck_OnChecked"/>
                     <CheckBox x:Name="defineIconCheck" Visibility="{Binding Visibility,ElementName=colorSelector}" Content="自定义图标" IsChecked="False" FontSize="16" Foreground="White" Margin="2" Checked="LargeAppNameCheck_OnChecked" Unchecked="LargeAppNameCheck_OnChecked" Opacity="1"/>
-                    <Button Visibility="{Binding Visibility, ElementName=colorSelector}" Content="选择图标. . ." FontSize="16" Click="ButtonBase_OnClick_7" IsEnabled="{Binding IsChecked, ElementName=defineIconCheck}" Opacity="1"/>
-                    <TextBlock x:Name="txtDevDefIco" Visibility="Collapsed" Text="提示：该应用开发者可能已经定义自定义图标&#13;如果图标显示不正常或者想更换其它图标点击下面的按钮清除图标pri" Foreground="HotPink" FontSize="16"/>
-                    <Button Content="清除由开发者提供的图标" Visibility="{Binding Visibility ,ElementName=txtDevDefIco}" Click="CleanIcon_OnClick" FontSize="16"/>
+                    <Grid Visibility="{Binding Visibility, ElementName=colorSelector}" >
+                        <Button Style="{StaticResource CoreButton}" x:Name="btnChangeLogo" Content="选择图标. . ." FontSize="16" Click="ButtonBase_OnClick_7" IsEnabled="{Binding IsChecked, ElementName=defineIconCheck}" Opacity="1"/>
+                        <TextBlock x:Name="txtDevDefIco" Visibility="Collapsed" Text="提示：该应用开发者可能已经定义自定义图标&#13;如果图标显示不正常或者想更换其它图标取消勾选自定义图标" Foreground="HotPink" FontSize="16"/>
+                    </Grid>
                 </StackPanel>
                 <TextBlock Text="大磁贴预览：" FontSize="16" Foreground="White" Grid.Row="0" Grid.Column="1" Visibility="{Binding Visibility, ElementName=colorSelector}"/>
                 <TextBlock Text="小磁贴预览：" FontSize="16" Foreground="White" Grid.Column="1" Grid.Row="2" Visibility="{Binding Visibility, ElementName=colorSelector}"/>
@@ -307,16 +311,15 @@
                         </StackPanel>
                     </Grid>
                 </Button>
-                <Button Style="{StaticResource CoreButton}" Click="ButtonBase_OnClick_4" Margin="2" DockPanel.Dock="Left" Width="200" ToolTip="使用资源管理器打开开始菜单文件夹">
+                <Button Style="{StaticResource CoreButton}" Click="ButtonBase_OnClick_4" Margin="2" DockPanel.Dock="Left" Width="200" ToolTip="使用资源管理器打开开始菜单文件夹" HorizontalAlignment="Left">
                     <Button.Background>
                         <SolidColorBrush Color="Orange" Opacity="0.6"/>
                     </Button.Background>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <Image Source="WpfImages/explorer.png"/>
-                        <TextBlock Text="打开开始菜单文件夹" VerticalAlignment="Center" FontSize="16" Margin="4" Foreground="White"></TextBlock>
+                        <TextBlock Text="打开开始菜单文件夹" VerticalAlignment="Center" FontSize="16" Margin="4" Foreground="White"/>
                     </StackPanel>
                 </Button>
-                <FrameworkElement/>
             </DockPanel>
 
         </Grid>

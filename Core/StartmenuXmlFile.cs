@@ -15,8 +15,6 @@ namespace SaberColorfulStartmenu.Core
         private XmlDocument _doc;
         //private FileStream _xmlFile;
         private XmlElement _visualElements;
-        private string _largeLogoLoc;
-        private string _smallLogoLoc;
         public string ColorStr { get; set; }
 
 //        public string LargeLogoLoc
@@ -139,9 +137,8 @@ namespace SaberColorfulStartmenu.Core
                 {
                     _visualElements.RemoveAttribute("Square150x150Logo");
                 }
-                else
-                {
-                    _visualElements.Attributes["Square150x150Logo"].Value = _largeLogoLoc;
+                else {
+                    _visualElements.Attributes["Square150x150Logo"].Value = LargeLogoLoc;
                 }
             }
             else
@@ -149,7 +146,7 @@ namespace SaberColorfulStartmenu.Core
                 if (!string.IsNullOrEmpty(LargeLogoLoc))
                 {
                     _visualElements.Attributes.Append(_doc.CreateAttribute("Square150x150Logo"));
-                    _visualElements.Attributes["Square150x150Logo"].Value = _largeLogoLoc;
+                    _visualElements.Attributes["Square150x150Logo"].Value = LargeLogoLoc;
                 }
             }
 
@@ -159,9 +156,8 @@ namespace SaberColorfulStartmenu.Core
                 {
                     _visualElements.RemoveAttribute("Square70x70Logo");
                 }
-                else
-                {
-                    _visualElements.Attributes["Square70x70Logo"].Value = _smallLogoLoc;
+                else {
+                    _visualElements.Attributes["Square70x70Logo"].Value = SmallLogoLoc;
                 }
             }
             else
@@ -169,7 +165,7 @@ namespace SaberColorfulStartmenu.Core
                 if (!string.IsNullOrEmpty(SmallLogoLoc))
                 {
                     _visualElements.Attributes.Append(_doc.CreateAttribute("Square70x70Logo"));
-                    _visualElements.Attributes["Square70x70Logo"].Value = _smallLogoLoc;
+                    _visualElements.Attributes["Square70x70Logo"].Value = SmallLogoLoc;
                 }
             }
 
