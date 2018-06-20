@@ -6,7 +6,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="RadioButton">
-                    <Border x:Name="mainBorder" BorderThickness="0.5" BorderBrush="{TemplateBinding Foreground}" Background="{TemplateBinding Background}">
+                    <Border x:Name="mainBorder" BorderThickness="0" BorderBrush="{TemplateBinding Foreground}" Background="{TemplateBinding Background}">
                         <Grid>
                             <ContentPresenter Content="{TemplateBinding Content}"/>
                             <TextBlock x:Name="rightTick" HorizontalAlignment="Right" Opacity="0" VerticalAlignment="Top" FontSize="16" Foreground="{TemplateBinding Foreground}" FontFamily="Segoe MDL2 Assets" Text="&#xE73D;"></TextBlock>
@@ -20,13 +20,13 @@
                             <VisualStateGroup x:Name="CheckStates">
                                 <VisualState x:Name="Checked">
                                     <Storyboard>
-                                        <ThicknessAnimation Storyboard.TargetName="mainBorder" Storyboard.TargetProperty="BorderThickness" From="0.5" To="2" Duration="0:0:0:0.1"/>
+                                        <ThicknessAnimation Storyboard.TargetName="mainBorder" Storyboard.TargetProperty="BorderThickness" From="0" To="2" Duration="0:0:0:0.1"/>
                                         <DoubleAnimation Storyboard.TargetName="rightTick" Storyboard.TargetProperty="Opacity" To="1" From="0" Duration="0:0:0:0.1"/>
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Unchecked" >
                                     <Storyboard>
-                                        <ThicknessAnimation Storyboard.TargetName="mainBorder" Storyboard.TargetProperty="BorderThickness" From="2" To="0.5" Duration="0:0:0:0.1"/>
+                                        <ThicknessAnimation Storyboard.TargetName="mainBorder" Storyboard.TargetProperty="BorderThickness" From="2" To="0" Duration="0:0:0:0.1"/>
                                         <DoubleAnimation Storyboard.TargetName="rightTick" Storyboard.TargetProperty="Opacity" To="0" From="1" Duration="0:0:0:0.1"/>
                                     </Storyboard>
                                 </VisualState>

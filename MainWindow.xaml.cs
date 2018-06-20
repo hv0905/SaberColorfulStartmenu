@@ -39,17 +39,16 @@ namespace SaberColorfulStartmenu
 #region Fields
 
         private List<string> _fileList = new List<string>();
-        private List<Bitmap> _logoList = new List<Bitmap>();
+        private List<BitmapSource> _logoList = new List<BitmapSource>();
         private bool _saveFlag;
         private bool _loaded;
         private bool _sysChangeing;
-        // private bool _scaleMode;
         private Color _currentColor = Colors.Black;
         private string _currentColorString;
         private int _currentId = -1;
         private __WinForm.ColorDialog _colorDialog;
         private OpenFileDialog _openFile;
-        private Bitmap _logo;
+        private BitmapSource _logo;
         private StartmenuShortcutInfo _currentInfo;
         private string _newLogoLoc;
 
@@ -198,7 +197,7 @@ namespace SaberColorfulStartmenu
                 var fs = File.Open(_openFile.FileName, FileMode.Open, FileAccess.Read);
                 _saveFlag = true;
                 _newLogoLoc = _openFile.FileName;
-                _logo = new Bitmap(fs);
+                _logo = new Bitmap(fs).ToBitmapSource();
                 UpdateRender();
                 fs.Close();
             }
@@ -417,6 +416,7 @@ namespace SaberColorfulStartmenu
 
         private void RefreshList()
         {
+            var unknown = Properties.Resources.unknown.ToBitmapSource();
             _fileList.Clear();
             appList.Items.Clear();
             _logoList.Clear();
@@ -468,7 +468,7 @@ namespace SaberColorfulStartmenu
                 if (iconPath.EndsWith(".exe") || iconPath.EndsWith(".dll")) {
                     try {
                         var icons = Helper.GetLargeIconsFromExeFile(iconPath);
-                        _logoList.Add(icons[iconId].ToBitmap());
+                        _logoList.Add(icons[iconId].ToBitmap().ToBitmapSource());
 
                         foreach (var item in icons) {
                             Helper.DestroyIcon(item.Handle);
@@ -476,18 +476,18 @@ namespace SaberColorfulStartmenu
                         }
                     }
                     catch {
-                        _logoList.Add(Properties.Resources.unknown);
+                        _logoList.Add(unknown);
                     }
                 }
                 else {
                     //ico
                     try {
                         var ico = new Icon(iconPath);
-                        _logoList.Add(ico.ToBitmap());
+                        _logoList.Add(ico.ToBitmap().ToBitmapSource());
                         ico.Dispose();
                     }
                     catch {
-                        _logoList.Add(Properties.Resources.unknown);
+                        _logoList.Add(unknown);
                     }
                 }
 
@@ -499,7 +499,7 @@ namespace SaberColorfulStartmenu
                     Height = 25
                 };
                 sp.Children.Add(new Image() {
-                    Source = _logoList[i].GetBitmapSourceFromBitmap()
+                    Source = _logoList[i]
                 });
                 sp.Children.Add(new TextBlock() {Text = itemName, FontSize = 14});
                 lvi.Content = sp;
@@ -514,7 +514,6 @@ namespace SaberColorfulStartmenu
         {
             _sysChangeing = true;
 
-            //todo: 载入
             _currentInfo = new StartmenuShortcutInfo(_fileList[_currentId]);
             if (_currentInfo.XmlFile == null) {
                 modeSelctor.SelectedIndex = 0;
@@ -722,7 +721,7 @@ namespace SaberColorfulStartmenu
                             //直接获取
                             Debug.WriteLine(
                                 $"Load small icon successfully with file location{_currentInfo.XmlFile.SmallLogoLoc}");
-                            _logo = new Bitmap(_currentInfo.XmlFile.GetFullPath(_currentInfo.XmlFile.SmallLogoLoc));
+                            _logo = new Bitmap(_currentInfo.XmlFile.GetFullPath(_currentInfo.XmlFile.SmallLogoLoc)).ToBitmapSource();
                             //_scaleMode = false;
                             defineIconCheck.IsChecked = true;
                             btnChangeLogo.Visibility = Visibility.Visible;
@@ -824,11 +823,13 @@ namespace SaberColorfulStartmenu
 
                     txtColorSelector.SelectedIndex = (int) _currentInfo.XmlFile.TxtForeground;
                 }
-                catch (Exception e) {
 #if DEBUG
+                catch (Exception e) {
                     Debug.WriteLine("-----EXCEPTION-----");
                     Debug.WriteLine(e);
                     Debug.WriteLine("--------END--------");
+#else
+                catch {
 #endif
                     // ReSharper disable once HeuristicUnreachableCode
                     MessageBox.Show("读取配置文件时发生错误\n已重置到初始值", "错误", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -851,15 +852,15 @@ namespace SaberColorfulStartmenu
             preview_LargeText.Visibility =
                 largeAppNameCheck.IsChecked ?? false ? Visibility.Visible : Visibility.Hidden;
             if (_logo == null || !(defineIconCheck.IsChecked ?? false)) {
-                preview_SmallImg.Source = preview_LargeImg.Source = _logoList[_currentId].GetBitmapSourceFromBitmap();
+                preview_SmallImg.Source = preview_LargeImg.Source = _logoList[_currentId];
                 preview_SmallImg.Stretch = preview_LargeImg.Stretch = Stretch.None;
             }
             else {
-                preview_SmallImg.Source = preview_LargeImg.Source = _logo.GetBitmapSourceFromBitmap();
+                preview_SmallImg.Source = preview_LargeImg.Source = _logo;
                 preview_SmallImg.Stretch =
-                    (_logo.Size.Width > 70 || _logo.Size.Height > 70) ? Stretch.Uniform : Stretch.None;
+                    (_logo.PixelWidth > 70 || _logo.PixelHeight > 70) ? Stretch.Uniform : Stretch.None;
                 preview_LargeImg.Stretch =
-                    (_logo.Size.Width > 150 || _logo.Size.Height > 150) ? Stretch.Uniform : Stretch.None;
+                    (_logo.PixelWidth > 150 || _logo.PixelHeight > 150) ? Stretch.Uniform : Stretch.None;
             }
 
             preview_LargeText.Text = Path.GetFileNameWithoutExtension(_fileList[_currentId]);

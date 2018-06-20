@@ -20,7 +20,7 @@ namespace SaberColorfulStartmenu.Helpers
 {
     public static class Helper
     {
-        public static readonly WshShell MainShell;
+        public static readonly WshShell MainShell = new WshShell();
 
         /// <summary>
         /// 通过句柄销毁HBitmap
@@ -44,11 +44,6 @@ namespace SaberColorfulStartmenu.Helpers
         [DllImport("shell32.dll")]
         private static extern int ExtractIconEx(string lpszFile, int niconIndex, IntPtr[] phiconLarge,
             IntPtr[] phiconSmall, int nIcons);
-
-        static Helper()
-        {
-            MainShell = new WshShell();
-        }
 
         /// <summary>
         /// 遍历一个目录，获取内部所有子文件夹的所有文件
@@ -92,7 +87,7 @@ namespace SaberColorfulStartmenu.Helpers
         /// </summary>
         /// <param name="target"></param>
         /// <returns></returns>
-        public static BitmapSource GetBitmapSourceFromBitmap(this Bitmap target)
+        public static BitmapSource ToBitmapSource(this Bitmap target)
         {
             var hbitmap = target.GetHbitmap();
             try

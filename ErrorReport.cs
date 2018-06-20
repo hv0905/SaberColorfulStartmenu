@@ -21,6 +21,7 @@ namespace SaberColorfulStartmenu
         public ErrorReport(Exception e)
         {
             InitializeComponent();
+            // ReSharper disable once LocalizableElement
             textBox1.Text = $"Message:\r\n{e.Message}\r\nTargetSite:\r\n{e.TargetSite}\r\nINFO:\r\n{e}\r\n";
         }
 

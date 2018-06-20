@@ -17,34 +17,34 @@ namespace SaberColorfulStartmenu.Core
         private XmlElement _visualElements;
         public string ColorStr { get; set; }
 
-//        public string LargeLogoLoc
-//        {
-//            // ReSharper disable once AssignNullToNotNullAttribute
-//            get
-//            {
-//                if (!string.IsNullOrEmpty(_largeLogoLoc))
-//                    return _largeLogoLoc[2] != ':'
-//                        ? Path.Combine(Path.GetDirectoryName(FileName), _largeLogoLoc)
-//                        : _largeLogoLoc;
-//                else return null;
-//            }
-//            set => _largeLogoLoc = value;
-//        }
-//
-//        public string SmallLogoLoc
-//        {
-//            get
-//            {
-//                if (!string.IsNullOrEmpty(_smallLogoLoc))
-//                    return _smallLogoLoc[2] != ':' //不是磁盘
-//                        // ReSharper disable once AssignNullToNotNullAttribute
-//                        ? Path.Combine(Path.GetDirectoryName(FileName), _smallLogoLoc)
-//                        : _smallLogoLoc;
-//                else return null;
-//            }
-//
-//            set => _smallLogoLoc = value;
-//        }
+        //public string LargeLogoLoc
+        //{
+        //// ReSharper disable once AssignNullToNotNullAttribute
+        //get
+        //{
+        //if (!string.IsNullOrEmpty(_largeLogoLoc))
+        //return _largeLogoLoc[2] != ':'
+        //? Path.Combine(Path.GetDirectoryName(FileName), _largeLogoLoc)
+        //: _largeLogoLoc;
+        //else return null;
+        //}
+        //set => _largeLogoLoc = value;
+        //}
+        //
+        //public string SmallLogoLoc
+        //{
+        //get
+        //{
+        //if (!string.IsNullOrEmpty(_smallLogoLoc))
+        //return _smallLogoLoc[2] != ':' //不是磁盘
+        //// ReSharper disable once AssignNullToNotNullAttribute
+        //? Path.Combine(Path.GetDirectoryName(FileName), _smallLogoLoc)
+        //: _smallLogoLoc;
+        //else return null;
+        //}
+        //
+        //set => _smallLogoLoc = value;
+        //}
 
         public string LargeLogoLoc { get; set; }
 
@@ -56,8 +56,7 @@ namespace SaberColorfulStartmenu.Core
 
         public static StartmenuXmlFile Load(string fileName)
         {
-            var sxf = new StartmenuXmlFile
-            {
+            var sxf = new StartmenuXmlFile {
                 FileName = fileName,
                 _doc = new XmlDocument()
             };
@@ -72,13 +71,11 @@ namespace SaberColorfulStartmenu.Core
             sxf.TxtForeground = sxf._visualElements.Attributes["ForegroundText"].Value == "light"
                 ? TextCol.light
                 : TextCol.dark;
-            if (sxf._visualElements.HasAttribute("Square150x150Logo"))
-            {
+            if (sxf._visualElements.HasAttribute("Square150x150Logo")) {
                 sxf.LargeLogoLoc = sxf._visualElements.Attributes["Square150x150Logo"].Value;
             }
 
-            if (sxf._visualElements.HasAttribute("Square70x70Logo"))
-            {
+            if (sxf._visualElements.HasAttribute("Square70x70Logo")) {
                 sxf.SmallLogoLoc = sxf._visualElements.Attributes["Square70x70Logo"].Value;
             }
 
@@ -112,15 +109,13 @@ namespace SaberColorfulStartmenu.Core
             _doc.AppendChild(root);
 
 
-            _doc.AppendChild(_doc.CreateComment(
-                $"本文件由{Properties.Resources.AppName}创建。不要修改或删除本文件否则可能导致开始菜单自定义效果丢失。如需修改开始菜单自定义效果，请使用{Properties.Resources.AppName}。"));
+            _doc.AppendChild(_doc.CreateComment(string.Format("本文件由{0}创建。不要修改或删除本文件否则可能导致不正确的行为。如需修改开始菜单自定义效果，请使用{0}。",
+                Properties.Resources.AppName)));
             _doc.Save(FileName);
             //_xmlFile.Flush();
         }
 
-        private StartmenuXmlFile()
-        {
-        }
+        private StartmenuXmlFile() { }
 
         /// <summary>
         /// 将更改保存到<see cref="FileName"/>中
@@ -131,39 +126,31 @@ namespace SaberColorfulStartmenu.Core
             _visualElements.Attributes["ShowNameOnSquare150x150Logo"].Value = ShowTitleOnLargeIcon ? "on" : "off";
             _visualElements.Attributes["ForegroundText"].Value = TxtForeground.ToString();
             //可选项
-            if (_visualElements.HasAttribute("Square150x150Logo"))
-            {
-                if (string.IsNullOrEmpty(LargeLogoLoc))
-                {
+            if (_visualElements.HasAttribute("Square150x150Logo")) {
+                if (string.IsNullOrEmpty(LargeLogoLoc)) {
                     _visualElements.RemoveAttribute("Square150x150Logo");
                 }
                 else {
                     _visualElements.Attributes["Square150x150Logo"].Value = LargeLogoLoc;
                 }
             }
-            else
-            {
-                if (!string.IsNullOrEmpty(LargeLogoLoc))
-                {
+            else {
+                if (!string.IsNullOrEmpty(LargeLogoLoc)) {
                     _visualElements.Attributes.Append(_doc.CreateAttribute("Square150x150Logo"));
                     _visualElements.Attributes["Square150x150Logo"].Value = LargeLogoLoc;
                 }
             }
 
-            if (_visualElements.HasAttribute("Square70x70Logo"))
-            {
-                if (string.IsNullOrEmpty(SmallLogoLoc))
-                {
+            if (_visualElements.HasAttribute("Square70x70Logo")) {
+                if (string.IsNullOrEmpty(SmallLogoLoc)) {
                     _visualElements.RemoveAttribute("Square70x70Logo");
                 }
                 else {
                     _visualElements.Attributes["Square70x70Logo"].Value = SmallLogoLoc;
                 }
             }
-            else
-            {
-                if (!string.IsNullOrEmpty(SmallLogoLoc))
-                {
+            else {
+                if (!string.IsNullOrEmpty(SmallLogoLoc)) {
                     _visualElements.Attributes.Append(_doc.CreateAttribute("Square70x70Logo"));
                     _visualElements.Attributes["Square70x70Logo"].Value = SmallLogoLoc;
                 }
