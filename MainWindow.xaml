@@ -8,81 +8,98 @@
         mc:Ignorable="d" Style="{StaticResource BorderlessWindowStyle}" MinWidth="800" MinHeight="450"
         Title="Saber's Colorful Startmenu 开始菜单定制工具" Height="480" Width="880">
     <Window.Background>
-        <ImageBrush ImageSource="WpfImages/dva_12.jpg"/>
+        <ImageBrush ImageSource="WpfImages/dva_12.jpg" />
     </Window.Background>
     <Window.Resources>
         <Storyboard x:Key="saveDoneStory">
-            <ColorAnimation From="HotPink" To="CornflowerBlue" Duration="0:0:0.5" Storyboard.TargetName="saveButton_Bg" Storyboard.TargetProperty="Color"/>
-            <DoubleAnimation From="1" To="0" Duration="0:0:0.5" Storyboard.TargetName="saveButton_Save" Storyboard.TargetProperty="Opacity"/>
-            <DoubleAnimation From="0" To="1" Duration="0:0:0.5" Storyboard.TargetName="saveButton_Saved" Storyboard.TargetProperty="Opacity"/>
-            <ColorAnimation From="CornflowerBlue" To="HotPink" Duration="0:0:0.5" BeginTime="0:0:3.5" Storyboard.TargetName="saveButton_Bg" Storyboard.TargetProperty="Color"/>
-            <DoubleAnimation From="0" To="1" Duration="0:0:0.5" BeginTime="0:0:3.5" Storyboard.TargetName="saveButton_Save" Storyboard.TargetProperty="Opacity"/>
-            <DoubleAnimation From="1" To="0" Duration="0:0:0.5" BeginTime="0:0:3.5" Storyboard.TargetName="saveButton_Saved" Storyboard.TargetProperty="Opacity"/>
+            <ColorAnimation From="HotPink" To="CornflowerBlue" Duration="0:0:0.5" Storyboard.TargetName="saveButton_Bg"
+                            Storyboard.TargetProperty="Color" />
+            <DoubleAnimation From="1" To="0" Duration="0:0:0.5" Storyboard.TargetName="saveButton_Save"
+                             Storyboard.TargetProperty="Opacity" />
+            <DoubleAnimation From="0" To="1" Duration="0:0:0.5" Storyboard.TargetName="saveButton_Saved"
+                             Storyboard.TargetProperty="Opacity" />
+            <ColorAnimation From="CornflowerBlue" To="HotPink" Duration="0:0:0.5" BeginTime="0:0:3.5"
+                            Storyboard.TargetName="saveButton_Bg" Storyboard.TargetProperty="Color" />
+            <DoubleAnimation From="0" To="1" Duration="0:0:0.5" BeginTime="0:0:3.5"
+                             Storyboard.TargetName="saveButton_Save" Storyboard.TargetProperty="Opacity" />
+            <DoubleAnimation From="1" To="0" Duration="0:0:0.5" BeginTime="0:0:3.5"
+                             Storyboard.TargetName="saveButton_Saved" Storyboard.TargetProperty="Opacity" />
         </Storyboard>
         <Storyboard x:Key="ChangeStory_1" Completed="ChangeStory_OnCompleted">
-            <DoubleAnimation Storyboard.TargetName="transformMainTranslate" Storyboard.TargetProperty="Y" From="0" To="10" Duration="0:0:0.1" BeginTime="0:0:0.0"/>
-            <DoubleAnimation Storyboard.TargetName="gridSetMain" Storyboard.TargetProperty="Opacity" From="1" To="0" BeginTime="0:0:0.0" Duration="0:0:0.1"/>
+            <DoubleAnimation Storyboard.TargetName="transformMainTranslate" Storyboard.TargetProperty="Y" From="0"
+                             To="10" Duration="0:0:0.1" BeginTime="0:0:0.0" />
+            <DoubleAnimation Storyboard.TargetName="gridSetMain" Storyboard.TargetProperty="Opacity" From="1" To="0"
+                             BeginTime="0:0:0.0" Duration="0:0:0.1" />
         </Storyboard>
         <Storyboard x:Key="ChangeStory_2">
-            <DoubleAnimation Storyboard.TargetName="transformMainTranslate" Storyboard.TargetProperty="Y" From="-10" To="0" Duration="0:0:0.1" BeginTime="0:0:0.0"/>
-            <DoubleAnimation Storyboard.TargetName="gridSetMain" Storyboard.TargetProperty="Opacity" From="0" To="1" BeginTime="0:0:0.0" Duration="0:0:0.1"/>
+            <DoubleAnimation Storyboard.TargetName="transformMainTranslate" Storyboard.TargetProperty="Y" From="-10"
+                             To="0" Duration="0:0:0.1" BeginTime="0:0:0.0" />
+            <DoubleAnimation Storyboard.TargetName="gridSetMain" Storyboard.TargetProperty="Opacity" From="0" To="1"
+                             BeginTime="0:0:0.0" Duration="0:0:0.1" />
         </Storyboard>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
-            <RowDefinition/>
+            <RowDefinition Height="30" />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0">
             <DockPanel.Background>
-                <SolidColorBrush Color="Black" Opacity="0.6"></SolidColorBrush>
+                <SolidColorBrush Color="Black" Opacity="0.6" />
             </DockPanel.Background>
-            <Button Style="{StaticResource closeCaptionButtonStyle}" Click="CloseBtn_OnClick" DockPanel.Dock="Right" Width="40"/>
-            <Button Style="{StaticResource minCaptionButtonStyle}" Click="MinBtn_OnClick" DockPanel.Dock="Right" Width="40"/>
-            <TextBlock DockPanel.Dock="Left" Text="Saber's Colorful Startmenu (BETA)" TextAlignment="Center" VerticalAlignment="Center" FontSize="20" Foreground="White" MouseLeftButtonDown="Main_OnMouseLeftButtonDown"/>
+            <Button Style="{StaticResource closeCaptionButtonStyle}" Click="CloseBtn_OnClick" DockPanel.Dock="Right"
+                    Width="40" />
+            <Button Style="{StaticResource minCaptionButtonStyle}" Click="MinBtn_OnClick" DockPanel.Dock="Right"
+                    Width="40" />
+            <TextBlock DockPanel.Dock="Left" Text="Saber's Colorful Startmenu (BETA)" TextAlignment="Center"
+                       VerticalAlignment="Center" FontSize="20" Foreground="White"
+                       MouseLeftButtonDown="Main_OnMouseLeftButtonDown" />
         </DockPanel>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
-                <ColumnDefinition Width="680"/>
+                <ColumnDefinition Width="680" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition Height="35"></RowDefinition>
+                <RowDefinition />
+                <RowDefinition Height="35" />
             </Grid.RowDefinitions>
             <ListBox x:Name="appList" Margin="2" SelectionChanged="AppList_OnSelectionChanged">
                 <ListBox.Background>
-                    <SolidColorBrush Color="White" Opacity="0.6"/>
+                    <SolidColorBrush Color="White" Opacity="0.6" />
                 </ListBox.Background>
             </ListBox>
 
-            <Grid x:Name="gridSetMain" RenderTransformOrigin="0.5,0.5" Grid.Row="0" Grid.Column="1" Margin="2" Visibility="Visible" Opacity="1">
+            <Grid x:Name="gridSetMain" RenderTransformOrigin="0.5,0.5" Grid.Row="0" Grid.Column="1" Margin="2"
+                  Visibility="Visible" Opacity="1">
                 <Grid.RenderTransform>
                     <TransformGroup>
-                        <TranslateTransform x:Name="transformMainTranslate" X="0" Y="0"/>
+                        <TranslateTransform x:Name="transformMainTranslate" X="0" Y="0" />
                     </TransformGroup>
                 </Grid.RenderTransform>
                 <Grid.Background>
-                    <SolidColorBrush Color="Black" Opacity="0.5"></SolidColorBrush>
+                    <SolidColorBrush Color="Black" Opacity="0.5" />
                 </Grid.Background>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="154"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="74"/>
-                    <RowDefinition/>
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="154" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="74" />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="150" />
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" Grid.Row="0" Grid.RowSpan="5" Margin="5">
-                    <TextBlock Text="设定" FontSize="16" Foreground="White"/>
-                    <ComboBox x:Name="modeSelctor"  FontSize="16" SelectedIndex="0" SelectionChanged="Selector_OnSelectionChanged_1" >
-                        <ComboBoxItem Content="默认"/>
-                        <ComboBoxItem Content="自定义"/>
+                    <TextBlock Text="设定" FontSize="16" Foreground="White" />
+                    <ComboBox x:Name="modeSelctor" FontSize="16" SelectedIndex="0"
+                              SelectionChanged="Selector_OnSelectionChanged_1">
+                        <ComboBoxItem Content="默认" />
+                        <ComboBoxItem Content="自定义" />
                     </ComboBox>
-                    <TextBlock Text="背景颜色" Foreground="White" FontSize="16" Visibility="{Binding Visibility, ElementName=colorSelector}"/>
+                    <TextBlock Text="背景颜色" Foreground="White" FontSize="16"
+                               Visibility="{Binding Visibility, ElementName=colorSelector}" />
                     <!--<ComboBox Visibility="Collapsed" x:Name="colorSelector_" Margin="2" Height="30" SelectedIndex="0">
                         <ComboBox.Items>
                             <ComboBoxItem>
@@ -192,132 +209,194 @@
                     </ComboBox>-->
                     <Grid HorizontalAlignment="Center" x:Name="colorSelector">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="270"/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition Width="270" />
+                            <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
+                            <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
                         <StackPanel Margin="2" Orientation="Horizontal">
-                            <RadioButton Margin="1" x:Name="colorSelector_1" Checked="ColorSelector_OnChecked" GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30" Height="30" Background="Black" Foreground="White" ToolTip="黑" IsChecked="True"/>
-                            <RadioButton Margin="1" x:Name="colorSelector_2" Checked="ColorSelector_OnChecked" GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30" Height="30" Background="Silver" Foreground="Black" ToolTip="银"/>
-                            <RadioButton Margin="1" x:Name="colorSelector_3" Checked="ColorSelector_OnChecked" GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30" Height="30" Background="Gray" Foreground="White" ToolTip="灰"/>
-                            <RadioButton Margin="1" x:Name="colorSelector_4" Checked="ColorSelector_OnChecked" GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30" Height="30" Background="White" Foreground="Black" ToolTip="白"/>
-                            <RadioButton Margin="1" x:Name="colorSelector_5" Checked="ColorSelector_OnChecked" GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30" Height="30" Background="Maroon" Foreground="White" ToolTip="栗"/>
-                            <RadioButton Margin="1" x:Name="colorSelector_6" Checked="ColorSelector_OnChecked" GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30" Height="30" Background="Red" Foreground="White" ToolTip="红"/>
-                            <RadioButton Margin="1" x:Name="colorSelector_7" Checked="ColorSelector_OnChecked" GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30" Height="30" Background="Purple" Foreground="White" ToolTip="紫"/>
-                            <RadioButton Margin="1" x:Name="colorSelector_8" Checked="ColorSelector_OnChecked" GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30" Height="30" Background="Fuchsia" Foreground="White" ToolTip="紫红"/>
+                            <RadioButton Margin="1" x:Name="colorSelector_1" Checked="ColorSelector_OnChecked"
+                                         GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30"
+                                         Height="30" Background="Black" Foreground="White" ToolTip="黑" IsChecked="True" />
+                            <RadioButton Margin="1" x:Name="colorSelector_2" Checked="ColorSelector_OnChecked"
+                                         GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30"
+                                         Height="30" Background="Silver" Foreground="Black" ToolTip="银" />
+                            <RadioButton Margin="1" x:Name="colorSelector_3" Checked="ColorSelector_OnChecked"
+                                         GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30"
+                                         Height="30" Background="Gray" Foreground="White" ToolTip="灰" />
+                            <RadioButton Margin="1" x:Name="colorSelector_4" Checked="ColorSelector_OnChecked"
+                                         GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30"
+                                         Height="30" Background="White" Foreground="Black" ToolTip="白" />
+                            <RadioButton Margin="1" x:Name="colorSelector_5" Checked="ColorSelector_OnChecked"
+                                         GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30"
+                                         Height="30" Background="Maroon" Foreground="White" ToolTip="栗" />
+                            <RadioButton Margin="1" x:Name="colorSelector_6" Checked="ColorSelector_OnChecked"
+                                         GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30"
+                                         Height="30" Background="Red" Foreground="White" ToolTip="红" />
+                            <RadioButton Margin="1" x:Name="colorSelector_7" Checked="ColorSelector_OnChecked"
+                                         GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30"
+                                         Height="30" Background="Purple" Foreground="White" ToolTip="紫" />
+                            <RadioButton Margin="1" x:Name="colorSelector_8" Checked="ColorSelector_OnChecked"
+                                         GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30"
+                                         Height="30" Background="Fuchsia" Foreground="White" ToolTip="紫红" />
                         </StackPanel>
                         <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Margin="2">
-                            <RadioButton Margin="1" x:Name="colorSelector_9" Checked="ColorSelector_OnChecked" GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30" Height="30" Background="Green" Foreground="White" ToolTip="绿"/>
-                            <RadioButton Margin="1" x:Name="colorSelector_10" Checked="ColorSelector_OnChecked" GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30" Height="30" Background="Lime" Foreground="Black" ToolTip="青柠"/>
-                            <RadioButton Margin="1" x:Name="colorSelector_11" Checked="ColorSelector_OnChecked" GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30" Height="30" Background="Olive" Foreground="White" ToolTip="橄榄"/>
-                            <RadioButton Margin="1" x:Name="colorSelector_12" Checked="ColorSelector_OnChecked" GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30" Height="30" Background="Yellow" Foreground="Black" ToolTip="黄"/>
-                            <RadioButton Margin="1" x:Name="colorSelector_13" Checked="ColorSelector_OnChecked" GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30" Height="30" Background="Navy" Foreground="White" ToolTip="藏青"/>
-                            <RadioButton Margin="1" x:Name="colorSelector_14" Checked="ColorSelector_OnChecked" GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30" Height="30" Background="Blue" Foreground="White" ToolTip="蓝"/>
-                            <RadioButton Margin="1" x:Name="colorSelector_15" Checked="ColorSelector_OnChecked" GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30" Height="30" Background="Teal" Foreground="White" ToolTip="青"/>
-                            <RadioButton Margin="1" x:Name="colorSelector_16" Checked="ColorSelector_OnChecked" GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30" Height="30" Background="Aqua" Foreground="Black" ToolTip="湖绿"/>
+                            <RadioButton Margin="1" x:Name="colorSelector_9" Checked="ColorSelector_OnChecked"
+                                         GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30"
+                                         Height="30" Background="Green" Foreground="White" ToolTip="绿" />
+                            <RadioButton Margin="1" x:Name="colorSelector_10" Checked="ColorSelector_OnChecked"
+                                         GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30"
+                                         Height="30" Background="Lime" Foreground="Black" ToolTip="青柠" />
+                            <RadioButton Margin="1" x:Name="colorSelector_11" Checked="ColorSelector_OnChecked"
+                                         GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30"
+                                         Height="30" Background="Olive" Foreground="White" ToolTip="橄榄" />
+                            <RadioButton Margin="1" x:Name="colorSelector_12" Checked="ColorSelector_OnChecked"
+                                         GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30"
+                                         Height="30" Background="Yellow" Foreground="Black" ToolTip="黄" />
+                            <RadioButton Margin="1" x:Name="colorSelector_13" Checked="ColorSelector_OnChecked"
+                                         GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30"
+                                         Height="30" Background="Navy" Foreground="White" ToolTip="藏青" />
+                            <RadioButton Margin="1" x:Name="colorSelector_14" Checked="ColorSelector_OnChecked"
+                                         GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30"
+                                         Height="30" Background="Blue" Foreground="White" ToolTip="蓝" />
+                            <RadioButton Margin="1" x:Name="colorSelector_15" Checked="ColorSelector_OnChecked"
+                                         GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30"
+                                         Height="30" Background="Teal" Foreground="White" ToolTip="青" />
+                            <RadioButton Margin="1" x:Name="colorSelector_16" Checked="ColorSelector_OnChecked"
+                                         GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30"
+                                         Height="30" Background="Aqua" Foreground="Black" ToolTip="湖绿" />
                         </StackPanel>
-                        <RadioButton x:Name="colorSelector_17" Checked="ColorSelector_OnChecked" GroupName="Color" Grid.Column="1"
-                                      Grid.Row="0" Grid.RowSpan="2" Style="{StaticResource BlockRadioButtonStyle}" Width="60" Height="60" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Black" ToolTip="自定义">
-                            <Image Source="WpfImages/color_grid.png"></Image>
+                        <RadioButton x:Name="colorSelector_17" Checked="ColorSelector_OnChecked" GroupName="Color"
+                                     Grid.Column="1"
+                                     Grid.Row="0" Grid.RowSpan="2" Style="{StaticResource BlockRadioButtonStyle}"
+                                     Width="60" Height="60" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                     Foreground="Black" ToolTip="自定义">
+                            <Image Source="WpfImages/color_grid.png" />
                         </RadioButton>
                     </Grid>
-                    <GroupBox x:Name="group_Color" RenderTransformOrigin="0.5,0" Header="自定义颜色" Foreground="White" Background="{x:Null}">
+                    <GroupBox x:Name="group_Color" RenderTransformOrigin="0.5,0" Header="自定义颜色" Foreground="White"
+                              Background="{x:Null}">
                         <GroupBox.RenderTransform>
-                            <ScaleTransform ScaleY="1"/>
+                            <ScaleTransform ScaleY="1" />
                         </GroupBox.RenderTransform>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
+                                <RowDefinition />
+                                <RowDefinition />
                             </Grid.RowDefinitions>
-                            <TextBlock Text="预览" FontSize="16" Grid.Column="0"/>
-                            <Ellipse x:Name="defineColorPreview" Grid.Row="0" Grid.Column="1" Fill="Black" Width="25" Height="25"/>
-                            <TextBlock Text="RGB颜色" Grid.Row="1" Grid.Column="0" FontSize="16"/>
-                            <TextBox x:Name="defineColorText" Text="#000000" Grid.Column="1" Grid.Row="1" FontSize="14" Margin="2" MaxLength="7" input:InputMethod.IsInputMethodEnabled="False" KeyUp="DefineColorText_OnKeyUp"/>
-                            <Button Style="{StaticResource CoreButton}" Grid.Row="0" Grid.Column="2" Content="调色板" Margin="2" FontSize="16" Click="ButtonBase_OnClick_5"></Button>
+                            <TextBlock Text="预览" FontSize="16" Grid.Column="0" />
+                            <Ellipse x:Name="defineColorPreview" Grid.Row="0" Grid.Column="1" Fill="Black" Width="25"
+                                     Height="25" />
+                            <TextBlock Text="RGB颜色" Grid.Row="1" Grid.Column="0" FontSize="16" />
+                            <TextBox x:Name="defineColorText" Text="#000000" Grid.Column="1" Grid.Row="1" FontSize="14"
+                                     Margin="2" MaxLength="7" input:InputMethod.IsInputMethodEnabled="False"
+                                     KeyUp="DefineColorText_OnKeyUp" />
+                            <Button Style="{StaticResource CoreButton}" Grid.Row="0" Grid.Column="2" Content="调色板"
+                                    Margin="2" Click="ButtonBase_OnClick_5" />
                         </Grid>
                     </GroupBox>
-                    <TextBlock Text="文字颜色：" FontSize="16" Foreground="White" Visibility="{Binding Visibility, ElementName=colorSelector}" />
-                    <ComboBox x:Name="txtColorSelector" Visibility="{Binding Visibility,ElementName=colorSelector}" SelectedIndex="0" SelectionChanged="TxtColorSelector_OnSelectionChanged">
-                        <ComboBoxItem Content="白色（适用暗背景）"/>
-                        <ComboBoxItem Content="黑色（适用亮背景）"/>
+                    <TextBlock Text="文字颜色：" FontSize="16" Foreground="White"
+                               Visibility="{Binding Visibility, ElementName=colorSelector}" />
+                    <ComboBox x:Name="txtColorSelector" Visibility="{Binding Visibility,ElementName=colorSelector}"
+                              SelectedIndex="0" SelectionChanged="TxtColorSelector_OnSelectionChanged">
+                        <ComboBoxItem Content="白色（适用暗背景）" />
+                        <ComboBoxItem Content="黑色（适用亮背景）" />
                     </ComboBox>
-                    <CheckBox x:Name="largeAppNameCheck" Visibility="{Binding Visibility,ElementName=colorSelector}" Content="在150x150大磁贴中显示应用名" IsChecked="True" FontSize="16" Foreground="White" Margin="2" Checked="LargeAppNameCheck_OnChecked" Unchecked="LargeAppNameCheck_OnChecked"/>
-                    <CheckBox x:Name="defineIconCheck" Visibility="{Binding Visibility,ElementName=colorSelector}" Content="自定义图标" IsChecked="False" FontSize="16" Foreground="White" Margin="2" Checked="LargeAppNameCheck_OnChecked" Unchecked="LargeAppNameCheck_OnChecked" Opacity="1"/>
-                    <Grid Visibility="{Binding Visibility, ElementName=colorSelector}" >
-                        <Button Style="{StaticResource CoreButton}" x:Name="btnChangeLogo" Content="选择图标. . ." FontSize="16" Click="ButtonBase_OnClick_7" IsEnabled="{Binding IsChecked, ElementName=defineIconCheck}" Opacity="1"/>
-                        <TextBlock x:Name="txtDevDefIco" Visibility="Collapsed" Text="提示：该应用开发者可能已经定义自定义图标&#13;如果图标显示不正常或者想更换其它图标取消勾选自定义图标" Foreground="HotPink" FontSize="16"/>
+                    <CheckBox x:Name="largeAppNameCheck" Visibility="{Binding Visibility,ElementName=colorSelector}"
+                              Content="在150x150大磁贴中显示应用名" IsChecked="True" FontSize="16" Foreground="White" Margin="2"
+                              Checked="LargeAppNameCheck_OnChecked" Unchecked="LargeAppNameCheck_OnChecked" />
+                    <CheckBox x:Name="defineIconCheck" Visibility="{Binding Visibility,ElementName=colorSelector}"
+                              Content="自定义图标" IsChecked="False" FontSize="16" Foreground="White" Margin="2"
+                              Checked="LargeAppNameCheck_OnChecked" Unchecked="LargeAppNameCheck_OnChecked" Opacity="1" />
+                    <Grid Visibility="{Binding Visibility, ElementName=colorSelector}">
+                        <Button Style="{StaticResource CoreButton}" x:Name="btnChangeLogo" Content="选择图标. . ."
+                                Click="ButtonBase_OnClick_7"
+                                IsEnabled="{Binding IsChecked, ElementName=defineIconCheck}" Opacity="1" />
+                        <TextBlock x:Name="txtDevDefIco" Visibility="Collapsed"
+                                   Text="提示：该应用开发者可能已经定义自定义图标&#13;如果图标显示不正常或者想更换其它图标取消勾选自定义图标" Foreground="HotPink"
+                                   FontSize="16" />
                     </Grid>
                 </StackPanel>
-                <TextBlock Text="大磁贴预览：" FontSize="16" Foreground="White" Grid.Row="0" Grid.Column="1" Visibility="{Binding Visibility, ElementName=colorSelector}"/>
-                <TextBlock Text="小磁贴预览：" FontSize="16" Foreground="White" Grid.Column="1" Grid.Row="2" Visibility="{Binding Visibility, ElementName=colorSelector}"/>
-                <Grid Grid.Row="1" Grid.Column="1" Width="150" Height="150" Visibility="{Binding Visibility, ElementName=colorSelector}" >
+                <TextBlock Text="大磁贴预览：" FontSize="16" Foreground="White" Grid.Row="0" Grid.Column="1"
+                           Visibility="{Binding Visibility, ElementName=colorSelector}" />
+                <TextBlock Text="小磁贴预览：" FontSize="16" Foreground="White" Grid.Column="1" Grid.Row="2"
+                           Visibility="{Binding Visibility, ElementName=colorSelector}" />
+                <Grid Grid.Row="1" Grid.Column="1" Width="150" Height="150"
+                      Visibility="{Binding Visibility, ElementName=colorSelector}">
                     <Grid.Background>
-                        <SolidColorBrush x:Name="previewColor" Color="Black"/>
+                        <SolidColorBrush x:Name="previewColor" Color="Black" />
                     </Grid.Background>
-                    <Image x:Name="preview_LargeImg" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="None"/>
-                    <TextBlock x:Name="preview_LargeText" HorizontalAlignment="Left" VerticalAlignment="Bottom" Text="没有载入图标" TextWrapping="Wrap" Foreground="White"></TextBlock>
+                    <Image x:Name="preview_LargeImg" HorizontalAlignment="Center" VerticalAlignment="Center"
+                           Stretch="None" />
+                    <TextBlock x:Name="preview_LargeText" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                               Text="没有载入图标" TextWrapping="Wrap" Foreground="White" />
                 </Grid>
-                <Grid Grid.Row="3" Grid.Column="1" Width="70" Height="70" Visibility="{Binding Visibility, ElementName=colorSelector}">
+                <Grid Grid.Row="3" Grid.Column="1" Width="70" Height="70"
+                      Visibility="{Binding Visibility, ElementName=colorSelector}">
                     <Grid.Background>
-                        <SolidColorBrush Color="{Binding Color, ElementName=previewColor}"/>
+                        <SolidColorBrush Color="{Binding Color, ElementName=previewColor}" />
                     </Grid.Background>
-                    <Image x:Name="preview_SmallImg" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="None"/>
+                    <Image x:Name="preview_SmallImg" HorizontalAlignment="Center" VerticalAlignment="Center"
+                           Stretch="None" />
 
                 </Grid>
             </Grid>
             <DockPanel Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" Margin="2">
                 <DockPanel.Background>
-                    <SolidColorBrush Color="Black" Opacity="0.4"></SolidColorBrush>
+                    <SolidColorBrush Color="Black" Opacity="0.4" />
                 </DockPanel.Background>
                 <Button Style="{StaticResource CoreButton}" Click="Refresh_OnClick" Margin="2" DockPanel.Dock="Left">
                     <Button.Background>
-                        <SolidColorBrush Color="MediumSlateBlue" Opacity="0.6"/>
+                        <SolidColorBrush Color="MediumSlateBlue" Opacity="0.6" />
                     </Button.Background>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="WpfImages/refresh.png"/>
-                        <TextBlock Text="刷新列表" VerticalAlignment="Center" FontSize="16" Margin="4" Foreground="White"></TextBlock>
+                        <Image Source="WpfImages/refresh.png" />
+                        <TextBlock Text="刷新列表" VerticalAlignment="Center" FontSize="16" Margin="4" Foreground="White" />
                     </StackPanel>
                 </Button>
                 <Button Style="{StaticResource CoreButton}" Click="About_OnClick" Margin="2" DockPanel.Dock="Left">
                     <Button.Background>
-                        <SolidColorBrush Color="SkyBlue" Opacity="0.6"/>
+                        <SolidColorBrush Color="SkyBlue" Opacity="0.6" />
                     </Button.Background>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="WpfImages/Message.png"/>
-                        <TextBlock Text="关于" VerticalAlignment="Center" FontSize="16" Margin="4" Foreground="White"></TextBlock>
+                        <Image Source="WpfImages/Message.png" />
+                        <TextBlock Text="关于" VerticalAlignment="Center" FontSize="16" Margin="4" Foreground="White" />
                     </StackPanel>
                 </Button>
-                <Button Style="{StaticResource CoreButton}" Click="ButtonBase_OnClick_6" Margin="2" DockPanel.Dock="Right" Width="200">
+                <Button Style="{StaticResource CoreButton}" Click="ButtonBase_OnClick_6" Margin="2"
+                        DockPanel.Dock="Right" Width="200">
                     <Button.Background>
-                        <SolidColorBrush x:Name="saveButton_Bg" Color="HotPink" Opacity="0.6"/>
+                        <SolidColorBrush x:Name="saveButton_Bg" Color="HotPink" Opacity="0.6" />
                     </Button.Background>
                     <Grid>
                         <StackPanel x:Name="saveButton_Save" Orientation="Horizontal" HorizontalAlignment="Center">
-                            <Image Source="WpfImages/save.png" Visibility="Visible"/>
-                            <TextBlock Text="保存" VerticalAlignment="Center" FontSize="16" Margin="4" Foreground="White"></TextBlock>
+                            <Image Source="WpfImages/save.png" Visibility="Visible" />
+                            <TextBlock Text="保存" VerticalAlignment="Center" FontSize="16" Margin="4" Foreground="White" />
                         </StackPanel>
-                        <StackPanel Opacity="0" x:Name="saveButton_Saved" Orientation="Horizontal" HorizontalAlignment="Center">
-                            <Image Source="WpfImages/ok.png"/>
-                            <TextBlock Text="已保存" VerticalAlignment="Center" FontSize="16" Margin="4" Foreground="White"></TextBlock>
+                        <StackPanel Opacity="0" x:Name="saveButton_Saved" Orientation="Horizontal"
+                                    HorizontalAlignment="Center">
+                            <Image Source="WpfImages/ok.png" />
+                            <TextBlock Text="已保存" VerticalAlignment="Center" FontSize="16" Margin="4"
+                                       Foreground="White" />
                         </StackPanel>
                     </Grid>
                 </Button>
-                <Button Style="{StaticResource CoreButton}" Click="ButtonBase_OnClick_4" Margin="2" DockPanel.Dock="Left" Width="200" ToolTip="使用资源管理器打开开始菜单文件夹" HorizontalAlignment="Left">
+                <Button Style="{StaticResource CoreButton}" Click="ButtonBase_OnClick_4" Margin="2"
+                        DockPanel.Dock="Left" Width="200" ToolTip="使用资源管理器打开开始菜单文件夹" HorizontalAlignment="Left">
                     <Button.Background>
-                        <SolidColorBrush Color="Orange" Opacity="0.6"/>
+                        <SolidColorBrush Color="Orange" Opacity="0.6" />
                     </Button.Background>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Image Source="WpfImages/explorer.png"/>
-                        <TextBlock Text="打开开始菜单文件夹" VerticalAlignment="Center" FontSize="16" Margin="4" Foreground="White"/>
+                        <Image Source="WpfImages/explorer.png" />
+                        <TextBlock Text="打开开始菜单文件夹" VerticalAlignment="Center" FontSize="16" Margin="4"
+                                   Foreground="White" />
                     </StackPanel>
                 </Button>
             </DockPanel>
@@ -325,4 +404,3 @@
         </Grid>
     </Grid>
 </Window>
-    

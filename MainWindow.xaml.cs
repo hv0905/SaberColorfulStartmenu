@@ -737,6 +737,7 @@ namespace SaberColorfulStartmenu
                                      "Resources.pri"))) {
                             //scale模式
                             //_scaleMode = true;
+                            _logo = null;
                             defineIconCheck.IsChecked = true;
                             btnChangeLogo.Visibility = Visibility.Collapsed;
                             txtDevDefIco.Visibility = Visibility.Visible;
@@ -825,9 +826,9 @@ namespace SaberColorfulStartmenu
                 }
                 catch (Exception e) {
 #if DEBUG
-                    Debug.WriteLine("-----ERROR-----");
+                    Debug.WriteLine("-----EXCEPTION-----");
                     Debug.WriteLine(e);
-                    Debug.WriteLine("------END------");
+                    Debug.WriteLine("--------END--------");
 #endif
                     // ReSharper disable once HeuristicUnreachableCode
                     MessageBox.Show("读取配置文件时发生错误\n已重置到初始值", "错误", MessageBoxButton.OK, MessageBoxImage.Warning);
