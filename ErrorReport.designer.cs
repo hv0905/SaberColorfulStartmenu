@@ -55,10 +55,10 @@
             this.label1.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label1.Location = new System.Drawing.Point(99, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(517, 80);
+            this.label1.Size = new System.Drawing.Size(396, 100);
             this.label1.TabIndex = 1;
-            this.label1.Text = "我们抱歉给你带来了不便\r\nSaberStartmenuDiyer遇到了一个无法自行解决的BUG，可能无法继续正常工作。\r\n请帮助我们解决这个BUG。\r\n反馈方式详" +
-    "见关于页。";
+            this.label1.Text = "我们抱歉给你带来了不便\r\nSaber’s Colorful Startmenu遇到了一个无法自行解决的BUG\r\n可能无法继续正常工作。\r\n请帮助我们解决这个BUG" +
+    "。\r\n反馈方式详见关于页。";
             // 
             // label2
             // 
