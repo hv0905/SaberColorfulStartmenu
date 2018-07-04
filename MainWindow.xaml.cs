@@ -4,21 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.IO;
 using System.Security.Cryptography;
-using System.Text.RegularExpressions;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using IWshRuntimeLibrary;
@@ -36,7 +28,7 @@ namespace SaberColorfulStartmenu
     /// </summary>
     public partial class MainWindow
     {
-#region Fields
+        #region Fields
 
         private List<string> _fileList = new List<string>();
         private List<BitmapSource> _logoList = new List<BitmapSource>();
@@ -52,7 +44,7 @@ namespace SaberColorfulStartmenu
         private StartmenuShortcutInfo _currentInfo;
         private string _newLogoLoc;
 
-#endregion
+        #endregion
 
         public MainWindow()
         {
@@ -68,7 +60,7 @@ namespace SaberColorfulStartmenu
             RefreshList();
         }
 
-#region Events
+        #region Events
 
         private void CloseBtn_OnClick(object sender, RoutedEventArgs e) => Close();
 
@@ -112,39 +104,40 @@ namespace SaberColorfulStartmenu
                 ChangeStory_OnCompleted(null, null);
             }
             else {
-                var csb = (Storyboard) Resources["ChangeStory_1"];
+                var csb = (Storyboard)Resources["ChangeStory_1"];
                 csb.Begin();
             }
 
             //Load();
         }
-
-        private void Selector_OnSelectionChanged_1(object sender, SelectionChangedEventArgs e)
-        {
-            if (!_loaded) return;
-            if (!_sysChangeing) _saveFlag = true;
-            if (modeSelctor.SelectedIndex == 0) {
-                colorSelector.Visibility = Visibility.Collapsed;
-                group_Color.Visibility = Visibility.Collapsed;
-            }
-            else {
-                colorSelector.Visibility = Visibility.Visible;
-                // ReSharper disable once PossibleUnintendedReferenceComparison
-                //                if (colorSelector.SelectedItem == defineColorItem)
-                //                {
-                //                    group_Color.Visibility = Visibility.Visible;
-                //                }
-                group_Color.Visibility =
-                    colorSelector_17.IsChecked ?? false ? Visibility.Visible : Visibility.Collapsed;
-            }
-        }
+        //
+        //        private void Selector_OnSelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        //        {
+        //            if (!_loaded) return;
+        //            if (!_sysChangeing) _saveFlag = true;
+        //            if (!(modeCheck.IsChecked ?? false)) {
+        //                colorSelector.Visibility = Visibility.Collapsed;
+        //                group_Color.Visibility = Visibility.Collapsed;
+        //            }
+        //            else {
+        //                colorSelector.Visibility = Visibility.Visible;
+        //                // ReSharper disable once PossibleUnintendedReferenceComparison
+        //                //                if (colorSelector.SelectedItem == defineColorItem)
+        //                //                {
+        //                //                    group_Color.Visibility = Visibility.Visible;
+        //                //                }
+        //                group_Color.Visibility =
+        //                    colorSelector_17.IsChecked ?? false ? Visibility.Visible : Visibility.Collapsed;
+        //            }
+        //        }
 
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
             _loaded = true;
             gridSetMain.Visibility = Visibility.Hidden;
             _sysChangeing = true;
-            Selector_OnSelectionChanged_1(sender, null);
+            //Selector_OnSelectionChanged_1(sender, null);
+            ToggleButton_OnChecked(this, null);
             _sysChangeing = false;
         }
 
@@ -210,102 +203,8 @@ namespace SaberColorfulStartmenu
         private void ButtonBase_OnClick_6(object sender, RoutedEventArgs e)
         {
             if (Save())
-                ((Storyboard) Resources["saveDoneStory"]).Begin();
+                ((Storyboard)Resources["saveDoneStory"]).Begin();
         }
-
-        //        private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        //        {
-        //            if (!_loaded) return;
-        //            if (!_sysChangeing) _saveFlag = true;
-        //            // ReSharper disable once PossibleUnintendedReferenceComparison
-        //            group_Color.Visibility = colorSelector.SelectedItem == defineColorItem ? Visibility.Visible : Visibility.Collapsed;
-        //            switch (colorSelector.SelectedIndex)
-        //            {
-        //                case 0://固定色区
-        //                    _currentColorString = "black";
-        //                    _currentColor = Colors.Black;
-        //                    break;
-        //                case 1:
-        //                    _currentColorString = "silver";
-        //                    _currentColor = Colors.Silver;
-        //                    break;
-        //                case 2:
-        //                    _currentColorString = "gray";
-        //                    _currentColor = Colors.Gray;
-        //                    break;
-        //                case 3:
-        //                    _currentColorString = "white";
-        //                    _currentColor = Colors.White;
-        //                    break;
-        //                case 4:
-        //                    _currentColorString = "maroon";
-        //                    _currentColor = Colors.Maroon;
-        //                    break;
-        //                case 5:
-        //                    _currentColorString = "red";
-        //                    _currentColor = Colors.Red;
-        //                    break;
-        //                case 6:
-        //                    _currentColorString = "purple";
-        //                    _currentColor = Colors.Purple;
-        //                    break;
-        //                case 7:
-        //                    _currentColorString = "fuchsia";
-        //                    _currentColor = Colors.Fuchsia;
-        //                    break;
-        //                case 8:
-        //                    _currentColorString = "green";
-        //                    _currentColor = Colors.Green;
-        //                    break;
-        //                case 9:
-        //                    _currentColorString = "lime";
-        //                    _currentColor = Colors.Lime;
-        //                    break;
-        //                case 10:
-        //                    _currentColorString = "olive";
-        //                    _currentColor = Colors.Olive;
-        //                    break;
-        //                case 11:
-        //                    _currentColorString = "yellow";
-        //                    _currentColor = Colors.Yellow;
-        //                    break;
-        //                case 12:
-        //                    _currentColorString = "navy";
-        //                    _currentColor = Colors.Navy;
-        //                    break;
-        //                case 13:
-        //                    _currentColorString = "blue";
-        //                    _currentColor = Colors.Blue;
-        //                    break;
-        //                case 14:
-        //                    _currentColorString = "teal";
-        //                    _currentColor = Colors.Teal;
-        //                    break;
-        //                case 15:
-        //                    _currentColorString = "aqua";
-        //                    _currentColor = Colors.Aqua;
-        //                    break;
-        //                case 16://自定义
-        //                    try
-        //                    {
-        //                        if (!_sysChangeing)
-        //                        {
-        //                            _currentColor = Helper.GetColorFromRgbString(defineColorText.Text);
-        //                            _currentColorString = defineColorText.Text;
-        //                        }
-        //                    }
-        //                    catch (FormatException)
-        //                    {
-        //                        defineColorText.Text = "#000000";
-        //                        _currentColorString = "black";
-        //                        _currentColor = Colors.Black;
-        //                    }
-        //
-        //                    break;
-        //            }
-        //            if (!_sysChangeing)
-        //                UpdatePreview();
-        //        }
 
         private void MainWindow_OnClosing(object sender, CancelEventArgs e) =>
             e.Cancel = !SaveCheck();
@@ -313,7 +212,7 @@ namespace SaberColorfulStartmenu
         private void ChangeStory_OnCompleted(object sender, EventArgs e)
         {
             Load();
-            var sb = (Storyboard) Resources["ChangeStory_2"];
+            var sb = (Storyboard)Resources["ChangeStory_2"];
             sb.Begin();
         }
 
@@ -410,9 +309,9 @@ namespace SaberColorfulStartmenu
             // ReSharper restore PossibleUnintendedReferenceComparison
         }
 
-#endregion
+        #endregion
 
-#region Functions
+        #region Functions
 
         private void RefreshList()
         {
@@ -516,7 +415,7 @@ namespace SaberColorfulStartmenu
 
             _currentInfo = new StartmenuShortcutInfo(_fileList[_currentId]);
             if (_currentInfo.XmlFile == null) {
-                modeSelctor.SelectedIndex = 0;
+                modeCheck.IsChecked = false;
                 //set everything to empty
                 _currentColor = Colors.Black;
                 _currentColorString = "black";
@@ -527,81 +426,9 @@ namespace SaberColorfulStartmenu
                 colorSelector_1.IsChecked = true;
             }
             else {
-                modeSelctor.SelectedIndex = 1;
+                //modeSelctor.SelectedIndex = 1;
+                modeCheck.IsChecked = true;
                 try {
-                    //                    switch (_nowInfo.XmlFile.ColorStr)
-                    //                    {
-                    //                        case "black":
-                    //                            _currentColor = Colors.Black;
-                    //                            colorSelector.SelectedIndex = 0;
-                    //                            break;
-                    //                        case "silver":
-                    //                            _currentColor = Colors.Silver;
-                    //                            colorSelector.SelectedIndex = 1;
-                    //                            break;
-                    //                        case "gray":
-                    //                            _currentColor = Colors.Gray;
-                    //                            colorSelector.SelectedIndex = 2;
-                    //                            break;
-                    //                        case "white":
-                    //                            _currentColor = Colors.White;
-                    //                            colorSelector.SelectedIndex = 3;
-                    //                            break;
-                    //                        case "maroon":
-                    //                            _currentColor = Colors.Maroon;
-                    //                            colorSelector.SelectedIndex = 4;
-                    //                            break;
-                    //                        case "red":
-                    //                            _currentColor = Colors.Red;
-                    //                            colorSelector.SelectedIndex = 5;
-                    //                            break;
-                    //                        case "purple":
-                    //                            _currentColor = Colors.Purple;
-                    //                            colorSelector.SelectedIndex = 6;
-                    //                            break;
-                    //                        case "fuchsia":
-                    //                            _currentColor = Colors.Fuchsia;
-                    //                            colorSelector.SelectedIndex = 7;
-                    //                            break;
-                    //                        case "green":
-                    //                            _currentColor = Colors.Green;
-                    //                            colorSelector.SelectedIndex = 8;
-                    //                            break;
-                    //                        case "lime":
-                    //                            _currentColor = Colors.Lime;
-                    //                            colorSelector.SelectedIndex = 9;
-                    //                            break;
-                    //                        case "olive":
-                    //                            _currentColor = Colors.Olive;
-                    //                            colorSelector.SelectedIndex = 10;
-                    //                            break;
-                    //                        case "yellow":
-                    //                            _currentColor = Colors.Yellow;
-                    //                            colorSelector.SelectedIndex = 11;
-                    //                            break;
-                    //                        case "navy":
-                    //                            _currentColor = Colors.Navy;
-                    //                            colorSelector.SelectedIndex = 12;
-                    //                            break;
-                    //                        case "blue":
-                    //                            _currentColor = Colors.Blue;
-                    //                            colorSelector.SelectedIndex = 13;
-                    //                            break;
-                    //                        case "teal":
-                    //                            _currentColor = Colors.Teal;
-                    //                            colorSelector.SelectedIndex = 14;
-                    //                            break;
-                    //                        case "aqua":
-                    //                            _currentColor = Colors.Aqua;
-                    //                            colorSelector.SelectedIndex = 15;
-                    //                            break;
-                    //                        default:
-                    //                            _currentColor = Helper.GetColorFromRgbString(_nowInfo.XmlFile.ColorStr);
-                    //                            colorSelector.SelectedIndex = 16;
-                    //                            defineColorText.Text = _nowInfo.XmlFile.ColorStr;
-                    //                            break;
-                    //                    }
-
                     switch (_currentInfo.XmlFile.ColorStr) {
                         case "black":
                             //                            _currentColor = Colors.Black;
@@ -721,7 +548,8 @@ namespace SaberColorfulStartmenu
                             //直接获取
                             Debug.WriteLine(
                                 $"Load small icon successfully with file location{_currentInfo.XmlFile.SmallLogoLoc}");
-                            _logo = new Bitmap(_currentInfo.XmlFile.GetFullPath(_currentInfo.XmlFile.SmallLogoLoc)).ToBitmapSource();
+                            _logo = new Bitmap(_currentInfo.XmlFile.GetFullPath(_currentInfo.XmlFile.SmallLogoLoc))
+                                .ToBitmapSource();
                             //_scaleMode = false;
                             defineIconCheck.IsChecked = true;
                             btnChangeLogo.Visibility = Visibility.Visible;
@@ -754,74 +582,7 @@ namespace SaberColorfulStartmenu
                     btnChangeLogo.Visibility = Visibility.Visible;
                     txtDevDefIco.Visibility = Visibility.Collapsed;
                     __hasLogo:
-                    //
-                    //                    if (!string.IsNullOrEmpty(_currentInfo.XmlFile.SmallLogoLoc))
-                    //                    {
-                    //                        if (File.Exists(_currentInfo.XmlFile.GetFullPath(_currentInfo.XmlFile.SmallLogoLoc)))
-                    //                        {
-                    //                            Debug.WriteLine(
-                    //                                $"Load small icon successfully with file location{_currentInfo.XmlFile.SmallLogoLoc}");
-                    //                            _logo = new Bitmap(_currentInfo.XmlFile.GetFullPath(_currentInfo.XmlFile.SmallLogoLoc));
-                    //                            defineIconCheck.IsChecked = true;
-                    //                        }
-                    //                        else if (Directory.Exists(
-                    //                                     Path.GetDirectoryName(
-                    //                                         _currentInfo.XmlFile.GetFullPath(_currentInfo.XmlFile.SmallLogoLoc))) &&
-                    //                                 tryDir)
-                    //                        {
-                    //                            // ReSharper disable once AssignNullToNotNullAttribute
-                    //                            var files = Directory.GetFiles(
-                    //                                Path.GetDirectoryName(
-                    //                                    _currentInfo.XmlFile.GetFullPath(_currentInfo.XmlFile.SmallLogoLoc)));
-                    //                            // ReSharper disable once AssignNullToNotNullAttribute
-                    //                            // ReSharper disable once AssignNullToNotNullAttribute
-                    //                            var regex = new Regex(
-                    //                                Path.Combine(
-                    //                                        Path.GetDirectoryName(
-                    //                                            _currentInfo.XmlFile.GetFullPath(_currentInfo.XmlFile.SmallLogoLoc)),
-                    //                                        Path.GetFileNameWithoutExtension(
-                    //                                            _currentInfo.XmlFile.GetFullPath(_currentInfo.XmlFile.SmallLogoLoc)))
-                    //                                    .RegexFree() + "\\.scale-\\d+\\" +
-                    //                                Path.GetExtension(_currentInfo.XmlFile.GetFullPath(_currentInfo.XmlFile.SmallLogoLoc)));
-                    //                            var lastFileName = files.LastOrDefault(a => regex.IsMatch(a));
-                    //                            if (!string.IsNullOrEmpty(lastFileName))
-                    //                            {
-                    //                                Debug.WriteLine($"Load small icon successfully with file location{lastFileName}");
-                    //                                _logo = new Bitmap(lastFileName);
-                    //                                defineIconCheck.IsChecked = true;
-                    //                            }
-                    //
-                    //                            tryDir = false;
-                    //                            goto geticonLoc;
-                    //                        }
-                    //                        else
-                    //                        {
-                    //                            if (!tryLarge && !string.IsNullOrEmpty(_currentInfo.XmlFile.LargeLogoLoc))
-                    //                            {
-                    //                                tryLarge = true;
-                    //                                _currentInfo.XmlFile.SmallLogoLoc = _currentInfo.XmlFile.LargeLogoLoc;
-                    //                                goto geticonLoc;
-                    //                            }
-                    //
-                    //                            _currentInfo.XmlFile.LargeLogoLoc = _currentInfo.XmlFile.SmallLogoLoc = string.Empty;
-                    //                            _logo = null;
-                    //                            defineIconCheck.IsChecked = false;
-                    //                        }
-                    //                    }
-                    //                    else
-                    //                    {
-                    //                        if (!tryLarge && !string.IsNullOrEmpty(_currentInfo.XmlFile.LargeLogoLoc))
-                    //                        {
-                    //                            tryLarge = true;
-                    //                            _currentInfo.XmlFile.SmallLogoLoc = _currentInfo.XmlFile.LargeLogoLoc;
-                    //                            goto geticonLoc;
-                    //                        }
-                    //
-                    //                        _logo = null;
-                    //                        defineIconCheck.IsChecked = false;
-                    //                    }
-
-                    txtColorSelector.SelectedIndex = (int) _currentInfo.XmlFile.TxtForeground;
+                    txtColorSelector.SelectedIndex = (int)_currentInfo.XmlFile.TxtForeground;
                 }
 #if DEBUG
                 catch (Exception e) {
@@ -886,7 +647,7 @@ namespace SaberColorfulStartmenu
         {
             if (_currentId == -1 || !_saveFlag) return true;
             //todo save
-            if (modeSelctor.SelectedIndex == 0) {
+            if (!(modeCheck.IsChecked ?? false)) {
                 if (_currentInfo.XmlFile != null) {
                     if (MessageBox.Show("将删除所有自定义效果文件\n继续?", "⚠警告", MessageBoxButton.YesNo, MessageBoxImage.Warning) !=
                         MessageBoxResult.Yes) return false;
@@ -900,7 +661,7 @@ namespace SaberColorfulStartmenu
                 }
 
                 _currentInfo.XmlFile.ColorStr = _currentColorString;
-                _currentInfo.XmlFile.TxtForeground = (StartmenuXmlFile.TextCol) txtColorSelector.SelectedIndex;
+                _currentInfo.XmlFile.TxtForeground = (StartmenuXmlFile.TextCol)txtColorSelector.SelectedIndex;
                 _currentInfo.XmlFile.ShowTitleOnLargeIcon = largeAppNameCheck.IsChecked ?? false;
                 //保存图片
                 var sha1 = SHA1.Create();
@@ -909,17 +670,6 @@ namespace SaberColorfulStartmenu
                 if (!Directory.Exists(pathName))
                     Directory.CreateDirectory(pathName);
 
-                //                                if (!string.IsNullOrEmpty(_newLargeIconLoc) && (defineLargeIconCheck.IsChecked ?? false))
-                //                                {
-                //                                    //计算SHA1
-                //                                    var fs = File.Open(_newLargeIconLoc, FileMode.Open, FileAccess.Read);
-                //                                    var fileName = Path.Combine(pathName,
-                //                                                       BitConverter.ToString(sha1.ComputeHash(fs)).Replace("-", string.Empty)) + Path.GetExtension(_newLargeIconLoc);
-                //                                    fs.Close();
-                //                                    if (!File.Exists(fileName)) //拷贝图像到目录
-                //                                        File.Copy(_newLargeIconLoc, fileName);
-                //                                    _nowInfo.XmlFile.LargeLogoLoc = fileName;
-                //                                }
                 //文件名：[DIR]\__StartmenuIcons__\[SHA1].png
                 if (defineIconCheck.IsChecked ?? false) {
                     if (!string.IsNullOrEmpty(_newLogoLoc)) {
@@ -953,6 +703,21 @@ namespace SaberColorfulStartmenu
             return true;
         }
 
-#endregion
+        #endregion
+
+        private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
+        {
+            if (!_loaded) return;
+            if (!_sysChangeing) _saveFlag = true;
+            if (!(modeCheck.IsChecked ?? false)) {
+                colorSelector.Visibility = Visibility.Collapsed;
+                group_Color.Visibility = Visibility.Collapsed;
+            }
+            else {
+                colorSelector.Visibility = Visibility.Visible;
+                group_Color.Visibility =
+                    colorSelector_17.IsChecked ?? false ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
     }
 }

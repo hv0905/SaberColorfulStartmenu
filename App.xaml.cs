@@ -24,5 +24,6 @@ namespace SaberColorfulStartmenu
 
 
         private void App_OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e) => new ErrorReport(e.Exception).ShowDialog();
+
     }
 }

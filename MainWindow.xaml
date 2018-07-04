@@ -70,7 +70,6 @@
                     <SolidColorBrush Color="White" Opacity="0.6" />
                 </ListBox.Background>
             </ListBox>
-
             <Grid x:Name="gridSetMain" RenderTransformOrigin="0.5,0.5" Grid.Row="0" Grid.Column="1" Margin="2"
                   Visibility="Visible" Opacity="1">
                 <Grid.RenderTransform>
@@ -93,121 +92,15 @@
                     <ColumnDefinition Width="150" />
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" Grid.Row="0" Grid.RowSpan="5" Margin="5">
-                    <TextBlock Text="设定" FontSize="16" Foreground="White" />
-                    <ComboBox x:Name="modeSelctor" FontSize="16" SelectedIndex="0"
-                              SelectionChanged="Selector_OnSelectionChanged_1">
-                        <ComboBoxItem Content="默认" />
-                        <ComboBoxItem Content="自定义" />
-                    </ComboBox>
+<!--                    <TextBlock Text="设定" FontSize="16" Foreground="White" />-->
+<!--                    <ComboBox x:Name="modeSelctor" FontSize="16" SelectedIndex="0"-->
+<!--                              SelectionChanged="Selector_OnSelectionChanged_1">-->
+<!--                        <ComboBoxItem Content="默认" />-->
+<!--                        <ComboBoxItem Content="自定义" />-->
+<!--                    </ComboBox>-->
+                    <CheckBox x:Name="modeCheck" Content="自定义该图标样式" Style="{StaticResource SwitchCheckbox}" Foreground="White" FontSize="18" Margin="2" Checked="ToggleButton_OnChecked" Unchecked="ToggleButton_OnChecked"/>
                     <TextBlock Text="背景颜色" Foreground="White" FontSize="16"
                                Visibility="{Binding Visibility, ElementName=colorSelector}" />
-                    <!--<ComboBox Visibility="Collapsed" x:Name="colorSelector_" Margin="2" Height="30" SelectedIndex="0">
-                        <ComboBox.Items>
-                            <ComboBoxItem>
-                                <StackPanel Orientation="Horizontal" Margin="2">
-                                    <Ellipse Width="20" Fill="Black" />
-                                    <TextBlock Text="黑" FontSize="16"></TextBlock>
-                                </StackPanel>
-                            </ComboBoxItem>
-                            <ComboBoxItem>
-                                <StackPanel Orientation="Horizontal" Margin="2">
-                                    <Ellipse Width="20" Fill="Silver" />
-                                    <TextBlock Text="银" FontSize="16"></TextBlock>
-                                </StackPanel>
-                            </ComboBoxItem>
-                            <ComboBoxItem>
-                                <StackPanel Orientation="Horizontal" Margin="2">
-                                    <Ellipse Width="20" Fill="Gray" />
-                                    <TextBlock Text="灰" FontSize="16"></TextBlock>
-                                </StackPanel>
-                            </ComboBoxItem>
-                            <ComboBoxItem>
-                                <StackPanel Orientation="Horizontal" Margin="2">
-                                    <Ellipse Width="20" Fill="White" />
-                                    <TextBlock Text="白" FontSize="16"></TextBlock>
-                                </StackPanel>
-                            </ComboBoxItem>
-                            <ComboBoxItem>
-                                <StackPanel Orientation="Horizontal" Margin="2">
-                                    <Ellipse Width="20" Fill="Maroon" />
-                                    <TextBlock Text="栗" FontSize="16"></TextBlock>
-                                </StackPanel>
-                            </ComboBoxItem>
-                            <ComboBoxItem>
-                                <StackPanel Orientation="Horizontal" Margin="2">
-                                    <Ellipse Width="20" Fill="Red" />
-                                    <TextBlock Text="红" FontSize="16"></TextBlock>
-                                </StackPanel>
-                            </ComboBoxItem>
-                            <ComboBoxItem>
-                                <StackPanel Orientation="Horizontal" Margin="2">
-                                    <Ellipse Width="20" Fill="Purple" />
-                                    <TextBlock Text="紫" FontSize="16"></TextBlock>
-                                </StackPanel>
-                            </ComboBoxItem>
-                            <ComboBoxItem>
-                                <StackPanel Orientation="Horizontal" Margin="2">
-                                    <Ellipse Width="20" Fill="Fuchsia" />
-                                    <TextBlock Text="紫红" FontSize="16"></TextBlock>
-                                </StackPanel>
-                            </ComboBoxItem>
-                            <ComboBoxItem>
-                                <StackPanel Orientation="Horizontal" Margin="2">
-                                    <Ellipse Width="20" Fill="Green" />
-                                    <TextBlock Text="绿" FontSize="16"></TextBlock>
-                                </StackPanel>
-                            </ComboBoxItem>
-                            <ComboBoxItem>
-                                <StackPanel Orientation="Horizontal" Margin="2">
-                                    <Ellipse Width="20" Fill="Lime" />
-                                    <TextBlock Text="青柠" FontSize="16"></TextBlock>
-                                </StackPanel>
-                            </ComboBoxItem>
-                            <ComboBoxItem>
-                                <StackPanel Orientation="Horizontal" Margin="2">
-                                    <Ellipse Width="20" Fill="Olive" />
-                                    <TextBlock Text="橄榄" FontSize="16"></TextBlock>
-                                </StackPanel>
-                            </ComboBoxItem>
-                            <ComboBoxItem>
-                                <StackPanel Orientation="Horizontal" Margin="2">
-                                    <Ellipse Width="20" Fill="Yellow" />
-                                    <TextBlock Text="黄" FontSize="16"></TextBlock>
-                                </StackPanel>
-                            </ComboBoxItem>
-                            <ComboBoxItem>
-                                <StackPanel Orientation="Horizontal" Margin="2">
-                                    <Ellipse Width="20" Fill="Navy" />
-                                    <TextBlock Text="藏青" FontSize="16"></TextBlock>
-                                </StackPanel>
-                            </ComboBoxItem>
-                            <ComboBoxItem>
-                                <StackPanel Orientation="Horizontal" Margin="2">
-                                    <Ellipse Width="20" Fill="Blue" />
-                                    <TextBlock Text="蓝" FontSize="16"></TextBlock>
-                                </StackPanel>
-                            </ComboBoxItem>
-                            <ComboBoxItem>
-                                <StackPanel Orientation="Horizontal" Margin="2">
-                                    <Ellipse Width="20" Fill="Teal" />
-                                    <TextBlock Text="青" FontSize="16"></TextBlock>
-                                </StackPanel>
-                            </ComboBoxItem>
-                            <ComboBoxItem>
-                                <StackPanel Orientation="Horizontal" Margin="2">
-                                    <Ellipse Width="20" Fill="Aqua" />
-                                    <TextBlock Text="湖绿" FontSize="16"></TextBlock>
-                                </StackPanel>
-                            </ComboBoxItem>
-
-                            <ComboBoxItem x:Name="defineColorItem">
-                                <StackPanel Orientation="Horizontal" Margin="2">
-                                    <Image Source="WpfImages/color_grid.png" Width="20"></Image>
-                                    <TextBlock Text="自定义" FontSize="16"></TextBlock>
-                                </StackPanel>
-                            </ComboBoxItem>
-                        </ComboBox.Items>
-                    </ComboBox>-->
                     <Grid HorizontalAlignment="Center" x:Name="colorSelector">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="270" />
@@ -217,6 +110,7 @@
                             <RowDefinition />
                             <RowDefinition />
                         </Grid.RowDefinitions>
+                        <!--第一行-->
                         <StackPanel Margin="2" Orientation="Horizontal">
                             <RadioButton Margin="1" x:Name="colorSelector_1" Checked="ColorSelector_OnChecked"
                                          GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30"
@@ -243,6 +137,7 @@
                                          GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30"
                                          Height="30" Background="Fuchsia" Foreground="White" ToolTip="紫红" />
                         </StackPanel>
+                        <!--第二行-->
                         <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Margin="2">
                             <RadioButton Margin="1" x:Name="colorSelector_9" Checked="ColorSelector_OnChecked"
                                          GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30"
@@ -269,6 +164,7 @@
                                          GroupName="Color" Style="{StaticResource BlockRadioButtonStyle}" Width="30"
                                          Height="30" Background="Aqua" Foreground="Black" ToolTip="湖绿" />
                         </StackPanel>
+                        <!--自定义-->
                         <RadioButton x:Name="colorSelector_17" Checked="ColorSelector_OnChecked" GroupName="Color"
                                      Grid.Column="1"
                                      Grid.Row="0" Grid.RowSpan="2" Style="{StaticResource BlockRadioButtonStyle}"
@@ -309,10 +205,10 @@
                         <ComboBoxItem Content="白色（适用暗背景）" />
                         <ComboBoxItem Content="黑色（适用亮背景）" />
                     </ComboBox>
-                    <CheckBox x:Name="largeAppNameCheck" Visibility="{Binding Visibility,ElementName=colorSelector}"
+                    <CheckBox x:Name="largeAppNameCheck" Visibility="{Binding Visibility,ElementName=colorSelector}" Style="{StaticResource SwitchCheckbox}"
                               Content="在150x150大磁贴中显示应用名" IsChecked="True" FontSize="16" Foreground="White" Margin="2"
                               Checked="LargeAppNameCheck_OnChecked" Unchecked="LargeAppNameCheck_OnChecked" />
-                    <CheckBox x:Name="defineIconCheck" Visibility="{Binding Visibility,ElementName=colorSelector}"
+                    <CheckBox x:Name="defineIconCheck" Visibility="{Binding Visibility,ElementName=colorSelector}" Style="{StaticResource SwitchCheckbox}"
                               Content="自定义图标" IsChecked="False" FontSize="16" Foreground="White" Margin="2"
                               Checked="LargeAppNameCheck_OnChecked" Unchecked="LargeAppNameCheck_OnChecked" Opacity="1" />
                     <Grid Visibility="{Binding Visibility, ElementName=colorSelector}">

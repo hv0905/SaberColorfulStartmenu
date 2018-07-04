@@ -1,18 +1,20 @@
 ﻿<Application x:Class="SaberColorfulStartmenu.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:SaberColorfulStartmenu" DispatcherUnhandledException="App_OnDispatcherUnhandledException"
+             xmlns:local="clr-namespace:SaberColorfulStartmenu"
+             DispatcherUnhandledException="App_OnDispatcherUnhandledException"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         <ResourceDictionary>
-             <ResourceDictionary.MergedDictionaries>
-                 <ResourceDictionary Source="Themes/Animaltions.xaml"/>
-                 <ResourceDictionary Source="Themes/BorderlessWindow.xaml"/>
-                 <ResourceDictionary Source="Themes/ControlButton.xaml"/>
-                <ResourceDictionary Source="Themes/CoreButton.xaml"/>
-                 <ResourceDictionary Source="Themes/Simple.xaml"/>
-                 <ResourceDictionary Source="Themes/BlockRadioButton.xaml"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/Animaltions.xaml" />
+                <ResourceDictionary Source="Themes/BorderlessWindow.xaml" />
+                <ResourceDictionary Source="Themes/ControlButton.xaml" />
+                <ResourceDictionary Source="Themes/CoreButton.xaml" />
+                <ResourceDictionary Source="Themes/Simple.xaml" />
+                <ResourceDictionary Source="Themes/BlockRadioButton.xaml" />
+                <ResourceDictionary Source="Themes/SwitchCheckbox.xaml" />
             </ResourceDictionary.MergedDictionaries>
-         </ResourceDictionary>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
