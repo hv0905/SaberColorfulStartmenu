@@ -160,19 +160,15 @@ namespace SaberColorfulStartmenu
                 // ReSharper disable once PossibleNullReferenceException
                 _currentColor = Helper.GetColorFromRgbString(defineColorText.Text);
                 _currentColorString = defineColorText.Text;
+                defineColorText.Foreground = Brushes.Black;
+                defineColorText.ToolTip = string.Empty;
                 UpdateRender();
             }
             catch (FormatException) {
+                defineColorText.Foreground = Brushes.DeepPink;
+                defineColorText.ToolTip = "格式错误.";
                 Debug.WriteLine("ChangeColor Canceled.");
-                // ignored
             }
-        }
-
-        private void TxtColorSelector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (!_loaded || _sysChangeing) return;
-            _saveFlag = true;
-            UpdateRender();
         }
 
         private void SaveAndUpdate_RoutedEvent(object sender, RoutedEventArgs e)
