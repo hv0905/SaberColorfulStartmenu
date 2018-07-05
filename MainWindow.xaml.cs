@@ -161,7 +161,7 @@ namespace SaberColorfulStartmenu
                 _currentColor = Helper.GetColorFromRgbString(defineColorText.Text);
                 _currentColorString = defineColorText.Text;
                 defineColorText.Foreground = Brushes.Black;
-                defineColorText.ToolTip = string.Empty;
+                defineColorText.ToolTip = null;
                 UpdateRender();
             }
             catch (FormatException) {
