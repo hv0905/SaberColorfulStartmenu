@@ -94,6 +94,37 @@ namespace SaberColorfulStartmenu.Properties {
         }
         
         /// <summary>
+        ///   查找类似 Magnify,放大镜
+        ///Notepad,记事本
+        ///Narrator,讲述人
+        ///On-Screen Keyboard,屏幕键盘
+        ///Command Prompt,命令提示符
+        ///Speech Recognition,语音识别
+        ///Math Input Panel,数学输入面板
+        ///Paint,画图
+        ///Quick Assist,快速助手
+        ///Remote Desktop Connection,远程桌面连接
+        ///Snipping Tool,截图工具
+        ///Steps Recorder,步骤记录器
+        ///Wordpad,写字板
+        ///XPS Viewer,XPS查看器
+        ///dfrgui,碎片整理和优化驱动器
+        ///Disk Cleanup,磁盘清理
+        ///IIS Manager,IIS管理器
+        ///iSCSI Initiator,iSCSI发起程序
+        ///Memory Diagnostics,Windows内存诊断
+        ///ODBC Data Sources (32-bits),ODBC数据源 （32位）
+        ///ODBC Data Sources (64-bits),ODBC数据源 （64位）
+        ///RecoveryDrive,恢复驱动器
+        ///Resource Monit [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        /// </summary>
+        internal static string SysCharMap_CN {
+            get {
+                return ResourceManager.GetString("SysCharMap_CN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Bitmap unknown {

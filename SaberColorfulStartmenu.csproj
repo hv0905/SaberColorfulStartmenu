@@ -71,6 +71,26 @@
   <PropertyGroup>
     <StartupObject>SaberColorfulStartmenu.App</StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>2FB425796BF3D28D1E8B6F1AA9AF1A4D47CF3398</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>
+    </ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -175,6 +195,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.manifest" />
+    <None Include="cn_sys.csv" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -220,9 +241,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="龙_飞车.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Windows 9 Icons %28313%29.ico" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Windows 9 Icons %28313%29.png" />

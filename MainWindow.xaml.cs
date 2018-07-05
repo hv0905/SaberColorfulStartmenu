@@ -175,7 +175,7 @@ namespace SaberColorfulStartmenu
             UpdateRender();
         }
 
-        private void LargeAppNameCheck_OnChecked(object sender, RoutedEventArgs e)
+        private void SaveAndUpdate_RoutedEvent(object sender, RoutedEventArgs e)
         {
             if (!_loaded || _sysChangeing) return;
             _saveFlag = true;
@@ -309,6 +309,21 @@ namespace SaberColorfulStartmenu
             // ReSharper restore PossibleUnintendedReferenceComparison
         }
 
+        private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
+        {
+            if (!_loaded) return;
+            if (!_sysChangeing) _saveFlag = true;
+            if (!(modeCheck.IsChecked ?? false)) {
+                colorSelector.Visibility = Visibility.Collapsed;
+                group_Color.Visibility = Visibility.Collapsed;
+            }
+            else {
+                colorSelector.Visibility = Visibility.Visible;
+                group_Color.Visibility =
+                    colorSelector_17.IsChecked ?? false ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
         #endregion
 
         #region Functions
@@ -392,6 +407,9 @@ namespace SaberColorfulStartmenu
 
                 Debug.WriteLine($"icon id:{iconId};icon path:{iconPath}");
                 var itemName = Path.GetFileNameWithoutExtension(_fileList[i]);
+                // ReSharper disable once AssignNullToNotNullAttribute
+                if (App.charMap_Cn.ContainsKey(itemName))
+                    itemName = App.charMap_Cn[itemName];
                 var lvi = new ListViewItem();
                 var sp = new StackPanel() {
                     Orientation = Orientation.Horizontal,
@@ -421,7 +439,8 @@ namespace SaberColorfulStartmenu
                 _currentColorString = "black";
                 _logo = null;
                 defineIconCheck.IsChecked = false;
-                txtColorSelector.SelectedIndex = 0;
+                //txtColorSelector.SelectedIndex = 0;
+                txtWhiteColor.IsChecked = true;
                 //colorSelector.SelectedIndex = 0;
                 colorSelector_1.IsChecked = true;
             }
@@ -582,7 +601,10 @@ namespace SaberColorfulStartmenu
                     btnChangeLogo.Visibility = Visibility.Visible;
                     txtDevDefIco.Visibility = Visibility.Collapsed;
                     __hasLogo:
-                    txtColorSelector.SelectedIndex = (int)_currentInfo.XmlFile.TxtForeground;
+                    //txtColorSelector.SelectedIndex = (int)_currentInfo.XmlFile.TxtForeground;
+                    if (_currentInfo.XmlFile.TxtForeground == StartmenuXmlFile.TextCol.light)
+                        txtWhiteColor.IsChecked = true;
+                    else txtBlackColor.IsChecked = true;
                 }
 #if DEBUG
                 catch (Exception e) {
@@ -609,7 +631,7 @@ namespace SaberColorfulStartmenu
             Debug.WriteLine(DateTime.Now + " An Render update queue.");
             defineColorPreview.Fill = new SolidColorBrush(_currentColor);
             previewColor.Color = _currentColor;
-            preview_LargeText.Foreground = (txtColorSelector.SelectedIndex == 0) ? Brushes.White : Brushes.Black;
+            preview_LargeText.Foreground = (txtWhiteColor.IsChecked ?? false) ? Brushes.White : Brushes.Black;
             preview_LargeText.Visibility =
                 largeAppNameCheck.IsChecked ?? false ? Visibility.Visible : Visibility.Hidden;
             if (_logo == null || !(defineIconCheck.IsChecked ?? false)) {
@@ -645,79 +667,69 @@ namespace SaberColorfulStartmenu
 
         private bool Save()
         {
-            if (_currentId == -1 || !_saveFlag) return true;
+            if (_currentId == -1) return true;
             //todo save
-            if (!(modeCheck.IsChecked ?? false)) {
-                if (_currentInfo.XmlFile != null) {
-                    if (MessageBox.Show("将删除所有自定义效果文件\n继续?", "⚠警告", MessageBoxButton.YesNo, MessageBoxImage.Warning) !=
-                        MessageBoxResult.Yes) return false;
-                    _currentInfo.XmlFile = null;
-                    File.Delete(_currentInfo.XmlFileLocation);
-                }
-            }
-            else {
-                if (_currentInfo.XmlFile == null) {
-                    _currentInfo.XmlFile = new StartmenuXmlFile(_currentInfo.XmlFileLocation);
-                }
-
-                _currentInfo.XmlFile.ColorStr = _currentColorString;
-                _currentInfo.XmlFile.TxtForeground = (StartmenuXmlFile.TextCol)txtColorSelector.SelectedIndex;
-                _currentInfo.XmlFile.ShowTitleOnLargeIcon = largeAppNameCheck.IsChecked ?? false;
-                //保存图片
-                var sha1 = SHA1.Create();
-                // ReSharper disable once AssignNullToNotNullAttribute
-                var pathName = Path.Combine(Path.GetDirectoryName(_currentInfo.XmlFileLocation), "__StartmenuIcons__");
-                if (!Directory.Exists(pathName))
-                    Directory.CreateDirectory(pathName);
-
-                //文件名：[DIR]\__StartmenuIcons__\[SHA1].png
-                if (defineIconCheck.IsChecked ?? false) {
-                    if (!string.IsNullOrEmpty(_newLogoLoc)) {
-                        //计算SHA1
-                        var fs = File.Open(_newLogoLoc, FileMode.Open, FileAccess.Read);
-                        var hash = BitConverter.ToString(sha1.ComputeHash(fs)).Replace("-", string.Empty).ToLower();
-                        fs.Close();
-                        var fileName = Path.Combine(pathName, hash) + Path.GetExtension(_newLogoLoc);
-                        var fileNameWithoutDir = Path.Combine("__StartmenuIcons__", hash) +
-                                                 Path.GetExtension(_newLogoLoc).ToLower();
-                        if (!File.Exists(fileName)) //拷贝图像到目录
-                            File.Copy(_newLogoLoc, fileName);
-                        _currentInfo.XmlFile.SmallLogoLoc = _currentInfo.XmlFile.LargeLogoLoc = fileNameWithoutDir;
-                    }
-                    else if (string.IsNullOrEmpty(_currentInfo.XmlFile.SmallLogoLoc)) {
-                        MessageBox.Show("需要指定作为图标的图片。", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        return false;
+            if (_saveFlag) {
+                if (!(modeCheck.IsChecked ?? false)) {
+                    if (_currentInfo.XmlFile != null) {
+                        if (MessageBox.Show("将删除所有自定义效果文件\n继续?", "⚠警告", MessageBoxButton.YesNo,
+                                MessageBoxImage.Warning) != MessageBoxResult.Yes) return false;
+                        _currentInfo.XmlFile = null;
+                        File.Delete(_currentInfo.XmlFileLocation);
                     }
                 }
                 else {
-                    _currentInfo.XmlFile.LargeLogoLoc = _currentInfo.XmlFile.SmallLogoLoc = string.Empty;
+                    if (_currentInfo.XmlFile == null) {
+                        _currentInfo.XmlFile = new StartmenuXmlFile(_currentInfo.XmlFileLocation);
+                    }
+
+                    _currentInfo.XmlFile.ColorStr = _currentColorString;
+                    _currentInfo.XmlFile.TxtForeground = (txtWhiteColor.IsChecked ?? false)
+                        ? StartmenuXmlFile.TextCol.light
+                        : StartmenuXmlFile.TextCol.dark;
+                    _currentInfo.XmlFile.ShowTitleOnLargeIcon = largeAppNameCheck.IsChecked ?? false;
+                    //保存图片
+                    var sha1 = SHA1.Create();
+                    // ReSharper disable once AssignNullToNotNullAttribute
+                    var pathName = Path.Combine(Path.GetDirectoryName(_currentInfo.XmlFileLocation),
+                        "__StartmenuIcons__");
+                    if (!Directory.Exists(pathName))
+                        Directory.CreateDirectory(pathName);
+
+                    //文件名：[DIR]\__StartmenuIcons__\[SHA1].png
+                    if (defineIconCheck.IsChecked ?? false) {
+                        if (!string.IsNullOrEmpty(_newLogoLoc)) {
+                            //计算SHA1
+                            var fs = File.Open(_newLogoLoc, FileMode.Open, FileAccess.Read);
+                            var hash = BitConverter.ToString(sha1.ComputeHash(fs)).Replace("-", string.Empty).ToLower();
+                            fs.Close();
+                            var fileName = Path.Combine(pathName, hash) + Path.GetExtension(_newLogoLoc);
+                            var fileNameWithoutDir = Path.Combine("__StartmenuIcons__", hash) +
+                                                     Path.GetExtension(_newLogoLoc).ToLower();
+                            if (!File.Exists(fileName)) //拷贝图像到目录
+                                File.Copy(_newLogoLoc, fileName);
+                            _currentInfo.XmlFile.SmallLogoLoc = _currentInfo.XmlFile.LargeLogoLoc = fileNameWithoutDir;
+                        }
+                        else if (string.IsNullOrEmpty(_currentInfo.XmlFile.SmallLogoLoc)) {
+                            MessageBox.Show("需要指定作为图标的图片。", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return false;
+                        }
+                    }
+                    else {
+                        _currentInfo.XmlFile.LargeLogoLoc = _currentInfo.XmlFile.SmallLogoLoc = string.Empty;
+                    }
+
+                    _currentInfo.XmlFile.Save();
                 }
 
-                _currentInfo.XmlFile.Save();
+                _saveFlag = false;
             }
 
             //Update file and let the explorer reload the link
             Helper.UpdateFile(_currentInfo.Location);
-
-            _saveFlag = false;
             return true;
         }
 
         #endregion
-
-        private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
-        {
-            if (!_loaded) return;
-            if (!_sysChangeing) _saveFlag = true;
-            if (!(modeCheck.IsChecked ?? false)) {
-                colorSelector.Visibility = Visibility.Collapsed;
-                group_Color.Visibility = Visibility.Collapsed;
-            }
-            else {
-                colorSelector.Visibility = Visibility.Visible;
-                group_Color.Visibility =
-                    colorSelector_17.IsChecked ?? false ? Visibility.Visible : Visibility.Collapsed;
-            }
-        }
     }
 }

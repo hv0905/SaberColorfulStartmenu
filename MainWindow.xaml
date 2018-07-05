@@ -92,13 +92,15 @@
                     <ColumnDefinition Width="150" />
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" Grid.Row="0" Grid.RowSpan="5" Margin="5">
-<!--                    <TextBlock Text="设定" FontSize="16" Foreground="White" />-->
-<!--                    <ComboBox x:Name="modeSelctor" FontSize="16" SelectedIndex="0"-->
-<!--                              SelectionChanged="Selector_OnSelectionChanged_1">-->
-<!--                        <ComboBoxItem Content="默认" />-->
-<!--                        <ComboBoxItem Content="自定义" />-->
-<!--                    </ComboBox>-->
-                    <CheckBox x:Name="modeCheck" Content="自定义该图标样式" Style="{StaticResource SwitchCheckbox}" Foreground="White" FontSize="18" Margin="2" Checked="ToggleButton_OnChecked" Unchecked="ToggleButton_OnChecked"/>
+                    <!--                    <TextBlock Text="设定" FontSize="16" Foreground="White" />-->
+                    <!--                    <ComboBox x:Name="modeSelctor" FontSize="16" SelectedIndex="0"-->
+                    <!--                              SelectionChanged="Selector_OnSelectionChanged_1">-->
+                    <!--                        <ComboBoxItem Content="默认" />-->
+                    <!--                        <ComboBoxItem Content="自定义" />-->
+                    <!--                    </ComboBox>-->
+                    <CheckBox x:Name="modeCheck" Content="自定义该图标样式" Style="{StaticResource SwitchCheckbox}"
+                              Foreground="White" FontSize="18" Margin="2" Checked="ToggleButton_OnChecked"
+                              Unchecked="ToggleButton_OnChecked" />
                     <TextBlock Text="背景颜色" Foreground="White" FontSize="16"
                                Visibility="{Binding Visibility, ElementName=colorSelector}" />
                     <Grid HorizontalAlignment="Center" x:Name="colorSelector">
@@ -173,7 +175,8 @@
                             <Image Source="WpfImages/color_grid.png" />
                         </RadioButton>
                     </Grid>
-                    <GroupBox x:Name="group_Color" RenderTransformOrigin="0.5,0" Header="自定义颜色" Foreground="White" BorderBrush="White" 
+                    <GroupBox x:Name="group_Color" RenderTransformOrigin="0.5,0" Header="自定义颜色" Foreground="White"
+                              BorderBrush="White"
                               Background="{x:Null}">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -191,26 +194,41 @@
                             <TextBlock Text="RGB颜色" Grid.Row="1" Grid.Column="0" FontSize="16" />
                             <TextBox x:Name="defineColorText" Text="#000000" Grid.Column="1" Grid.Row="1" FontSize="14"
                                      Margin="2" MaxLength="7" input:InputMethod.IsInputMethodEnabled="False"
-                                     KeyUp="DefineColorText_OnKeyUp" >
-                                <TextBox.Background><SolidColorBrush Color="White" Opacity="0.6"></SolidColorBrush></TextBox.Background>
+                                     KeyUp="DefineColorText_OnKeyUp">
+                                <TextBox.Background>
+                                    <SolidColorBrush Color="White" Opacity="0.6" />
+                                </TextBox.Background>
                             </TextBox>
-                            <Button Style="{StaticResource CoreButton}" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Content="调色板"
+                            <Button Style="{StaticResource CoreButton}" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2"
+                                    Content="调色板"
                                     Margin="2" Click="ButtonBase_OnClick_5" />
                         </Grid>
                     </GroupBox>
                     <TextBlock Text="文字颜色：" FontSize="16" Foreground="White"
                                Visibility="{Binding Visibility, ElementName=colorSelector}" />
-                    <ComboBox x:Name="txtColorSelector" Visibility="{Binding Visibility,ElementName=colorSelector}"
-                              SelectedIndex="0" SelectionChanged="TxtColorSelector_OnSelectionChanged">
-                        <ComboBoxItem Content="白色（适用暗背景）" />
-                        <ComboBoxItem Content="黑色（适用亮背景）" />
-                    </ComboBox>
-                    <CheckBox x:Name="largeAppNameCheck" Visibility="{Binding Visibility,ElementName=colorSelector}" Style="{StaticResource SwitchCheckbox}"
+<!--                    <ComboBox x:Name="txtColorSelector" Visibility="{Binding Visibility,ElementName=colorSelector}"-->
+<!--                              SelectedIndex="0" SelectionChanged="TxtColorSelector_OnSelectionChanged">-->
+<!--                        <ComboBoxItem Content="白色（适用暗背景）" />-->
+<!--                        <ComboBoxItem Content="黑色（适用亮背景）" />-->
+<!--                    </ComboBox>-->
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding Visibility, ElementName=colorSelector}">
+                        <RadioButton Margin="1" GroupName="TxtColor" Style="{StaticResource BlockRadioButtonStyle}"
+                                     x:Name="txtWhiteColor" Width="30" Checked="SaveAndUpdate_RoutedEvent"
+                                     Height="30" Background="White" Foreground="Black" ToolTip="白色(适用暗背景)"
+                                     IsChecked="True" />
+                        <RadioButton Margin="1" GroupName="TxtColor" Style="{StaticResource BlockRadioButtonStyle}"
+                                     x:Name="txtBlackColor" Width="30" Checked="SaveAndUpdate_RoutedEvent"
+                                     Height="30" Background="Black" Foreground="White" ToolTip="黑色(适用亮背景)" />
+                    </StackPanel>
+                    <CheckBox x:Name="largeAppNameCheck" Visibility="{Binding Visibility,ElementName=colorSelector}"
+                              Style="{StaticResource SwitchCheckbox}"
                               Content="在150x150大磁贴中显示应用名" IsChecked="True" FontSize="16" Foreground="White" Margin="2"
-                              Checked="LargeAppNameCheck_OnChecked" Unchecked="LargeAppNameCheck_OnChecked" />
-                    <CheckBox x:Name="defineIconCheck" Visibility="{Binding Visibility,ElementName=colorSelector}" Style="{StaticResource SwitchCheckbox}"
+                              Checked="SaveAndUpdate_RoutedEvent" Unchecked="SaveAndUpdate_RoutedEvent" />
+                    <CheckBox x:Name="defineIconCheck" Visibility="{Binding Visibility,ElementName=colorSelector}"
+                              Style="{StaticResource SwitchCheckbox}"
                               Content="自定义图标" IsChecked="False" FontSize="16" Foreground="White" Margin="2"
-                              Checked="LargeAppNameCheck_OnChecked" Unchecked="LargeAppNameCheck_OnChecked" Opacity="1" />
+                              ToolTip="自定义图标的更改无法立即生效。&#13;根据Microsoft官方文档，更改应在保存及更新文件后立即生效，但是测试中我们无法保证立即生效&#13;一般只要你重启系统或者缘分到了就会生效&#13;请不要过分依赖此功能"
+                              Checked="SaveAndUpdate_RoutedEvent" Unchecked="SaveAndUpdate_RoutedEvent" Opacity="1" />
                     <Grid Visibility="{Binding Visibility, ElementName=colorSelector}">
                         <Button Style="{StaticResource CoreButton}" x:Name="btnChangeLogo" Content="选择图标. . ."
                                 Click="ButtonBase_OnClick_7"
@@ -248,7 +266,7 @@
                 <DockPanel.Background>
                     <SolidColorBrush Color="Black" Opacity="0.4" />
                 </DockPanel.Background>
-                <Button Style="{StaticResource CoreButton}" Click="Refresh_OnClick" Margin="2" DockPanel.Dock="Left">
+                <Button Style="{StaticResource CoreButton}" Click="Refresh_OnClick" Margin="2" DockPanel.Dock="Left" ToolTip="以下内容不会出现在列表中：&#13;1.url快捷方式（例如steam或uplay的游戏快捷方式）「url快捷方式无法自定义」&#13;2.UWP应用「UWP应用的磁贴由应用开发者定义」&#13;3.其它不属于快捷方式的文件">
                     <Button.Background>
                         <SolidColorBrush Color="MediumSlateBlue" Opacity="0.6" />
                     </Button.Background>
@@ -267,6 +285,7 @@
                     </StackPanel>
                 </Button>
                 <Button Style="{StaticResource CoreButton}" Click="ButtonBase_OnClick_6" Margin="2"
+                        ToolTip="按Enter即可保存.&#13;保存后更改应立即生效（自定义图标除外），若保存后更改没有立即生效，可能由于要更改的应用正在运行。你可以在稍后再次尝试点击保存更新文件来应用更改"
                         DockPanel.Dock="Right" Width="200" IsDefault="True">
                     <Button.Background>
                         <SolidColorBrush x:Name="saveButton_Bg" Color="HotPink" Opacity="0.6" />
@@ -285,7 +304,7 @@
                     </Grid>
                 </Button>
                 <Button Style="{StaticResource CoreButton}" Click="ButtonBase_OnClick_4" Margin="2"
-                        DockPanel.Dock="Left" Width="200" ToolTip="使用资源管理器打开开始菜单文件夹" HorizontalAlignment="Left">
+                        DockPanel.Dock="Left" Width="200" ToolTip="使用资源管理器打开开始菜单文件夹&#13;使用此功能可以方便地管理开始菜单中的项目（例如删除多余的图标）&#13;开始菜单文件夹有两个（用户和系统），不同的应用会将快捷方式存放至不同的文件夹" HorizontalAlignment="Left">
                     <Button.Background>
                         <SolidColorBrush Color="Orange" Opacity="0.6" />
                     </Button.Background>
