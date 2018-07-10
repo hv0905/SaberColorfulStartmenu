@@ -21,6 +21,17 @@ using Color = System.Windows.Media.Color;
 using File = System.IO.File;
 using Image = System.Windows.Controls.Image;
 
+/*
+ * 这里解释下win10下开始菜单重复快捷方式的判定
+ * Win10下如果遇到重复的快捷方式，分为以下两种情况
+ * 1）指向文件相同，快捷方式名不同              //为了保证更改能被应用，需要同时更新两个（或更多）的快捷方式文件
+ *      win10：随机选取一个在开始菜单中显示
+ * 2）指向文件不同，快捷方式名相同              //无需理会
+ *      win10：同时显示两个快捷方式
+ * 3）指向文件相同，快捷方式名相同              //同1）
+ *      win10：同1）
+ */
+
 namespace SaberColorfulStartmenu
 {
     /// <summary>
@@ -32,6 +43,7 @@ namespace SaberColorfulStartmenu
 
         private List<string> _fileList = new List<string>();
         private List<BitmapSource> _logoList = new List<BitmapSource>();
+        private List<string> _targetList = new List<string>();
         private bool _saveFlag;
         private bool _loaded;
         private bool _sysChangeing;
@@ -302,7 +314,6 @@ namespace SaberColorfulStartmenu
             }
 
             if (!_sysChangeing) UpdateRender();
-            // ReSharper restore PossibleUnintendedReferenceComparison
         }
 
         private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
@@ -326,40 +337,50 @@ namespace SaberColorfulStartmenu
 
         private void RefreshList()
         {
+#if DEBUG
+            var stop = new Stopwatch();
+            stop.Start();
+#endif
             var unknown = Properties.Resources.unknown.ToBitmapSource();
             _fileList.Clear();
             appList.Items.Clear();
             _logoList.Clear();
+            _targetList.Clear();
             GC.Collect();
             _currentId = -1;
+            //获取所有子目录内容
+            //只监视.lnk文件
             _fileList.AddRange(Helper.GetAllFilesByDir(App.StartMenu));
             _fileList.AddRange(Helper.GetAllFilesByDir(App.CommonStartMenu));
             _fileList.RemoveAll(str => !str.EndsWith(".lnk", StringComparison.CurrentCultureIgnoreCase));
             for (var i = 0; i < _fileList.Count; i++) {
                 WshShortcut shortcut = Helper.MainShell.CreateShortcut(_fileList[i]);
                 var target = Helper.ConvertEnviromentArgsInPath(shortcut.TargetPath);
-                __tf:
+                //__tf:
                 Debug.WriteLine(target);
                 if ((!target.EndsWith(".exe", StringComparison.CurrentCultureIgnoreCase)) || !File.Exists(target)) {
-                    if (target.ToLower().Contains("program files (x86)")) {
-                        //Reason
-                        //实测有部分应用（这包括Microsoft Office） 的快捷方式在使用任何一种Wshshell（这包括C# 的WshShortcut和C++的shlobj.h）获取TargetPath时
-                        //Program Files 都有几率变为 Program Files (x86) 暂时不了解原因，网上也没有相关的错误报告
-                        //msdn居然对IWshShell一个文档都没有= = 
-                        //这种临时的解决方式，只能算是一种下下策了吧 =。=
-                        //如果有知道解决方案的可以当issue汇报
-                        //阿里嘎多
-
-                        target = target.ToLower().Replace("program files (x86)", "program files");
-                        goto __tf;
-                    }
+                    //Reason 在目前版本的Win10中（1803）无法再重现此问题，暂时删除
+                    //                    if (target.ToLower().Contains("program files (x86)")) {
+                    //                        //Reason
+                    //                        //实测有部分应用（这包括Microsoft Office） 的快捷方式在使用任何一种Wshshell（这包括C# 的WshShortcut和C++的shlobj.h）获取TargetPath时
+                    //                        //Program Files 都有几率变为 Program Files (x86) 暂时不了解原因，网上也没有相关的错误报告
+                    //                        //msdn居然对IWshShell一个文档都没有= = 
+                    //                        //这种临时的解决方式，只能算是一种下下策了吧 =。=
+                    //                        //如果有知道解决方案的可以当issue汇报
+                    //                        //阿里嘎多
+                    //
+                    //                        target = target.ToLower().Replace("program files (x86)", "program files");
+                    //                        goto __tf;
+                    //                    }
 
                     Debug.WriteLine("Torow!!!");
                     _fileList.RemoveAt(i);
                     i--;
                     continue;
                 }
+                _targetList.Add(target);
 
+                //获取图标
                 string iconPath;
                 int iconId;
                 if (shortcut.IconLocation.Trim().StartsWith(",")) {
@@ -402,6 +423,8 @@ namespace SaberColorfulStartmenu
                 }
 
                 Debug.WriteLine($"icon id:{iconId};icon path:{iconPath}");
+
+                //构造UI
                 var itemName = Path.GetFileNameWithoutExtension(_fileList[i]);
                 // ReSharper disable once AssignNullToNotNullAttribute
                 if (App.charMap_Cn.ContainsKey(itemName))
@@ -418,9 +441,10 @@ namespace SaberColorfulStartmenu
                 lvi.Content = sp;
                 appList.Items.Add(lvi);
             }
-
-            //获取所有子目录内容
-            //只监视.lnk文件
+#if DEBUG
+            stop.Stop();
+            Debug.WriteLine("Refresh list take:" + stop.Elapsed + " ms");
+#endif
         }
 
         private void Load()
@@ -439,6 +463,8 @@ namespace SaberColorfulStartmenu
                 txtWhiteColor.IsChecked = true;
                 //colorSelector.SelectedIndex = 0;
                 colorSelector_1.IsChecked = true;
+                btnChangeLogo.Visibility = Visibility.Visible;
+                txtDevDefIco.Visibility = Visibility.Collapsed;
             }
             else {
                 //modeSelctor.SelectedIndex = 1;
@@ -637,9 +663,9 @@ namespace SaberColorfulStartmenu
             else {
                 preview_SmallImg.Source = preview_LargeImg.Source = _logo;
                 preview_SmallImg.Stretch =
-                    (_logo.PixelWidth > 70 || _logo.PixelHeight > 70) ? Stretch.Uniform : Stretch.None;
+                    (_logo.PixelWidth > 70 || _logo.PixelHeight > 70) ? Stretch.Fill : Stretch.None;
                 preview_LargeImg.Stretch =
-                    (_logo.PixelWidth > 150 || _logo.PixelHeight > 150) ? Stretch.Uniform : Stretch.None;
+                    (_logo.PixelWidth > 150 || _logo.PixelHeight > 150) ? Stretch.Fill : Stretch.None;
             }
 
             preview_LargeText.Text = Path.GetFileNameWithoutExtension(_fileList[_currentId]);
@@ -663,6 +689,10 @@ namespace SaberColorfulStartmenu
 
         private bool Save()
         {
+#if DEBUG
+            var stop = new Stopwatch();
+            stop.Start();
+#endif
             if (_currentId == -1) return true;
             //todo save
             if (_saveFlag) {
@@ -722,7 +752,19 @@ namespace SaberColorfulStartmenu
             }
 
             //Update file and let the explorer reload the link
-            Helper.UpdateFile(_currentInfo.Location);
+            //需要检查是否有连带文件要update的
+            //Helper.UpdateFile(_currentInfo.Location);
+            for (var i = 0; i < _targetList.Count; i++) {
+                if (_targetList[i] == _currentInfo.Target) {
+                    //update
+                    Helper.UpdateFile(_fileList[i]);
+                }
+            }
+
+#if DEBUG
+            stop.Stop();
+            Debug.WriteLine("save takes:" + stop.Elapsed + " ms");
+#endif
             return true;
         }
 

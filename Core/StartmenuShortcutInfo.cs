@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -51,12 +50,5 @@ namespace SaberColorfulStartmenu.Core
                 XmlFile = StartmenuXmlFile.Load(XmlFileLocation);
             }
         }
-
-        public string GetExistIconFile()
-        {
-            throw new NotImplementedException();
-        }
-        
-        
     }
 }

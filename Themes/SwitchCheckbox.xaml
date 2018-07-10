@@ -7,61 +7,82 @@
                 <ControlTemplate TargetType="{x:Type CheckBox}">
                     <Grid Background="{TemplateBinding Background}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="35"/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition Width="35" />
+                            <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="20"/>
-                            <RowDefinition/>
+                            <RowDefinition Height="20" />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
-                        <ContentControl Margin="4,0,0,0" Content="{TemplateBinding Content}" Grid.RowSpan="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{TemplateBinding Foreground}"/>
-                        <Border x:Name="backBorder" Grid.Row="0" Grid.Column="0" CornerRadius="5" BorderThickness="0" Height="12">
+                        <ContentControl Margin="4,0,0,0" Content="{TemplateBinding Content}" Grid.RowSpan="2"
+                                        Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                        Foreground="{TemplateBinding Foreground}" />
+                        <Border x:Name="backBorder" Grid.Row="0" Grid.Column="0" CornerRadius="5" BorderThickness="0"
+                                Height="12">
                             <Border.Background>
-                                <SolidColorBrush Color="#999999"/>
+                                <SolidColorBrush Color="#999999" />
                             </Border.Background>
                         </Border>
                         <Ellipse x:Name="eclBtn" Grid.Row="0" Grid.Column="0" Width="20" Height="20" Margin="0,0,15,0">
                             <Ellipse.Fill>
-                                <SolidColorBrush Color="White"/>
+                                <SolidColorBrush Color="White" />
                             </Ellipse.Fill>
                         </Ellipse>
-                        <Ellipse x:Name="eclOverlay" Grid.Row="0" Grid.Column="0" Width="20" Height="20" Margin="{Binding Margin, ElementName=eclBtn}" Opacity="0">
+                        <Ellipse x:Name="eclOverlay" Grid.Row="0" Grid.Column="0" Width="20" Height="20"
+                                 Margin="{Binding Margin, ElementName=eclBtn}" Opacity="0">
                             <Ellipse.Fill>
-                                <SolidColorBrush Color="Black"/>
+                                <SolidColorBrush Color="Black" />
                             </Ellipse.Fill>
                         </Ellipse>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal">
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="eclOverlay" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.1"/>
+                                        <DoubleAnimation Storyboard.TargetName="eclOverlay"
+                                                         Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.1" />
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="MouseOver">
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="eclOverlay" Storyboard.TargetProperty="Opacity" To="0.3" Duration="0:0:0.1"/>
+                                        <DoubleAnimation Storyboard.TargetName="eclOverlay"
+                                                         Storyboard.TargetProperty="Opacity" To="0.3"
+                                                         Duration="0:0:0.1" />
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="eclOverlay" Storyboard.TargetProperty="Opacity" To="0.4" Duration="0:0:0.1"/>
+                                        <DoubleAnimation Storyboard.TargetName="eclOverlay"
+                                                         Storyboard.TargetProperty="Opacity" To="0.4"
+                                                         Duration="0:0:0.1" />
                                     </Storyboard>
                                 </VisualState>
-                                <VisualState x:Name="Disabled"/>
+                                <VisualState x:Name="Disabled" />
                             </VisualStateGroup>
                             <VisualStateGroup x:Name="CheckStates">
                                 <VisualState x:Name="Checked">
                                     <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="backBorder" Storyboard.TargetProperty="Background.Color" To="#B3CEFB" Duration="0:0:0.15"/>
-                                        <ColorAnimation Storyboard.TargetName="eclBtn" Storyboard.TargetProperty="Fill.Color" To="#4285F4" Duration="0:0:0.15"/>
-                                        <ThicknessAnimation Storyboard.TargetName="eclBtn" Storyboard.TargetProperty="Margin" To="15,0,0,0" Duration="0:0:0.15"/>
+                                        <ColorAnimation Storyboard.TargetName="backBorder"
+                                                        Storyboard.TargetProperty="Background.Color" To="#B3CEFB"
+                                                        Duration="0:0:0.15" />
+                                        <ColorAnimation Storyboard.TargetName="eclBtn"
+                                                        Storyboard.TargetProperty="Fill.Color" To="#4285F4"
+                                                        Duration="0:0:0.15" />
+                                        <ThicknessAnimation Storyboard.TargetName="eclBtn"
+                                                            Storyboard.TargetProperty="Margin" To="15,0,0,0"
+                                                            Duration="0:0:0.15" />
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Unchecked">
                                     <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="backBorder" Storyboard.TargetProperty="Background.Color" To="#999999" Duration="0:0:0.15"/>
-                                        <ColorAnimation Storyboard.TargetName="eclBtn" Storyboard.TargetProperty="Fill.Color" To="White" Duration="0:0:0.15"/>
-                                        <ThicknessAnimation Storyboard.TargetName="eclBtn" Storyboard.TargetProperty="Margin" To="0,0,15,0" Duration="0:0:0.15"/>
+                                        <ColorAnimation Storyboard.TargetName="backBorder"
+                                                        Storyboard.TargetProperty="Background.Color" To="#999999"
+                                                        Duration="0:0:0.15" />
+                                        <ColorAnimation Storyboard.TargetName="eclBtn"
+                                                        Storyboard.TargetProperty="Fill.Color" To="White"
+                                                        Duration="0:0:0.15" />
+                                        <ThicknessAnimation Storyboard.TargetName="eclBtn"
+                                                            Storyboard.TargetProperty="Margin" To="0,0,15,0"
+                                                            Duration="0:0:0.15" />
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
@@ -70,6 +91,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="Background" Value="{x:Null}"/>
+        <Setter Property="Background" Value="{x:Null}" />
     </Style>
 </ResourceDictionary>

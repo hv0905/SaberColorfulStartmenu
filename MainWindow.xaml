@@ -248,7 +248,7 @@
                         <SolidColorBrush x:Name="previewColor" Color="Black" />
                     </Grid.Background>
                     <Image x:Name="preview_LargeImg" HorizontalAlignment="Center" VerticalAlignment="Center"
-                           Stretch="None" />
+                           Stretch="Fill" />
                     <TextBlock x:Name="preview_LargeText" HorizontalAlignment="Left" VerticalAlignment="Bottom"
                                Text="没有载入图标" TextWrapping="Wrap" Foreground="White" />
                 </Grid>
@@ -258,7 +258,7 @@
                         <SolidColorBrush Color="{Binding Color, ElementName=previewColor}" />
                     </Grid.Background>
                     <Image x:Name="preview_SmallImg" HorizontalAlignment="Center" VerticalAlignment="Center"
-                           Stretch="None" />
+                           Stretch="Fill" />
 
                 </Grid>
             </Grid>
