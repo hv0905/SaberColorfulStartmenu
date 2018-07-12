@@ -735,6 +735,7 @@ namespace SaberColorfulStartmenu
                             if (!File.Exists(fileName)) //拷贝图像到目录
                                 File.Copy(_newLogoLoc, fileName);
                             _currentInfo.XmlFile.SmallLogoLoc = _currentInfo.XmlFile.LargeLogoLoc = fileNameWithoutDir;
+                            _newLogoLoc = null;
                         }
                         else if (string.IsNullOrEmpty(_currentInfo.XmlFile.SmallLogoLoc)) {
                             MessageBox.Show("需要指定作为图标的图片。", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
