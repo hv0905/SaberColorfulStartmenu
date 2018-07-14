@@ -46,7 +46,7 @@ namespace SaberColorfulStartmenu
         private List<string> _targetList = new List<string>();
         private bool _saveFlag;
         private bool _loaded;
-        private bool _sysChangeing;
+        private bool _sysChangeing, _scaleMode;
         private Color _currentColor = Colors.Black;
         private string _currentColorString;
         private int _currentId = -1;
@@ -193,6 +193,8 @@ namespace SaberColorfulStartmenu
         private void ButtonBase_OnClick_7(object sender, RoutedEventArgs e)
         {
             _openFile.Title = "选择150x150大图标 建议比例：1：1";
+            if (_scaleMode && MessageBox.Show("警告，本操作不可逆。\n继续将清除开发者定义的可缩放图标，除非重新安装该程序，否则该图标可能不能恢复。\n继续操作？", "警告",
+                    MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes) return;
             if (!(_openFile.ShowDialog() ?? false)) return;
             try {
                 var fs = File.Open(_openFile.FileName, FileMode.Open, FileAccess.Read);
@@ -347,6 +349,7 @@ namespace SaberColorfulStartmenu
             _logoList.Clear();
             _targetList.Clear();
             GC.Collect();
+
             _currentId = -1;
             //获取所有子目录内容
             //只监视.lnk文件
@@ -378,6 +381,7 @@ namespace SaberColorfulStartmenu
                     i--;
                     continue;
                 }
+
                 _targetList.Add(target);
 
                 //获取图标
@@ -451,25 +455,37 @@ namespace SaberColorfulStartmenu
         {
             _sysChangeing = true;
 
-            _currentInfo = new StartmenuShortcutInfo(_fileList[_currentId]);
+            _newLogoLoc = null; //防止意外的保存
+            _logo = null;
+            _scaleMode = false;
+            try {
+                _currentInfo = new StartmenuShortcutInfo(_fileList[_currentId]);
+            }
+             catch(UnauthorizedAccessException) {
+                 MessageBox.Show("无法读取该文件设定.\n权限不足。", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                 _sysChangeing = false;
+                 appList.SelectedIndex = -1;
+                return;
+             }
+
             if (_currentInfo.XmlFile == null) {
                 modeCheck.IsChecked = false;
+
                 //set everything to empty
+
                 _currentColor = Colors.Black;
                 _currentColorString = "black";
-                _logo = null;
                 defineIconCheck.IsChecked = false;
-                //txtColorSelector.SelectedIndex = 0;
                 txtWhiteColor.IsChecked = true;
-                //colorSelector.SelectedIndex = 0;
                 colorSelector_1.IsChecked = true;
-                btnChangeLogo.Visibility = Visibility.Visible;
-                txtDevDefIco.Visibility = Visibility.Collapsed;
+                grdDevDefIco.Visibility = Visibility.Collapsed;
             }
             else {
                 //modeSelctor.SelectedIndex = 1;
                 modeCheck.IsChecked = true;
+
                 try {
+                    //Color
                     switch (_currentInfo.XmlFile.ColorStr) {
                         case "black":
                             //                            _currentColor = Colors.Black;
@@ -551,33 +567,7 @@ namespace SaberColorfulStartmenu
                             break;
                     }
 
-                    //                    if (!string.IsNullOrEmpty(_nowInfo.XmlFile.LargeLogoLoc))
-                    //                    {
-                    //                        if (File.Exists(_nowInfo.XmlFile.LargeLogoLoc))
-                    //                        {
-                    //                            Debug.WriteLine(
-                    //                                $"Load large icon successfully with file location{_nowInfo.XmlFile.LargeLogoLoc}");
-                    //                            _logo = new Bitmap(_nowInfo.XmlFile.LargeLogoLoc);
-                    //                        }
-                    //                        else if (Directory.Exists(Path.GetDirectoryName(_nowInfo.XmlFile.LargeLogoLoc)))
-                    //                        {
-                    //                            var files = Directory.GetFiles(Path.GetDirectoryName(_nowInfo.XmlFile.LargeLogoLoc));
-                    //                            // ReSharper disable once AssignNullToNotNullAttribute
-                    //                            var regex = new Regex(Path.Combine(Path.GetDirectoryName(_nowInfo.XmlFile.LargeLogoLoc),
-                    //                                                      Path.GetFileNameWithoutExtension(_nowInfo.XmlFile
-                    //                                                          .LargeLogoLoc)).RegexFree() + "\\.scale-\\d+\\" +
-                    //                                                  Path.GetExtension(_nowInfo.XmlFile.LargeLogoLoc));
-                    //                            var lastFileName = files.LastOrDefault(a => regex.IsMatch(a));
-                    //                            if (!string.IsNullOrEmpty(lastFileName))
-                    //                            {
-                    //                                Debug.WriteLine($"Load large icon successfully with file location{lastFileName}");
-                    //                                _largeIcon = new Bitmap(lastFileName);
-                    //                            }
-                    //                        }
-                    //                    }
-                    //                    var tryLarge = false;
-                    //                    var tryDir = true;
-
+                    //Logo
                     if (string.IsNullOrEmpty(_currentInfo.XmlFile.SmallLogoLoc) &&
                         !string.IsNullOrEmpty(_currentInfo.XmlFile.LargeLogoLoc)) {
                         //replace smallLogo with largeLogo
@@ -585,16 +575,23 @@ namespace SaberColorfulStartmenu
                     }
 
                     if (!string.IsNullOrEmpty(_currentInfo.XmlFile.SmallLogoLoc)) {
+                        void CheckLargeLoc()
+                        {
+                            if (string.IsNullOrEmpty(_currentInfo.XmlFile.LargeLogoLoc)) {
+                                _currentInfo.XmlFile.LargeLogoLoc = _currentInfo.XmlFile.SmallLogoLoc;
+                            }
+                        }
+
                         if (File.Exists(_currentInfo.XmlFile.GetFullPath(_currentInfo.XmlFile.SmallLogoLoc))) {
                             //直接获取
                             Debug.WriteLine(
                                 $"Load small icon successfully with file location{_currentInfo.XmlFile.SmallLogoLoc}");
                             _logo = new Bitmap(_currentInfo.XmlFile.GetFullPath(_currentInfo.XmlFile.SmallLogoLoc))
-                                .ToBitmapSource();
+                                .ToBitmapSource(); //Load the logo
                             //_scaleMode = false;
                             defineIconCheck.IsChecked = true;
-                            btnChangeLogo.Visibility = Visibility.Visible;
-                            txtDevDefIco.Visibility = Visibility.Collapsed;
+                            grdDevDefIco.Visibility = Visibility.Collapsed;
+                            CheckLargeLoc();
                             goto __hasLogo;
                         }
                         else if (Directory.Exists(
@@ -604,11 +601,11 @@ namespace SaberColorfulStartmenu
                                  File.Exists(Path.Combine(Path.GetDirectoryName(_currentInfo.Target),
                                      "Resources.pri"))) {
                             //scale模式
-                            //_scaleMode = true;
-                            _logo = null;
+                            _scaleMode = true;
                             defineIconCheck.IsChecked = true;
-                            btnChangeLogo.Visibility = Visibility.Collapsed;
-                            txtDevDefIco.Visibility = Visibility.Visible;
+                            //btnChangeLogo.Visibility = Visibility.Collapsed;
+                            grdDevDefIco.Visibility = Visibility.Visible;
+                            CheckLargeLoc();
                             goto __hasLogo;
                         }
                         else {
@@ -617,11 +614,9 @@ namespace SaberColorfulStartmenu
                         }
                     }
 
-                    _logo = null;
                     //_scaleMode = false;
                     defineIconCheck.IsChecked = false;
-                    btnChangeLogo.Visibility = Visibility.Visible;
-                    txtDevDefIco.Visibility = Visibility.Collapsed;
+                    grdDevDefIco.Visibility = Visibility.Collapsed;
                     __hasLogo:
                     //txtColorSelector.SelectedIndex = (int)_currentInfo.XmlFile.TxtForeground;
                     if (_currentInfo.XmlFile.TxtForeground == StartmenuXmlFile.TextCol.light)
@@ -718,7 +713,7 @@ namespace SaberColorfulStartmenu
                     var sha1 = SHA1.Create();
                     // ReSharper disable once AssignNullToNotNullAttribute
                     var pathName = Path.Combine(Path.GetDirectoryName(_currentInfo.XmlFileLocation),
-                        "__StartmenuIcons__");
+                        Properties.Resources.IconDirName);
                     if (!Directory.Exists(pathName))
                         Directory.CreateDirectory(pathName);
 
@@ -730,7 +725,7 @@ namespace SaberColorfulStartmenu
                             var hash = BitConverter.ToString(sha1.ComputeHash(fs)).Replace("-", string.Empty).ToLower();
                             fs.Close();
                             var fileName = Path.Combine(pathName, hash) + Path.GetExtension(_newLogoLoc);
-                            var fileNameWithoutDir = Path.Combine("__StartmenuIcons__", hash) +
+                            var fileNameWithoutDir = Path.Combine(Properties.Resources.IconDirName, hash) +
                                                      Path.GetExtension(_newLogoLoc).ToLower();
                             if (!File.Exists(fileName)) //拷贝图像到目录
                                 File.Copy(_newLogoLoc, fileName);
@@ -746,7 +741,13 @@ namespace SaberColorfulStartmenu
                         _currentInfo.XmlFile.LargeLogoLoc = _currentInfo.XmlFile.SmallLogoLoc = string.Empty;
                     }
 
-                    _currentInfo.XmlFile.Save();
+                    try {
+                        _currentInfo.XmlFile.Save();
+                    }
+                    catch(UnauthorizedAccessException) {
+                        MessageBox.Show("无法保存设定.\n权限不足.", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return false;
+                    }
                 }
 
                 _saveFlag = false;

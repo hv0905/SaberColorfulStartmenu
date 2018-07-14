@@ -206,11 +206,11 @@
                     </GroupBox>
                     <TextBlock Text="文字颜色：" FontSize="16" Foreground="White"
                                Visibility="{Binding Visibility, ElementName=colorSelector}" />
-<!--                    <ComboBox x:Name="txtColorSelector" Visibility="{Binding Visibility,ElementName=colorSelector}"-->
-<!--                              SelectedIndex="0" SelectionChanged="TxtColorSelector_OnSelectionChanged">-->
-<!--                        <ComboBoxItem Content="白色（适用暗背景）" />-->
-<!--                        <ComboBoxItem Content="黑色（适用亮背景）" />-->
-<!--                    </ComboBox>-->
+                    <!--                    <ComboBox x:Name="txtColorSelector" Visibility="{Binding Visibility,ElementName=colorSelector}"-->
+                    <!--                              SelectedIndex="0" SelectionChanged="TxtColorSelector_OnSelectionChanged">-->
+                    <!--                        <ComboBoxItem Content="白色（适用暗背景）" />-->
+                    <!--                        <ComboBoxItem Content="黑色（适用亮背景）" />-->
+                    <!--                    </ComboBox>-->
                     <StackPanel Orientation="Horizontal" Visibility="{Binding Visibility, ElementName=colorSelector}">
                         <RadioButton Margin="1" GroupName="TxtColor" Style="{StaticResource BlockRadioButtonStyle}"
                                      x:Name="txtWhiteColor" Width="30" Checked="SaveAndUpdate_RoutedEvent"
@@ -229,14 +229,25 @@
                               Content="自定义图标" IsChecked="False" FontSize="16" Foreground="White" Margin="2"
                               ToolTip="自定义图标的更改无法立即生效。&#13;根据Microsoft官方文档，更改应在保存及更新文件后立即生效，但是测试中我们无法保证立即生效&#13;一般只要你重启系统或者缘分到了就会生效&#13;请不要过分依赖此功能"
                               Checked="SaveAndUpdate_RoutedEvent" Unchecked="SaveAndUpdate_RoutedEvent" Opacity="1" />
-                    <Grid Visibility="{Binding Visibility, ElementName=colorSelector}">
+                    <StackPanel Visibility="{Binding Visibility, ElementName=colorSelector}">
+                        <!--该应用开发者可能已经定义可缩放的自定义图标&#13;更改图标将覆盖开发者定义的图标设定-->
+                        <Grid x:Name="grdDevDefIco" Margin="2">
+                            <Grid.Background>
+                                <SolidColorBrush Color="Orange" Opacity="0.4" />
+                            </Grid.Background>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="32" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Image Source="WpfImages/Warning.png" Margin="2" />
+                            <TextBlock Text="该应用开发者可能已经定义可缩放的自定义图标&#13;更改图标将覆盖开发者定义的图标设定" Grid.Column="1" FontSize="16"
+                                       Foreground="White" />
+                        </Grid>
                         <Button Style="{StaticResource CoreButton}" x:Name="btnChangeLogo" Content="选择图标. . ."
                                 Click="ButtonBase_OnClick_7"
                                 IsEnabled="{Binding IsChecked, ElementName=defineIconCheck}" Opacity="1" />
-                        <TextBlock x:Name="txtDevDefIco" Visibility="Collapsed"
-                                   Text="提示：该应用开发者可能已经定义自定义图标&#13;如果图标显示不正常或者想更换其它图标取消勾选自定义图标" Foreground="HotPink"
-                                   FontSize="16" />
-                    </Grid>
+
+                    </StackPanel>
                 </StackPanel>
                 <TextBlock Text="大磁贴预览：" FontSize="16" Foreground="White" Grid.Row="0" Grid.Column="1"
                            Visibility="{Binding Visibility, ElementName=colorSelector}" />
@@ -266,7 +277,8 @@
                 <DockPanel.Background>
                     <SolidColorBrush Color="Black" Opacity="0.4" />
                 </DockPanel.Background>
-                <Button Style="{StaticResource CoreButton}" Click="Refresh_OnClick" Margin="2" DockPanel.Dock="Left" ToolTip="以下内容不会出现在列表中：&#13;1.url快捷方式（例如steam或uplay的游戏快捷方式）「url快捷方式无法自定义」&#13;2.UWP应用「UWP应用的磁贴由应用开发者定义」&#13;3.其它不属于快捷方式的文件">
+                <Button Style="{StaticResource CoreButton}" Click="Refresh_OnClick" Margin="2" DockPanel.Dock="Left"
+                        ToolTip="以下内容不会出现在列表中：&#13;1.url快捷方式（例如steam或uplay的游戏快捷方式）「url快捷方式无法自定义」&#13;2.UWP应用「UWP应用的磁贴由应用开发者定义」&#13;3.其它不属于快捷方式的文件">
                     <Button.Background>
                         <SolidColorBrush Color="MediumSlateBlue" Opacity="0.6" />
                     </Button.Background>
@@ -304,7 +316,9 @@
                     </Grid>
                 </Button>
                 <Button Style="{StaticResource CoreButton}" Click="ButtonBase_OnClick_4" Margin="2"
-                        DockPanel.Dock="Left" Width="200" ToolTip="使用资源管理器打开开始菜单文件夹&#13;使用此功能可以方便地管理开始菜单中的项目（例如删除多余的图标）&#13;开始菜单文件夹有两个（用户和系统），不同的应用会将快捷方式存放至不同的文件夹" HorizontalAlignment="Left">
+                        DockPanel.Dock="Left" Width="200"
+                        ToolTip="使用资源管理器打开开始菜单文件夹&#13;使用此功能可以方便地管理开始菜单中的项目（例如删除多余的图标）&#13;开始菜单文件夹有两个（用户和系统），不同的应用会将快捷方式存放至不同的文件夹"
+                        HorizontalAlignment="Left">
                     <Button.Background>
                         <SolidColorBrush Color="Orange" Opacity="0.6" />
                     </Button.Background>

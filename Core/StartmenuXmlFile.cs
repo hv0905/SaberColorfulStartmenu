@@ -62,7 +62,7 @@ namespace SaberColorfulStartmenu.Core
             sxf._doc.Load(sxf.FileName);
             var root = sxf._doc.DocumentElement;
             // ReSharper disable once PossibleNullReferenceException
-            sxf._visualElements = (XmlElement) (root.GetElementsByTagName("VisualElements")[0]);
+            sxf._visualElements = (XmlElement)(root.GetElementsByTagName("VisualElements")[0]);
 
             sxf.ColorStr = sxf._visualElements.Attributes["BackgroundColor"].Value;
             sxf.ShowTitleOnLargeIcon = sxf._visualElements.Attributes["ShowNameOnSquare150x150Logo"].Value == "on";
@@ -120,6 +120,8 @@ namespace SaberColorfulStartmenu.Core
         /// </summary>
         public void Save()
         {
+            Backup();
+
             _visualElements.Attributes["BackgroundColor"].Value = ColorStr;
             _visualElements.Attributes["ShowNameOnSquare150x150Logo"].Value = ShowTitleOnLargeIcon ? "on" : "off";
             _visualElements.Attributes["ForegroundText"].Value = TxtForeground.ToString();
@@ -162,6 +164,16 @@ namespace SaberColorfulStartmenu.Core
             // ReSharper disable once AssignNullToNotNullAttribute
             ? Path.Combine(Path.GetDirectoryName(FileName), loc)
             : loc;
+
+        /// <summary>
+        /// 备份xml文件
+        /// </summary>
+        public void Backup()
+        {
+            if (File.Exists(FileName)) {
+                File.Copy(FileName, FileName + ".bak", true);
+            }
+        }
 
 
         /// <summary>

@@ -94,6 +94,15 @@ namespace SaberColorfulStartmenu.Properties {
         }
         
         /// <summary>
+        ///   查找类似 __StartmenuIcons__ 的本地化字符串。
+        /// </summary>
+        internal static string IconDirName {
+            get {
+                return ResourceManager.GetString("IconDirName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Magnify,放大镜
         ///Notepad,记事本
         ///Narrator,讲述人

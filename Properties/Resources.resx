@@ -138,6 +138,9 @@
   <data name="AppName" xml:space="preserve">
     <value>Saber's Colorful Startmenu</value>
   </data>
+  <data name="IconDirName" xml:space="preserve">
+    <value>__StartmenuIcons__</value>
+  </data>
   <data name="SysCharMap_CN" xml:space="preserve">
     <value>Magnify,放大镜
 Notepad,记事本
