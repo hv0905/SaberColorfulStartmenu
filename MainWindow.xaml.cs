@@ -358,8 +358,8 @@ namespace SaberColorfulStartmenu
             fileList.AddRange(Helper.GetAllFilesByDir(App.StartMenu));
             fileList.AddRange(Helper.GetAllFilesByDir(App.CommonStartMenu));
             fileList.RemoveAll(str => !str.EndsWith(".lnk", StringComparison.CurrentCultureIgnoreCase));
-            for (var i = 0; i < fileList.Count; i++) {
-                WshShortcut shortcut = Helper.MainShell.CreateShortcut(fileList[i]);
+            foreach (var item in fileList) {
+                WshShortcut shortcut = Helper.MainShell.CreateShortcut(item);
                 var target = Helper.ConvertEnviromentArgsInPath(shortcut.TargetPath);
                 //__tf:
 #if DEBUG_SHOW_DETAILS
@@ -382,8 +382,6 @@ namespace SaberColorfulStartmenu
 #if DEBUG_SHOW_DETAILS
                     Debug.WriteLine("Torow!!!");
 #endif
-                    fileList.RemoveAt(i);
-                    i--;
                     continue;
                 }
 
@@ -408,18 +406,19 @@ namespace SaberColorfulStartmenu
                 BitmapSource logo;
                 if (iconPath.EndsWith(".exe") || iconPath.EndsWith(".dll")) {
                     try {
-                        var icons = Helper.GetLargeIconsFromExeFile(iconPath);
-                        logo = icons[iconId].ToBitmap().ToBitmapSource();
+                        //                        var icons = Helper.GetLargeIconsFromExeFile(iconPath);
+                        //                        logo = icons[iconId].ToBitmap().ToBitmapSource();
 
                         //                        Parallel.ForEach(icons, item => {
                         //                            Helper.DestroyIcon(item.Handle);
                         //                            item.Dispose();
                         //                        });
 
-                        foreach (var item in icons) {
-                            Helper.DestroyIcon(item.Handle);
-                            item.Dispose();
-                        }
+                        //                        foreach (var item_ in icons) {
+                        //                            Helper.DestroyIcon(item_.Handle);
+                        //                            item_.Dispose();
+                        //                        }
+                        logo = Helper.GetLargeIconsFromExeFileSafe(iconPath, iconId).ToBitmap().ToBitmapSource();
                     }
                     catch {
                         logo = unknown;
@@ -439,11 +438,11 @@ namespace SaberColorfulStartmenu
 #if DEBUG_SHOW_DETAILS
                 Debug.WriteLine($"icon id:{iconId};icon path:{iconPath}");
 #endif
-                var itemName = Path.GetFileNameWithoutExtension(fileList[i]);
+                var itemName = Path.GetFileNameWithoutExtension(item);
                 // ReSharper disable once AssignNullToNotNullAttribute
                 if (App.charMap_Cn.ContainsKey(itemName))
                     itemName = App.charMap_Cn[itemName];
-                _applistData.Add(new AppListData(itemName, logo, fileList[i], target));
+                _applistData.Add(new AppListData(itemName, logo, item, target));
             }
             _applistData.Sort();
 #if DEBUG
@@ -761,6 +760,7 @@ namespace SaberColorfulStartmenu
 
 
         public class AppListData : IComparable<AppListData>
+
         {
             // ReSharper disable once UnusedAutoPropertyAccessor.Global
             public string AppName { get; set; }
