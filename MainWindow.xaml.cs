@@ -85,6 +85,7 @@ namespace SaberColorfulStartmenu
         private void Refresh_OnClick(object sender, RoutedEventArgs e)
         {
             SaveCheck();
+            appList.SelectedIndex = -1;
             RefreshList();
         }
 
@@ -402,18 +403,6 @@ namespace SaberColorfulStartmenu
                 BitmapSource logo;
                 if (iconPath.EndsWith(".exe",StringComparison.CurrentCultureIgnoreCase) || iconPath.EndsWith(".dll",StringComparison.CurrentCultureIgnoreCase)) {
                     try {
-                        //                        var icons = Helper.GetLargeIconsFromExeFile(iconPath);
-                        //                        logo = icons[iconId].ToBitmap().ToBitmapSource();
-
-                        //                        Parallel.ForEach(icons, item => {
-                        //                            Helper.DestroyIcon(item.Handle);
-                        //                            item.Dispose();
-                        //                        });
-
-                        //                        foreach (var item_ in icons) {
-                        //                            Helper.DestroyIcon(item_.Handle);
-                        //                            item_.Dispose();
-                        //                        }
                         var tmp = Helper.GetLargeIconsFromExeFile(iconPath, iconId);
                         if (tmp != null) {
                             logo = tmp.ToBitmap().ToBitmapSource();
@@ -752,7 +741,7 @@ namespace SaberColorfulStartmenu
             foreach (var item in _applistData) {
                 if (item.TargetPath == _currentInfo.Target) {
                     //update
-                    Helper.UpdateFile(_applistData[_currentId].FullPath);
+                    Helper.UpdateFile(item.FullPath);
                 }
             }
 
@@ -767,7 +756,6 @@ namespace SaberColorfulStartmenu
 
 
         public class AppListData : IComparable<AppListData>
-
         {
             // ReSharper disable once UnusedAutoPropertyAccessor.Global
             public string AppName { get; set; }

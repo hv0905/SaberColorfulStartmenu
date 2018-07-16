@@ -69,8 +69,8 @@
                 <ListBox.ItemTemplate>
                     <ItemContainerTemplate>
                         <StackPanel Orientation="Horizontal" Height="25">
-                            <Image Source="{Binding Path=Logo}"/>
-                            <TextBlock Text="{Binding Path=AppName}" FontSize="14"/>
+                            <Image Source="{Binding Logo}"/>
+                            <TextBlock Text="{Binding AppName}" FontSize="14"/>
                         </StackPanel>
                     </ItemContainerTemplate>
                 </ListBox.ItemTemplate>
