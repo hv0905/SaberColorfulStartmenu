@@ -338,11 +338,8 @@ namespace SaberColorfulStartmenu
 
         #region Functions
 
-
-
         private void RefreshList()
         {
-
 #if DEBUG
             var stop = new Stopwatch();
             stop.Start();
@@ -399,12 +396,11 @@ namespace SaberColorfulStartmenu
 
                     iconId = int.Parse(tmp[tmp.Length - 1]);
                     if (iconId < 0) iconId = 0;
-                    iconPath = Helper.ConvertEnviromentArgsInPath(
-                        shortcut.IconLocation.Replace($",{iconId}", string.Empty));
+                    iconPath = Helper.ConvertEnviromentArgsInPath(tmp[0]);
                 }
 
                 BitmapSource logo;
-                if (iconPath.EndsWith(".exe") || iconPath.EndsWith(".dll")) {
+                if (iconPath.EndsWith(".exe",StringComparison.CurrentCultureIgnoreCase) || iconPath.EndsWith(".dll",StringComparison.CurrentCultureIgnoreCase)) {
                     try {
                         //                        var icons = Helper.GetLargeIconsFromExeFile(iconPath);
                         //                        logo = icons[iconId].ToBitmap().ToBitmapSource();
@@ -418,9 +414,18 @@ namespace SaberColorfulStartmenu
                         //                            Helper.DestroyIcon(item_.Handle);
                         //                            item_.Dispose();
                         //                        }
-                        logo = Helper.GetLargeIconsFromExeFileSafe(iconPath, iconId).ToBitmap().ToBitmapSource();
+                        var tmp = Helper.GetLargeIconsFromExeFile(iconPath, iconId);
+                        if (tmp != null) {
+                            logo = tmp.ToBitmap().ToBitmapSource();
+                            Helper.DestroyIcon(tmp.Handle);
+                            tmp.Dispose();
+                        }
+                        else {
+                            logo = unknown;
+                        }
                     }
                     catch {
+                    //catch(NotImplementedException) {
                         logo = unknown;
                     }
                 }
@@ -432,6 +437,7 @@ namespace SaberColorfulStartmenu
                         ico.Dispose();
                     }
                     catch {
+                    //catch (NotImplementedException) {
                         logo = unknown;
                     }
                 }
@@ -444,6 +450,7 @@ namespace SaberColorfulStartmenu
                     itemName = App.charMap_Cn[itemName];
                 _applistData.Add(new AppListData(itemName, logo, item, target));
             }
+
             _applistData.Sort();
 #if DEBUG
             stop.Stop();
@@ -768,7 +775,8 @@ namespace SaberColorfulStartmenu
             public string FullPath { get; set; }
             public string TargetPath { get; set; }
 
-            public AppListData(string appName = null, BitmapSource logo = null, string fullPath = null, string targetPath = null)
+            public AppListData(string appName = null, BitmapSource logo = null, string fullPath = null,
+                               string targetPath = null)
             {
                 AppName = appName;
                 Logo = logo;
@@ -776,7 +784,8 @@ namespace SaberColorfulStartmenu
                 TargetPath = targetPath;
             }
 
-            public int CompareTo(AppListData other) => string.Compare(AppName, other.AppName, StringComparison.CurrentCulture);
+            public int CompareTo(AppListData other) =>
+                string.Compare(AppName, other.AppName, StringComparison.CurrentCulture);
         }
     }
 }

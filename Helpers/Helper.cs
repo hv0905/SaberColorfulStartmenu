@@ -46,7 +46,7 @@ namespace SaberColorfulStartmenu.Helpers
         //                                                IntPtr[] phiconSmall, int nIcons);
 
         [DllImport("shell32.dll")]
-        private static extern IntPtr ExtractIcon(IntPtr hInst, string pszExeFileName, int nIconIndex);
+        public static extern IntPtr ExtractIcon(IntPtr hInst, string pszExeFileName, int nIconIndex);
 
         /// <summary>
         /// 遍历一个目录，获取内部所有子文件夹的所有文件
@@ -105,18 +105,6 @@ namespace SaberColorfulStartmenu.Helpers
         {
             if (string.IsNullOrEmpty(exeFile))
                 throw new ArgumentException("Value cannot be null or empty.", nameof(exeFile));
-            //            //第一步：获取程序中的图标数  
-            //            var iconCount = ExtractIconEx(exeFile, -1, null, null, 0);
-            //            //第二步：创建存放大/小图标的空间  
-            //            var largeIcons = new IntPtr[iconCount];
-            //            var smallIcons = new IntPtr[iconCount];
-            //            //第三步：抽取所有的大小图标保存到largeIcons和smallIcons中  
-            //            ExtractIconEx(exeFile, 0, largeIcons, smallIcons, iconCount);
-            //            var result = largeIcons.Select(Icon.FromHandle).ToArray();
-            //            foreach (var item in smallIcons)
-            //            {
-            //                DestroyIcon(item);
-            //            }
             var iconCount = ExtractIcon(IntPtr.Zero, exeFile, -1).ToInt32();
             var icons = new IntPtr[iconCount];
             for (var i = 0; i < iconCount; i++) {
@@ -137,28 +125,34 @@ namespace SaberColorfulStartmenu.Helpers
         {
             if (string.IsNullOrEmpty(exeFile))
                 throw new ArgumentException("Value cannot be null or empty.", nameof(exeFile));
-            return Icon.FromHandle(ExtractIcon(IntPtr.Zero, exeFile, id));
+            var hwnd = ExtractIcon(IntPtr.Zero, exeFile, id);
+            if (hwnd != IntPtr.Zero) {
+                return Icon.FromHandle(hwnd);
+            }
+            else return null;
         }
 
-        /// <summary>
-        /// 根据图标索引获取图标
-        /// 使用该方法即使索引超出边界也不会出现Win32错误
-        /// 会抛出IndexOutOfRange异常
-        /// 本方法效率较低
-        /// </summary>
-        /// <param name="exeFile"></param>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public static Icon GetLargeIconsFromExeFileSafe(string exeFile, int id)
-        {
-            if (string.IsNullOrEmpty(exeFile))
-                throw new ArgumentException("Value cannot be null or empty.", nameof(exeFile));
-            var iconCount = ExtractIcon(IntPtr.Zero, exeFile, -1).ToInt32();
-            if (id < iconCount) {
-                return Icon.FromHandle(ExtractIcon(IntPtr.Zero, exeFile, id));
-            }
-            else throw new IndexOutOfRangeException();
-        }
+//        /// <summary>
+//        /// 根据图标索引获取图标
+//        /// 使用该方法即使索引超出边界也不会出现Win32错误
+//        /// 会返回Null
+//        /// 本方法效率较低
+//        /// </summary>
+//        /// <param name="exeFile"></param>
+//        /// <param name="id"></param>
+//        /// <returns></returns>
+//        public static Icon GetLargeIconsFromExeFileSafe(string exeFile, int id)
+//        {
+//            if (string.IsNullOrEmpty(exeFile))
+//                throw new ArgumentException("Value cannot be null or empty.", nameof(exeFile));
+//            var iconCount = ExtractIcon(IntPtr.Zero, exeFile, -1).ToInt32();
+//            if (id < iconCount) {
+//                return Icon.FromHandle(ExtractIcon(IntPtr.Zero, exeFile, id));
+//            }
+//            else {
+//                return Icon.FromHandle(ExtractIcon(IntPtr.Zero, exeFile, iconCount - 1));
+//            }
+//        }
 
         public static Color ToMediaColor(this System.Drawing.Color color) =>
             Color.FromArgb(color.A, color.R, color.G, color.B);
