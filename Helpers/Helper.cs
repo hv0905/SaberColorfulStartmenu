@@ -132,28 +132,6 @@ namespace SaberColorfulStartmenu.Helpers
             else return null;
         }
 
-//        /// <summary>
-//        /// 根据图标索引获取图标
-//        /// 使用该方法即使索引超出边界也不会出现Win32错误
-//        /// 会返回Null
-//        /// 本方法效率较低
-//        /// </summary>
-//        /// <param name="exeFile"></param>
-//        /// <param name="id"></param>
-//        /// <returns></returns>
-//        public static Icon GetLargeIconsFromExeFileSafe(string exeFile, int id)
-//        {
-//            if (string.IsNullOrEmpty(exeFile))
-//                throw new ArgumentException("Value cannot be null or empty.", nameof(exeFile));
-//            var iconCount = ExtractIcon(IntPtr.Zero, exeFile, -1).ToInt32();
-//            if (id < iconCount) {
-//                return Icon.FromHandle(ExtractIcon(IntPtr.Zero, exeFile, id));
-//            }
-//            else {
-//                return Icon.FromHandle(ExtractIcon(IntPtr.Zero, exeFile, iconCount - 1));
-//            }
-//        }
-
         public static Color ToMediaColor(this System.Drawing.Color color) =>
             Color.FromArgb(color.A, color.R, color.G, color.B);
 
