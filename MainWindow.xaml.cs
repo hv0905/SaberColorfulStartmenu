@@ -40,9 +40,6 @@ namespace SaberColorfulStartmenu
     {
         #region Fields
 
-        private List<string> _fileList = new List<string>();
-        //private List<BitmapSource> _logoList = new List<BitmapSource>();
-        private List<string> _targetList = new List<string>();
         private List<AppListData> _applistData = new List<AppListData>();
         private bool _saveFlag;
         private bool _loaded;
@@ -346,19 +343,18 @@ namespace SaberColorfulStartmenu
             stop.Start();
 #endif
             var unknown = Properties.Resources.unknown.ToBitmapSource();
-            _fileList.Clear();
-            _targetList.Clear();
             _applistData.Clear();
             GC.Collect();
 
             _currentId = -1;
             //获取所有子目录内容
             //只监视.lnk文件
-            _fileList.AddRange(Helper.GetAllFilesByDir(App.StartMenu));
-            _fileList.AddRange(Helper.GetAllFilesByDir(App.CommonStartMenu));
-            _fileList.RemoveAll(str => !str.EndsWith(".lnk", StringComparison.CurrentCultureIgnoreCase));
-            for (var i = 0; i < _fileList.Count; i++) {
-                WshShortcut shortcut = Helper.MainShell.CreateShortcut(_fileList[i]);
+            var fileList = new List<string>();
+            fileList.AddRange(Helper.GetAllFilesByDir(App.StartMenu));
+            fileList.AddRange(Helper.GetAllFilesByDir(App.CommonStartMenu));
+            fileList.RemoveAll(str => !str.EndsWith(".lnk", StringComparison.CurrentCultureIgnoreCase));
+            for (var i = 0; i < fileList.Count; i++) {
+                WshShortcut shortcut = Helper.MainShell.CreateShortcut(fileList[i]);
                 var target = Helper.ConvertEnviromentArgsInPath(shortcut.TargetPath);
                 //__tf:
                 Debug.WriteLine(target);
@@ -378,12 +374,11 @@ namespace SaberColorfulStartmenu
                     //                    }
 
                     Debug.WriteLine("Torow!!!");
-                    _fileList.RemoveAt(i);
+                    fileList.RemoveAt(i);
                     i--;
                     continue;
                 }
 
-                _targetList.Add(target);
 
                 //获取图标
                 string iconPath;
@@ -430,11 +425,11 @@ namespace SaberColorfulStartmenu
 
                 Debug.WriteLine($"icon id:{iconId};icon path:{iconPath}");
 
-                var itemName = Path.GetFileNameWithoutExtension(_fileList[i]);
+                var itemName = Path.GetFileNameWithoutExtension(fileList[i]);
                 // ReSharper disable once AssignNullToNotNullAttribute
                 if (App.charMap_Cn.ContainsKey(itemName))
                     itemName = App.charMap_Cn[itemName];
-                _applistData.Add(new AppListData(itemName,logo));
+                _applistData.Add(new AppListData(itemName,logo,fileList[i],target));
             }
 #if DEBUG
             stop.Stop();
@@ -450,7 +445,7 @@ namespace SaberColorfulStartmenu
             _logo = null;
             _scaleMode = false;
             try {
-                _currentInfo = new StartmenuShortcutInfo(_fileList[_currentId]);
+                _currentInfo = new StartmenuShortcutInfo(_applistData[_currentId].FullPath);
             }
             catch (UnauthorizedAccessException) {
                 MessageBox.Show("无法读取该文件设定.\n权限不足。", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -638,7 +633,7 @@ namespace SaberColorfulStartmenu
                     (_logo.PixelWidth > 150 || _logo.PixelHeight > 150) ? Stretch.Fill : Stretch.None;
             }
 
-            preview_LargeText.Text = Path.GetFileNameWithoutExtension(_fileList[_currentId]);
+            preview_LargeText.Text = Path.GetFileNameWithoutExtension(_applistData[_currentId].FullPath);
         }
 
         private bool SaveCheck()
@@ -733,10 +728,10 @@ namespace SaberColorfulStartmenu
             //Update file and let the explorer reload the link
             //需要检查是否有连带文件要update的
             //Helper.UpdateFile(_currentInfo.Location);
-            for (var i = 0; i < _targetList.Count; i++) {
-                if (_targetList[i] == _currentInfo.Target) {
+            foreach (var item in _applistData) {
+                if (item.TargetPath == _currentInfo.Target) {
                     //update
-                    Helper.UpdateFile(_fileList[i]);
+                    Helper.UpdateFile(_applistData[_currentId].FullPath);
                 }
             }
 
@@ -755,11 +750,15 @@ namespace SaberColorfulStartmenu
             // ReSharper disable once UnusedAutoPropertyAccessor.Global
             public string AppName { get; set; }
             public BitmapSource Logo { get; set; }
+            public string FullPath { get; set; }
+            public string TargetPath { get; set; }
 
-            public AppListData(string appName = null, BitmapSource logo = null)
+            public AppListData(string appName = null, BitmapSource logo = null,string fullPath = null,string targetPath = null)
             {
                 AppName = appName;
                 Logo = logo;
+                FullPath = fullPath;
+                TargetPath = targetPath;
             }
         }
     }
