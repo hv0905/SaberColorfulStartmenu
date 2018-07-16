@@ -1,16 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Media;
-using System.Diagnostics;
-using System.Reflection;
-using System.Net.Mail;
-using SaberColorfulStartmenu;
 using System.Windows.Forms;
 
 

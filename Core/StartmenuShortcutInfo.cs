@@ -16,11 +16,14 @@ namespace SaberColorfulStartmenu.Core
     public class StartmenuShortcutInfo
     {
         public StartmenuXmlFile XmlFile { get; set; }
-        public string XmlFileLocation { get; set; }
-        public string Location { get; set; }
-        public WshShortcut ShortcutInfo { get; set; }
-        public string Target { get; set; }
+        public string XmlFileLocation { get;}
+        public string Location { get; }
+        public WshShortcut ShortcutInfo { get; }
+        public string Target { get;  }
         public const string XML_FILE_SIGN = ".visualelementsmanifest.xml";
+
+        public string LogoDirLocation => Path.Combine(Path.GetDirectoryName(XmlFileLocation),
+            Properties.Resources.IconDirName);
 
 
         /// <summary>

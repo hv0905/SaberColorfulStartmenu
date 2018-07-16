@@ -70,7 +70,6 @@ namespace SaberColorfulStartmenu
                 AddExtension = true,
                 Filter = "图像文件|*.png;*.jpg;*.jpeg;*.gif"
             };
-
             RefreshList();
             appList.ItemsSource = _applistData;
         }
@@ -673,6 +672,9 @@ namespace SaberColorfulStartmenu
                                 MessageBoxImage.Warning) != MessageBoxResult.Yes) return false;
                         _currentInfo.XmlFile = null;
                         File.Delete(_currentInfo.XmlFileLocation);
+                        if (Directory.Exists(_currentInfo.LogoDirLocation)) {
+                            Directory.Delete(_currentInfo.LogoDirLocation,true);
+                        }
                     }
                 }
                 else {
@@ -688,8 +690,7 @@ namespace SaberColorfulStartmenu
                     //保存图片
                     var sha1 = SHA1.Create();
                     // ReSharper disable once AssignNullToNotNullAttribute
-                    var pathName = Path.Combine(Path.GetDirectoryName(_currentInfo.XmlFileLocation),
-                        Properties.Resources.IconDirName);
+                    var pathName = _currentInfo.LogoDirLocation;
                     if (!Directory.Exists(pathName))
                         Directory.CreateDirectory(pathName);
 
