@@ -247,13 +247,16 @@
     <None Include="龙_飞车.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Windows 9 Icons %28313%29.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="WpfImages\ok.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="WpfImages\Warning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="WpfImages\unknown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

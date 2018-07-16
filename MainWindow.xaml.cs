@@ -1,4 +1,6 @@
-﻿using SaberColorfulStartmenu.Core;
+﻿//#define DEBUG_SHOW_DETAILS
+
+using SaberColorfulStartmenu.Core;
 using SaberColorfulStartmenu.Helpers;
 using System;
 using System.Collections.Generic;
@@ -11,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.IO;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using IWshRuntimeLibrary;
@@ -335,6 +338,8 @@ namespace SaberColorfulStartmenu
 
         #region Functions
 
+
+
         private void RefreshList()
         {
 
@@ -342,7 +347,7 @@ namespace SaberColorfulStartmenu
             var stop = new Stopwatch();
             stop.Start();
 #endif
-            var unknown = Properties.Resources.unknown.ToBitmapSource();
+            var unknown = new BitmapImage(new Uri("WpfImages/unknown.png", UriKind.Relative));
             _applistData.Clear();
             GC.Collect();
 
@@ -357,7 +362,9 @@ namespace SaberColorfulStartmenu
                 WshShortcut shortcut = Helper.MainShell.CreateShortcut(fileList[i]);
                 var target = Helper.ConvertEnviromentArgsInPath(shortcut.TargetPath);
                 //__tf:
+#if DEBUG_SHOW_DETAILS
                 Debug.WriteLine(target);
+#endif
                 if ((!target.EndsWith(".exe", StringComparison.CurrentCultureIgnoreCase)) || !File.Exists(target)) {
                     //Reason 在目前版本的Win10中（1803）无法再重现此问题，暂时删除
                     //                    if (target.ToLower().Contains("program files (x86)")) {
@@ -372,8 +379,9 @@ namespace SaberColorfulStartmenu
                     //                        target = target.ToLower().Replace("program files (x86)", "program files");
                     //                        goto __tf;
                     //                    }
-
+#if DEBUG_SHOW_DETAILS
                     Debug.WriteLine("Torow!!!");
+#endif
                     fileList.RemoveAt(i);
                     i--;
                     continue;
@@ -392,6 +400,7 @@ namespace SaberColorfulStartmenu
                     var tmp = shortcut.IconLocation.Split(',');
 
                     iconId = int.Parse(tmp[tmp.Length - 1]);
+                    if (iconId < 0) iconId = 0;
                     iconPath = Helper.ConvertEnviromentArgsInPath(
                         shortcut.IconLocation.Replace($",{iconId}", string.Empty));
                 }
@@ -401,6 +410,11 @@ namespace SaberColorfulStartmenu
                     try {
                         var icons = Helper.GetLargeIconsFromExeFile(iconPath);
                         logo = icons[iconId].ToBitmap().ToBitmapSource();
+
+                        //                        Parallel.ForEach(icons, item => {
+                        //                            Helper.DestroyIcon(item.Handle);
+                        //                            item.Dispose();
+                        //                        });
 
                         foreach (var item in icons) {
                             Helper.DestroyIcon(item.Handle);
@@ -422,15 +436,16 @@ namespace SaberColorfulStartmenu
                         logo = unknown;
                     }
                 }
-
+#if DEBUG_SHOW_DETAILS
                 Debug.WriteLine($"icon id:{iconId};icon path:{iconPath}");
-
+#endif
                 var itemName = Path.GetFileNameWithoutExtension(fileList[i]);
                 // ReSharper disable once AssignNullToNotNullAttribute
                 if (App.charMap_Cn.ContainsKey(itemName))
                     itemName = App.charMap_Cn[itemName];
-                _applistData.Add(new AppListData(itemName,logo,fileList[i],target));
+                _applistData.Add(new AppListData(itemName, logo, fileList[i], target));
             }
+            _applistData.Sort();
 #if DEBUG
             stop.Stop();
             Debug.WriteLine("Refresh list take:" + stop.Elapsed + " ms");
@@ -668,7 +683,7 @@ namespace SaberColorfulStartmenu
                         _currentInfo.XmlFile = null;
                         File.Delete(_currentInfo.XmlFileLocation);
                         if (Directory.Exists(_currentInfo.LogoDirLocation)) {
-                            Directory.Delete(_currentInfo.LogoDirLocation,true);
+                            Directory.Delete(_currentInfo.LogoDirLocation, true);
                         }
                     }
                 }
@@ -745,7 +760,7 @@ namespace SaberColorfulStartmenu
         #endregion
 
 
-        public class AppListData
+        public class AppListData : IComparable<AppListData>
         {
             // ReSharper disable once UnusedAutoPropertyAccessor.Global
             public string AppName { get; set; }
@@ -753,13 +768,15 @@ namespace SaberColorfulStartmenu
             public string FullPath { get; set; }
             public string TargetPath { get; set; }
 
-            public AppListData(string appName = null, BitmapSource logo = null,string fullPath = null,string targetPath = null)
+            public AppListData(string appName = null, BitmapSource logo = null, string fullPath = null, string targetPath = null)
             {
                 AppName = appName;
                 Logo = logo;
                 FullPath = fullPath;
                 TargetPath = targetPath;
             }
+
+            public int CompareTo(AppListData other) => string.Compare(AppName, other.AppName, StringComparison.CurrentCulture);
         }
     }
 }
