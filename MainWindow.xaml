@@ -207,8 +207,8 @@
                                     <SolidColorBrush Color="White" Opacity="0.6" />
                                 </TextBox.Background>
                             </TextBox>
-                            <Button Style="{StaticResource CoreButton}" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2"
-                                    Content="调色板"
+                            <Button Style="{StaticResource Win8UWPBtn}" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2"
+                                    Content="调色板" FontSize="16"
                                     Margin="2" Click="ButtonBase_OnClick_5" />
                         </Grid>
                     </GroupBox>
@@ -239,8 +239,8 @@
                               Checked="SaveAndUpdate_RoutedEvent" Unchecked="SaveAndUpdate_RoutedEvent" Opacity="1" />
                     <StackPanel Visibility="{Binding Visibility, ElementName=colorSelector}">
                         <!--该应用开发者可能已经定义可缩放的自定义图标&#13;更改图标将覆盖开发者定义的图标设定-->
-                        <Button Style="{StaticResource CoreButton}" Content="选择图标. . ."
-                                Click="ButtonBase_OnClick_7"
+                        <Button Style="{StaticResource Win8UWPBtn}" Content="选择图标. . ."
+                                Click="ButtonBase_OnClick_7" FontSize="14"
                                 IsEnabled="{Binding IsChecked, ElementName=defineIconCheck}" Opacity="1" />
                         <Grid x:Name="grdDevDefIco" Margin="2">
                             <Grid.Background>

@@ -19,7 +19,6 @@ using __WinForm = System.Windows.Forms;
 using Brushes = System.Windows.Media.Brushes;
 using Color = System.Windows.Media.Color;
 using File = System.IO.File;
-using Image = System.Windows.Controls.Image;
 
 /*
  * 这里解释下win10下开始菜单重复快捷方式的判定
@@ -87,7 +86,6 @@ namespace SaberColorfulStartmenu
         private void Refresh_OnClick(object sender, RoutedEventArgs e)
         {
             SaveCheck();
-            appList.Items.Clear();
             RefreshList();
         }
 
@@ -343,14 +341,13 @@ namespace SaberColorfulStartmenu
 
         private void RefreshList()
         {
+
 #if DEBUG
             var stop = new Stopwatch();
             stop.Start();
 #endif
             var unknown = Properties.Resources.unknown.ToBitmapSource();
             _fileList.Clear();
-            appList.Items.Clear();
-            //_logoList.Clear();
             _targetList.Clear();
             _applistData.Clear();
             GC.Collect();
@@ -434,7 +431,6 @@ namespace SaberColorfulStartmenu
 
                 Debug.WriteLine($"icon id:{iconId};icon path:{iconPath}");
 
-                //构造UI
                 var itemName = Path.GetFileNameWithoutExtension(_fileList[i]);
                 // ReSharper disable once AssignNullToNotNullAttribute
                 if (App.charMap_Cn.ContainsKey(itemName))
