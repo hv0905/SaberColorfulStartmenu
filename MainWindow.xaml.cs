@@ -42,8 +42,9 @@ namespace SaberColorfulStartmenu
         #region Fields
 
         private List<string> _fileList = new List<string>();
-        private List<BitmapSource> _logoList = new List<BitmapSource>();
+        //private List<BitmapSource> _logoList = new List<BitmapSource>();
         private List<string> _targetList = new List<string>();
+        private List<AppListData> _applistData = new List<AppListData>();
         private bool _saveFlag;
         private bool _loaded;
         private bool _sysChangeing, _scaleMode;
@@ -60,16 +61,19 @@ namespace SaberColorfulStartmenu
 
         public MainWindow()
         {
-            _colorDialog = new __WinForm.ColorDialog();
-            _openFile = new OpenFileDialog();
-
             InitializeComponent();
-            _colorDialog.AllowFullOpen = true;
-            _colorDialog.AnyColor = true;
-            _colorDialog.FullOpen = true;
-            _openFile.AddExtension = true;
-            _openFile.Filter = "图像文件|*.png;*.jpg;*.jpeg;*.gif";
+            _colorDialog = new __WinForm.ColorDialog {
+                AllowFullOpen = true,
+                AnyColor = true,
+                FullOpen = true
+            };
+            _openFile = new OpenFileDialog {
+                AddExtension = true,
+                Filter = "图像文件|*.png;*.jpg;*.jpeg;*.gif"
+            };
+
             RefreshList();
+            appList.ItemsSource = _applistData;
         }
 
         #region Events
@@ -346,8 +350,9 @@ namespace SaberColorfulStartmenu
             var unknown = Properties.Resources.unknown.ToBitmapSource();
             _fileList.Clear();
             appList.Items.Clear();
-            _logoList.Clear();
+            //_logoList.Clear();
             _targetList.Clear();
+            _applistData.Clear();
             GC.Collect();
 
             _currentId = -1;
@@ -400,10 +405,11 @@ namespace SaberColorfulStartmenu
                         shortcut.IconLocation.Replace($",{iconId}", string.Empty));
                 }
 
+                BitmapSource logo;
                 if (iconPath.EndsWith(".exe") || iconPath.EndsWith(".dll")) {
                     try {
                         var icons = Helper.GetLargeIconsFromExeFile(iconPath);
-                        _logoList.Add(icons[iconId].ToBitmap().ToBitmapSource());
+                        logo = icons[iconId].ToBitmap().ToBitmapSource();
 
                         foreach (var item in icons) {
                             Helper.DestroyIcon(item.Handle);
@@ -411,18 +417,18 @@ namespace SaberColorfulStartmenu
                         }
                     }
                     catch {
-                        _logoList.Add(unknown);
+                        logo = unknown;
                     }
                 }
                 else {
                     //ico
                     try {
                         var ico = new Icon(iconPath);
-                        _logoList.Add(ico.ToBitmap().ToBitmapSource());
+                        logo = ico.ToBitmap().ToBitmapSource();
                         ico.Dispose();
                     }
                     catch {
-                        _logoList.Add(unknown);
+                        logo = unknown;
                     }
                 }
 
@@ -433,17 +439,7 @@ namespace SaberColorfulStartmenu
                 // ReSharper disable once AssignNullToNotNullAttribute
                 if (App.charMap_Cn.ContainsKey(itemName))
                     itemName = App.charMap_Cn[itemName];
-                var lvi = new ListViewItem();
-                var sp = new StackPanel() {
-                    Orientation = Orientation.Horizontal,
-                    Height = 25
-                };
-                sp.Children.Add(new Image() {
-                    Source = _logoList[i]
-                });
-                sp.Children.Add(new TextBlock() {Text = itemName, FontSize = 14});
-                lvi.Content = sp;
-                appList.Items.Add(lvi);
+                _applistData.Add(new AppListData(itemName,logo));
             }
 #if DEBUG
             stop.Stop();
@@ -461,12 +457,12 @@ namespace SaberColorfulStartmenu
             try {
                 _currentInfo = new StartmenuShortcutInfo(_fileList[_currentId]);
             }
-             catch(UnauthorizedAccessException) {
-                 MessageBox.Show("无法读取该文件设定.\n权限不足。", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
-                 _sysChangeing = false;
-                 appList.SelectedIndex = -1;
+            catch (UnauthorizedAccessException) {
+                MessageBox.Show("无法读取该文件设定.\n权限不足。", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                _sysChangeing = false;
+                appList.SelectedIndex = -1;
                 return;
-             }
+            }
 
             if (_currentInfo.XmlFile == null) {
                 modeCheck.IsChecked = false;
@@ -488,67 +484,51 @@ namespace SaberColorfulStartmenu
                     //Color
                     switch (_currentInfo.XmlFile.ColorStr) {
                         case "black":
-                            //                            _currentColor = Colors.Black;
                             colorSelector_1.IsChecked = true;
                             break;
                         case "silver":
-                            //                            _currentColor = Colors.Silver;
                             colorSelector_2.IsChecked = true;
                             break;
                         case "gray":
-                            //                            _currentColor = Colors.Gray;
                             colorSelector_3.IsChecked = true;
                             break;
                         case "white":
-                            //                            _currentColor = Colors.White;
                             colorSelector_4.IsChecked = true;
                             break;
                         case "maroon":
-                            //                            _currentColor = Colors.Maroon;
                             colorSelector_5.IsChecked = true;
                             break;
                         case "red":
-                            //                            _currentColor = Colors.Red;
                             colorSelector_6.IsChecked = true;
                             break;
                         case "purple":
-                            //                            _currentColor = Colors.Purple;
                             colorSelector_7.IsChecked = true;
                             break;
                         case "fuchsia":
-                            //                            _currentColor = Colors.Fuchsia;
                             colorSelector_8.IsChecked = true;
                             break;
                         case "green":
-                            //                            _currentColor = Colors.Green;
                             colorSelector_9.IsChecked = true;
                             break;
                         case "lime":
-                            //                            _currentColor = Colors.Lime;
                             colorSelector_10.IsChecked = true;
                             break;
                         case "olive":
-                            //                            _currentColor = Colors.Olive;
                             colorSelector_11.IsChecked = true;
                             break;
                         case "yellow":
-                            //                            _currentColor = Colors.Yellow;
                             colorSelector_12.IsChecked = true;
                             break;
                         case "navy":
-                            //                            _currentColor = Colors.Navy;
                             colorSelector_13.IsChecked = true;
                             break;
                         case "blue":
-                            //                            _currentColor = Colors.Blue;
                             colorSelector_14.IsChecked = true;
                             break;
                         case "teal":
-                            //                            _currentColor = Colors.Teal;
                             colorSelector_15.IsChecked = true;
                             break;
                         case "aqua":
-                            //                            _currentColor = Colors.Aqua;
                             colorSelector_16.IsChecked = true;
                             break;
                         default:
@@ -652,7 +632,7 @@ namespace SaberColorfulStartmenu
             preview_LargeText.Visibility =
                 largeAppNameCheck.IsChecked ?? false ? Visibility.Visible : Visibility.Hidden;
             if (_logo == null || !(defineIconCheck.IsChecked ?? false)) {
-                preview_SmallImg.Source = preview_LargeImg.Source = _logoList[_currentId];
+                preview_SmallImg.Source = preview_LargeImg.Source = _applistData[_currentId].Logo;
                 preview_SmallImg.Stretch = preview_LargeImg.Stretch = Stretch.None;
             }
             else {
@@ -744,7 +724,7 @@ namespace SaberColorfulStartmenu
                     try {
                         _currentInfo.XmlFile.Save();
                     }
-                    catch(UnauthorizedAccessException) {
+                    catch (UnauthorizedAccessException) {
                         MessageBox.Show("无法保存设定.\n权限不足.", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
                         return false;
                     }
@@ -771,5 +751,19 @@ namespace SaberColorfulStartmenu
         }
 
         #endregion
+
+
+        public class AppListData
+        {
+            // ReSharper disable once UnusedAutoPropertyAccessor.Global
+            public string AppName { get; set; }
+            public BitmapSource Logo { get; set; }
+
+            public AppListData(string appName = null, BitmapSource logo = null)
+            {
+                AppName = appName;
+                Logo = logo;
+            }
+        }
     }
 }

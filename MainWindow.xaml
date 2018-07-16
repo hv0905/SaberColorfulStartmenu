@@ -66,6 +66,14 @@
                 <RowDefinition Height="35" />
             </Grid.RowDefinitions>
             <ListBox x:Name="appList" Margin="2" SelectionChanged="AppList_OnSelectionChanged">
+                <ListBox.ItemTemplate>
+                    <ItemContainerTemplate>
+                        <StackPanel Orientation="Horizontal" Height="25">
+                            <Image Source="{Binding Path=Logo}"/>
+                            <TextBlock Text="{Binding Path=AppName}" FontSize="14"/>
+                        </StackPanel>
+                    </ItemContainerTemplate>
+                </ListBox.ItemTemplate>
                 <ListBox.Background>
                     <SolidColorBrush Color="White" Opacity="0.6" />
                 </ListBox.Background>
@@ -231,6 +239,9 @@
                               Checked="SaveAndUpdate_RoutedEvent" Unchecked="SaveAndUpdate_RoutedEvent" Opacity="1" />
                     <StackPanel Visibility="{Binding Visibility, ElementName=colorSelector}">
                         <!--该应用开发者可能已经定义可缩放的自定义图标&#13;更改图标将覆盖开发者定义的图标设定-->
+                        <Button Style="{StaticResource CoreButton}" Content="选择图标. . ."
+                                Click="ButtonBase_OnClick_7"
+                                IsEnabled="{Binding IsChecked, ElementName=defineIconCheck}" Opacity="1" />
                         <Grid x:Name="grdDevDefIco" Margin="2">
                             <Grid.Background>
                                 <SolidColorBrush Color="Orange" Opacity="0.4" />
@@ -240,12 +251,10 @@
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <Image Source="WpfImages/Warning.png" Margin="2" />
-                            <TextBlock Text="该应用开发者可能已经定义可缩放的自定义图标&#13;更改图标将覆盖开发者定义的图标设定" Grid.Column="1" FontSize="16"
+                            <TextBlock Text="该应用开发者可能已经定义可缩放的自定义图标&#13;更改或取消图标将覆盖开发者定义的图标设定" Grid.Column="1" FontSize="16"
                                        Foreground="White" />
                         </Grid>
-                        <Button Style="{StaticResource CoreButton}" x:Name="btnChangeLogo" Content="选择图标. . ."
-                                Click="ButtonBase_OnClick_7"
-                                IsEnabled="{Binding IsChecked, ElementName=defineIconCheck}" Opacity="1" />
+
 
                     </StackPanel>
                 </StackPanel>

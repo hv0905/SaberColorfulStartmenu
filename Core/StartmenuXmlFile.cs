@@ -17,33 +17,6 @@ namespace SaberColorfulStartmenu.Core
         private XmlElement _visualElements;
         public string ColorStr { get; set; }
 
-        //        public string LargeLogoLoc
-        //        {
-        //            // ReSharper disable once AssignNullToNotNullAttribute
-        //            get {
-        //                if (!string.IsNullOrEmpty(_largeLogoLoc))
-        //                    return _largeLogoLoc[2] != ':'
-        //                        ? Path.Combine(Path.GetDirectoryName(FileName), _largeLogoLoc)
-        //                        : _largeLogoLoc;
-        //                else return null;
-        //            }
-        //            set => _largeLogoLoc = value;
-        //        }
-        //
-        //        public string SmallLogoLoc
-        //        {
-        //            get {
-        //                if (!string.IsNullOrEmpty(_smallLogoLoc))
-        //                    return _smallLogoLoc[2] != ':' //不是磁盘
-        //                        // ReSharper disable once AssignNullToNotNullAttribute
-        //                        ? Path.Combine(Path.GetDirectoryName(FileName), _smallLogoLoc)
-        //                        : _smallLogoLoc;
-        //                else return null;
-        //            }
-        //
-        //            set => _smallLogoLoc = value;
-        //        }
-
         public string LargeLogoLoc { get; set; }
 
         public string SmallLogoLoc { get; set; }
