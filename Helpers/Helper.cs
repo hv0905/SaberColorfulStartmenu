@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -21,6 +22,8 @@ namespace SaberColorfulStartmenu.Helpers
     public static class Helper
     {
         public static readonly WshShell MainShell = new WshShell();
+
+        public static readonly IDictionary ev = Environment.GetEnvironmentVariables();
 
         /// <summary>
         /// 通过句柄销毁HBitmap
@@ -139,17 +142,23 @@ namespace SaberColorfulStartmenu.Helpers
         public static string ConvertEnviromentArgsInPath(string path)
         {
             if (!path.Contains("%")) return path;
-            var ps = Process.Start(new ProcessStartInfo() {
-                FileName = "cmd.exe",
-                Arguments = $"/C \"echo {path}\"",
-                CreateNoWindow = true,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false
-            }); //使用cmd的ECHO命令进行转换
-            //简单粗暴的解决方案=.=
-            // ReSharper disable once PossibleNullReferenceException
-            return ps.StandardOutput.ReadLine()?.Trim();
+            var sb = new StringBuilder(path);
+            foreach (DictionaryEntry dictionaryEntry in ev) {
+                sb.Replace($"%{(string)dictionaryEntry.Key}%", (string)dictionaryEntry.Value);
+            }
+
+            return sb.ToString();
+            //            var ps = Process.Start(new ProcessStartInfo() {
+            //                FileName = "cmd.exe",
+            //                Arguments = $"/C \"echo {path}\"",
+            //                CreateNoWindow = true,
+            //                RedirectStandardOutput = true,
+            //                RedirectStandardError = true,
+            //                UseShellExecute = false
+            //            }); //使用cmd的ECHO命令进行转换
+            //            //简单粗暴的解决方案=.=
+            //            // ReSharper disable once PossibleNullReferenceException
+            //            return ps.StandardOutput.ReadLine()?.Trim();
         }
 
         /// <summary>
