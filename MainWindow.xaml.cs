@@ -333,6 +333,26 @@ namespace SaberColorfulStartmenu
                 group_Color.Visibility =
                     colorSelector_17.IsChecked ?? false ? Visibility.Visible : Visibility.Collapsed;
             }
+
+            if (!_sysChangeing) UpdateRender();
+        }
+
+        private void UndoBtn_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (_currentId == -1) return;
+            if (MessageBox.Show("将还原上一次保存的更改\n继续？", "Undo", MessageBoxButton.YesNo, MessageBoxImage.Asterisk) !=
+                MessageBoxResult.Yes) return;
+            _saveFlag = false;
+            var currentInfo = _applistData[_currentId];
+            currentInfo.Undo();
+            foreach (var item in _applistData) {
+                if (item.TargetPath == currentInfo.TargetPath) {
+                    //update
+                    Helper.UpdateFile(item.FullPath);
+                }
+            }
+
+            Load();
         }
 
         #endregion
@@ -565,11 +585,13 @@ namespace SaberColorfulStartmenu
                     // ReSharper disable once HeuristicUnreachableCode
                     MessageBox.Show("读取配置文件时发生错误\n已重置到初始值", "错误", MessageBoxButton.OK, MessageBoxImage.Warning);
                     File.Delete(currentInfo.XmlFileLocation);
+                    currentInfo.XmlFile = null;
                     Load();
                     return;
                 }
             }
 
+            undoBtn.IsEnabled = File.Exists(currentInfo.BakFileLocation);
             UpdateRender();
             _sysChangeing = false;
         }
@@ -629,9 +651,14 @@ namespace SaberColorfulStartmenu
                                 MessageBoxImage.Warning) != MessageBoxResult.Yes) return false;
                         currentInfo.XmlFile = null;
                         File.Delete(currentInfo.XmlFileLocation);
-                        if (Directory.Exists(currentInfo.LogoDirLocation)) {
-                            Directory.Delete(currentInfo.LogoDirLocation, true);
-                        }
+                        //                        if (File.Exists(currentInfo.BakFileLocation)) {
+                        //                            File.Delete(currentInfo.BakFileLocation);
+                        //                        }
+                        //                        if (Directory.Exists(currentInfo.LogoDirLocation)) {
+                        //                            Directory.Delete(currentInfo.LogoDirLocation, true);
+                        //                        }
+
+                        _logo = null;
                     }
                 }
                 else {
@@ -676,6 +703,7 @@ namespace SaberColorfulStartmenu
                     }
 
                     try {
+                        currentInfo.Backup();
                         currentInfo.XmlFile.Save();
                     }
                     catch (UnauthorizedAccessException) {

@@ -306,11 +306,16 @@
                     </StackPanel>
                 </Button>
                 <Button Style="{StaticResource CoreButton}" Click="ButtonBase_OnClick_6" Margin="2"
-                        ToolTip="按Enter即可保存.&#13;保存后更改应立即生效（自定义图标除外），若保存后更改没有立即生效，可能由于要更改的应用正在运行。你可以在稍后再次尝试点击保存更新文件来应用更改"
+                        ToolTip="按Enter即可保存.右键可以还原上一次的更改&#13;保存后更改应立即生效（自定义图标除外），若保存后更改没有立即生效，可能由于要更改的应用正在运行。你可以在稍后再次尝试点击保存更新文件来应用更改"
                         DockPanel.Dock="Right" Width="200" IsDefault="True">
                     <Button.Background>
                         <SolidColorBrush x:Name="saveButton_Bg" Color="HotPink" Opacity="0.6" />
                     </Button.Background>
+                    <Button.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem x:Name="undoBtn" Header="还原上一次更改" ToolTip="使用.bak文件还原到上一次的更改" Click="UndoBtn_OnClick" IsEnabled="False"/>
+                        </ContextMenu>
+                    </Button.ContextMenu>
                     <Grid>
                         <StackPanel x:Name="saveButton_Save" Orientation="Horizontal" HorizontalAlignment="Center">
                             <Image Source="WpfImages/save.png" Visibility="Visible" />

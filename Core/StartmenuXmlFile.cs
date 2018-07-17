@@ -93,8 +93,6 @@ namespace SaberColorfulStartmenu.Core
         /// </summary>
         public void Save()
         {
-            Backup();
-
             _visualElements.Attributes["BackgroundColor"].Value = ColorStr;
             _visualElements.Attributes["ShowNameOnSquare150x150Logo"].Value = ShowTitleOnLargeIcon ? "on" : "off";
             _visualElements.Attributes["ForegroundText"].Value = TxtForeground.ToString();
@@ -137,16 +135,6 @@ namespace SaberColorfulStartmenu.Core
             // ReSharper disable once AssignNullToNotNullAttribute
             ? Path.Combine(Path.GetDirectoryName(FileName), loc)
             : loc;
-
-        /// <summary>
-        /// 备份xml文件
-        /// </summary>
-        public void Backup()
-        {
-            if (File.Exists(FileName)) {
-                File.Copy(FileName, FileName + ".bak", true);
-            }
-        }
 
 
         /// <summary>

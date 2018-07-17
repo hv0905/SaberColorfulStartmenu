@@ -26,6 +26,7 @@ namespace SaberColorfulStartmenu.Core
         public string TargetPath { get; }
         public string LogoDirLocation =>
             Path.Combine(Path.GetDirectoryName(XmlFileLocation), Properties.Resources.IconDirName);
+        public string BakFileLocation => XmlFileLocation + ".bak";
 
 
         /// <summary>
@@ -58,7 +59,7 @@ namespace SaberColorfulStartmenu.Core
         /// </summary>
         /// <param name="shortcutFileName"></param>
         /// <param name="shortcutInfo"></param>
-        public StartmenuShortcutInfo(string shortcutFileName,WshShortcut shortcutInfo)
+        public StartmenuShortcutInfo(string shortcutFileName, WshShortcut shortcutInfo)
         {
             FullPath = shortcutFileName;
             ShortcutInfo = shortcutInfo;
@@ -142,6 +143,32 @@ namespace SaberColorfulStartmenu.Core
                 XmlFile = StartmenuXmlFile.Load(XmlFileLocation);
             }
         }
+
+        /// <summary>
+        /// 备份xml文件
+        /// </summary>
+        public void Backup()
+        {
+            if (File.Exists(XmlFileLocation)) {
+                File.Copy(XmlFileLocation, BakFileLocation, true);
+            }
+        }
+
+        /// <summary>
+        /// 用bak还原xml
+        /// </summary>
+        public bool Undo()
+        {
+            if (File.Exists(BakFileLocation)) {
+                XmlFile = null;
+                File.Copy(BakFileLocation, XmlFileLocation, true);
+                File.Delete(BakFileLocation);
+                return true;
+            }
+
+            return false;
+        }
+
 
         public int CompareTo(StartmenuShortcutInfo other) =>
             string.Compare(AppName, other.AppName, StringComparison.CurrentCulture);
