@@ -43,7 +43,7 @@ namespace SaberColorfulStartmenu
     {
         #region Fields
 
-        private List<AppListData> _applistData = new List<AppListData>();
+        private List<StartmenuShortcutInfo> _applistData = new List<StartmenuShortcutInfo>();
         private bool _saveFlag;
         private bool _loaded;
         private bool _sysChangeing, _scaleMode;
@@ -53,7 +53,7 @@ namespace SaberColorfulStartmenu
         private __WinForm.ColorDialog _colorDialog;
         private OpenFileDialog _openFile;
         private BitmapSource _logo;
-        private StartmenuShortcutInfo _currentInfo;
+        //private StartmenuShortcutInfo _currentInfo;
         private string _newLogoLoc;
 
         #endregion
@@ -345,7 +345,6 @@ namespace SaberColorfulStartmenu
             var stop = new Stopwatch();
             stop.Start();
 #endif
-            var unknown = new BitmapImage(new Uri("WpfImages/unknown.png", UriKind.Relative));
             _applistData.Clear();
             GC.Collect();
 
@@ -383,61 +382,9 @@ namespace SaberColorfulStartmenu
                     continue;
                 }
 
-
-                //获取图标
-                string iconPath;
-                int iconId;
-                if (shortcut.IconLocation.Trim().StartsWith(",")) {
-                    //targetpath对应icon
-                    iconId = int.Parse(shortcut.IconLocation.Substring(1));
-                    iconPath = target;
-                }
-                else {
-                    var tmp = shortcut.IconLocation.Split(',');
-
-                    iconId = int.Parse(tmp[tmp.Length - 1]);
-                    if (iconId < 0) iconId = 0;
-                    iconPath = Helper.ConvertEnviromentArgsInPath(tmp[0]);
-                }
-
-                BitmapSource logo;
-                if (iconPath.EndsWith(".exe",StringComparison.CurrentCultureIgnoreCase) || iconPath.EndsWith(".dll",StringComparison.CurrentCultureIgnoreCase)) {
-                    try {
-                        var tmp = Helper.GetLargeIconsFromExeFile(iconPath, iconId);
-                        if (tmp != null) {
-                            logo = tmp.ToBitmap().ToBitmapSource();
-                            Helper.DestroyIcon(tmp.Handle);
-                            tmp.Dispose();
-                        }
-                        else {
-                            logo = unknown;
-                        }
-                    }
-                    catch {
-                    //catch(NotImplementedException) {
-                        logo = unknown;
-                    }
-                }
-                else {
-                    //ico
-                    try {
-                        var ico = new Icon(iconPath);
-                        logo = ico.ToBitmap().ToBitmapSource();
-                        ico.Dispose();
-                    }
-                    catch {
-                    //catch (NotImplementedException) {
-                        logo = unknown;
-                    }
-                }
-#if DEBUG_SHOW_DETAILS
-                Debug.WriteLine($"icon id:{iconId};icon path:{iconPath}");
-#endif
-                var itemName = Path.GetFileNameWithoutExtension(item);
-                // ReSharper disable once AssignNullToNotNullAttribute
-                if (App.charMap_Cn.ContainsKey(itemName))
-                    itemName = App.charMap_Cn[itemName];
-                _applistData.Add(new AppListData(itemName, logo, item, target));
+                var si = new StartmenuShortcutInfo(item, shortcut);
+                si.LoadIcon();
+                _applistData.Add(si);
             }
 
             _applistData.Sort();
@@ -454,17 +401,21 @@ namespace SaberColorfulStartmenu
             _newLogoLoc = null; //防止意外的保存
             _logo = null;
             _scaleMode = false;
-            try {
-                _currentInfo = new StartmenuShortcutInfo(_applistData[_currentId].FullPath);
-            }
-            catch (UnauthorizedAccessException) {
-                MessageBox.Show("无法读取该文件设定.\n权限不足。", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
-                _sysChangeing = false;
-                appList.SelectedIndex = -1;
-                return;
+
+            var currentInfo = _applistData[_currentId];
+            if (currentInfo.XmlFile == null) {
+                try {
+                    currentInfo.LoadXmlInfo();
+                }
+                catch (UnauthorizedAccessException) {
+                    MessageBox.Show("无法读取该文件设定.\n权限不足。", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                    _sysChangeing = false;
+                    appList.SelectedIndex = -1;
+                    return;
+                }
             }
 
-            if (_currentInfo.XmlFile == null) {
+            if (currentInfo.XmlFile == null) {
                 modeCheck.IsChecked = false;
 
                 //set everything to empty
@@ -482,7 +433,7 @@ namespace SaberColorfulStartmenu
 
                 try {
                     //Color
-                    switch (_currentInfo.XmlFile.ColorStr) {
+                    switch (currentInfo.XmlFile.ColorStr) {
                         case "black":
                             colorSelector_1.IsChecked = true;
                             break;
@@ -533,13 +484,13 @@ namespace SaberColorfulStartmenu
                             break;
                         default:
                             try {
-                                _currentColor = Helper.GetColorFromRgbString(_currentInfo.XmlFile.ColorStr);
-                                _currentColorString = _currentInfo.XmlFile.ColorStr;
+                                _currentColor = Helper.GetColorFromRgbString(currentInfo.XmlFile.ColorStr);
+                                _currentColorString = currentInfo.XmlFile.ColorStr;
                                 colorSelector_17.IsChecked = true;
-                                defineColorText.Text = _currentInfo.XmlFile.ColorStr;
+                                defineColorText.Text = currentInfo.XmlFile.ColorStr;
                             }
                             catch (FormatException) {
-                                _currentInfo.XmlFile.ColorStr = "black";
+                                currentInfo.XmlFile.ColorStr = "black";
                                 _currentColor = Colors.Black;
                                 colorSelector_1.IsChecked = true;
                             }
@@ -548,25 +499,25 @@ namespace SaberColorfulStartmenu
                     }
 
                     //Logo
-                    if (string.IsNullOrEmpty(_currentInfo.XmlFile.SmallLogoLoc) &&
-                        !string.IsNullOrEmpty(_currentInfo.XmlFile.LargeLogoLoc)) {
+                    if (string.IsNullOrEmpty(currentInfo.XmlFile.SmallLogoLoc) &&
+                        !string.IsNullOrEmpty(currentInfo.XmlFile.LargeLogoLoc)) {
                         //replace smallLogo with largeLogo
-                        _currentInfo.XmlFile.SmallLogoLoc = _currentInfo.XmlFile.LargeLogoLoc;
+                        currentInfo.XmlFile.SmallLogoLoc = currentInfo.XmlFile.LargeLogoLoc;
                     }
 
-                    if (!string.IsNullOrEmpty(_currentInfo.XmlFile.SmallLogoLoc)) {
+                    if (!string.IsNullOrEmpty(currentInfo.XmlFile.SmallLogoLoc)) {
                         void CheckLargeLoc()
                         {
-                            if (string.IsNullOrEmpty(_currentInfo.XmlFile.LargeLogoLoc)) {
-                                _currentInfo.XmlFile.LargeLogoLoc = _currentInfo.XmlFile.SmallLogoLoc;
+                            if (string.IsNullOrEmpty(currentInfo.XmlFile.LargeLogoLoc)) {
+                                currentInfo.XmlFile.LargeLogoLoc = currentInfo.XmlFile.SmallLogoLoc;
                             }
                         }
 
-                        if (File.Exists(_currentInfo.XmlFile.GetFullPath(_currentInfo.XmlFile.SmallLogoLoc))) {
+                        if (File.Exists(currentInfo.XmlFile.GetFullPath(currentInfo.XmlFile.SmallLogoLoc))) {
                             //直接获取
                             Debug.WriteLine(
-                                $"Load small icon successfully with file location{_currentInfo.XmlFile.SmallLogoLoc}");
-                            _logo = new Bitmap(_currentInfo.XmlFile.GetFullPath(_currentInfo.XmlFile.SmallLogoLoc))
+                                $"Load small icon successfully with file location{currentInfo.XmlFile.SmallLogoLoc}");
+                            _logo = new Bitmap(currentInfo.XmlFile.GetFullPath(currentInfo.XmlFile.SmallLogoLoc))
                                 .ToBitmapSource(); //Load the logo
                             //_scaleMode = false;
                             defineIconCheck.IsChecked = true;
@@ -576,9 +527,9 @@ namespace SaberColorfulStartmenu
                         }
                         else if (Directory.Exists(
                                      Path.GetDirectoryName(
-                                         _currentInfo.XmlFile.GetFullPath(_currentInfo.XmlFile.SmallLogoLoc))) &&
+                                         currentInfo.XmlFile.GetFullPath(currentInfo.XmlFile.SmallLogoLoc))) &&
                                  // ReSharper disable once AssignNullToNotNullAttribute
-                                 File.Exists(Path.Combine(Path.GetDirectoryName(_currentInfo.Target),
+                                 File.Exists(Path.Combine(Path.GetDirectoryName(currentInfo.TargetPath),
                                      "Resources.pri"))) {
                             //scale模式
                             _scaleMode = true;
@@ -590,7 +541,7 @@ namespace SaberColorfulStartmenu
                         }
                         else {
                             //异常，清除
-                            _currentInfo.XmlFile.SmallLogoLoc = _currentInfo.XmlFile.LargeLogoLoc = null;
+                            currentInfo.XmlFile.SmallLogoLoc = currentInfo.XmlFile.LargeLogoLoc = null;
                         }
                     }
 
@@ -598,8 +549,8 @@ namespace SaberColorfulStartmenu
                     defineIconCheck.IsChecked = false;
                     grdDevDefIco.Visibility = Visibility.Collapsed;
                     __hasLogo:
-                    //txtColorSelector.SelectedIndex = (int)_currentInfo.XmlFile.TxtForeground;
-                    if (_currentInfo.XmlFile.TxtForeground == StartmenuXmlFile.TextCol.light)
+                    //txtColorSelector.SelectedIndex = (int)currentInfo.XmlFile.TxtForeground;
+                    if (currentInfo.XmlFile.TxtForeground == StartmenuXmlFile.TextCol.light)
                         txtWhiteColor.IsChecked = true;
                     else txtBlackColor.IsChecked = true;
                 }
@@ -613,7 +564,7 @@ namespace SaberColorfulStartmenu
 #endif
                     // ReSharper disable once HeuristicUnreachableCode
                     MessageBox.Show("读取配置文件时发生错误\n已重置到初始值", "错误", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    File.Delete(_currentInfo.XmlFileLocation);
+                    File.Delete(currentInfo.XmlFileLocation);
                     Load();
                     return;
                 }
@@ -669,33 +620,34 @@ namespace SaberColorfulStartmenu
             stop.Start();
 #endif
             if (_currentId == -1) return true;
+            var currentInfo = _applistData[_currentId];
             //todo save
             if (_saveFlag) {
                 if (!(modeCheck.IsChecked ?? false)) {
-                    if (_currentInfo.XmlFile != null) {
+                    if (currentInfo.XmlFile != null) {
                         if (MessageBox.Show("将删除所有自定义效果文件\n继续?", "⚠警告", MessageBoxButton.YesNo,
                                 MessageBoxImage.Warning) != MessageBoxResult.Yes) return false;
-                        _currentInfo.XmlFile = null;
-                        File.Delete(_currentInfo.XmlFileLocation);
-                        if (Directory.Exists(_currentInfo.LogoDirLocation)) {
-                            Directory.Delete(_currentInfo.LogoDirLocation, true);
+                        currentInfo.XmlFile = null;
+                        File.Delete(currentInfo.XmlFileLocation);
+                        if (Directory.Exists(currentInfo.LogoDirLocation)) {
+                            Directory.Delete(currentInfo.LogoDirLocation, true);
                         }
                     }
                 }
                 else {
-                    if (_currentInfo.XmlFile == null) {
-                        _currentInfo.XmlFile = new StartmenuXmlFile(_currentInfo.XmlFileLocation);
+                    if (currentInfo.XmlFile == null) {
+                        currentInfo.XmlFile = new StartmenuXmlFile(currentInfo.XmlFileLocation);
                     }
 
-                    _currentInfo.XmlFile.ColorStr = _currentColorString;
-                    _currentInfo.XmlFile.TxtForeground = (txtWhiteColor.IsChecked ?? false)
+                    currentInfo.XmlFile.ColorStr = _currentColorString;
+                    currentInfo.XmlFile.TxtForeground = (txtWhiteColor.IsChecked ?? false)
                         ? StartmenuXmlFile.TextCol.light
                         : StartmenuXmlFile.TextCol.dark;
-                    _currentInfo.XmlFile.ShowTitleOnLargeIcon = largeAppNameCheck.IsChecked ?? false;
+                    currentInfo.XmlFile.ShowTitleOnLargeIcon = largeAppNameCheck.IsChecked ?? false;
                     //保存图片
                     var sha1 = SHA1.Create();
                     // ReSharper disable once AssignNullToNotNullAttribute
-                    var pathName = _currentInfo.LogoDirLocation;
+                    var pathName = currentInfo.LogoDirLocation;
                     if (!Directory.Exists(pathName))
                         Directory.CreateDirectory(pathName);
 
@@ -711,20 +663,20 @@ namespace SaberColorfulStartmenu
                                                      Path.GetExtension(_newLogoLoc).ToLower();
                             if (!File.Exists(fileName)) //拷贝图像到目录
                                 File.Copy(_newLogoLoc, fileName);
-                            _currentInfo.XmlFile.SmallLogoLoc = _currentInfo.XmlFile.LargeLogoLoc = fileNameWithoutDir;
+                            currentInfo.XmlFile.SmallLogoLoc = currentInfo.XmlFile.LargeLogoLoc = fileNameWithoutDir;
                             _newLogoLoc = null;
                         }
-                        else if (string.IsNullOrEmpty(_currentInfo.XmlFile.SmallLogoLoc)) {
+                        else if (string.IsNullOrEmpty(currentInfo.XmlFile.SmallLogoLoc)) {
                             MessageBox.Show("需要指定作为图标的图片。", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
                             return false;
                         }
                     }
                     else {
-                        _currentInfo.XmlFile.LargeLogoLoc = _currentInfo.XmlFile.SmallLogoLoc = string.Empty;
+                        currentInfo.XmlFile.LargeLogoLoc = currentInfo.XmlFile.SmallLogoLoc = string.Empty;
                     }
 
                     try {
-                        _currentInfo.XmlFile.Save();
+                        currentInfo.XmlFile.Save();
                     }
                     catch (UnauthorizedAccessException) {
                         MessageBox.Show("无法保存设定.\n权限不足.", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -737,9 +689,9 @@ namespace SaberColorfulStartmenu
 
             //Update file and let the explorer reload the link
             //需要检查是否有连带文件要update的
-            //Helper.UpdateFile(_currentInfo.Location);
+            //Helper.UpdateFile(currentInfo.FullPath);
             foreach (var item in _applistData) {
-                if (item.TargetPath == _currentInfo.Target) {
+                if (item.TargetPath == currentInfo.TargetPath) {
                     //update
                     Helper.UpdateFile(item.FullPath);
                 }
@@ -753,27 +705,5 @@ namespace SaberColorfulStartmenu
         }
 
         #endregion
-
-
-        public class AppListData : IComparable<AppListData>
-        {
-            // ReSharper disable once UnusedAutoPropertyAccessor.Global
-            public string AppName { get; set; }
-            public BitmapSource Logo { get; set; }
-            public string FullPath { get; set; }
-            public string TargetPath { get; set; }
-
-            public AppListData(string appName = null, BitmapSource logo = null, string fullPath = null,
-                               string targetPath = null)
-            {
-                AppName = appName;
-                Logo = logo;
-                FullPath = fullPath;
-                TargetPath = targetPath;
-            }
-
-            public int CompareTo(AppListData other) =>
-                string.Compare(AppName, other.AppName, StringComparison.CurrentCulture);
-        }
     }
 }
