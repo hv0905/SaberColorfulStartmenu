@@ -124,26 +124,6 @@ namespace SaberColorfulStartmenu
 
             //Load();
         }
-        //
-        //        private void Selector_OnSelectionChanged_1(object sender, SelectionChangedEventArgs e)
-        //        {
-        //            if (!_loaded) return;
-        //            if (!_sysChangeing) _saveFlag = true;
-        //            if (!(modeCheck.IsChecked ?? false)) {
-        //                colorSelector.Visibility = Visibility.Collapsed;
-        //                group_Color.Visibility = Visibility.Collapsed;
-        //            }
-        //            else {
-        //                colorSelector.Visibility = Visibility.Visible;
-        //                // ReSharper disable once PossibleUnintendedReferenceComparison
-        //                //                if (colorSelector.SelectedItem == defineColorItem)
-        //                //                {
-        //                //                    group_Color.Visibility = Visibility.Visible;
-        //                //                }
-        //                group_Color.Visibility =
-        //                    colorSelector_17.IsChecked ?? false ? Visibility.Visible : Visibility.Collapsed;
-        //            }
-        //        }
 
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
@@ -705,6 +685,7 @@ namespace SaberColorfulStartmenu
                     try {
                         currentInfo.Backup();
                         currentInfo.XmlFile.Save();
+                        undoBtn.IsEnabled = File.Exists(currentInfo.BakFileLocation);
                     }
                     catch (UnauthorizedAccessException) {
                         MessageBox.Show("无法保存设定.\n权限不足.", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
