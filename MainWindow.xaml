@@ -100,12 +100,6 @@
                     <ColumnDefinition Width="150" />
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" Grid.Row="0" Grid.RowSpan="5" Margin="5">
-                    <!--                    <TextBlock Text="设定" FontSize="16" Foreground="White" />-->
-                    <!--                    <ComboBox x:Name="modeSelctor" FontSize="16" SelectedIndex="0"-->
-                    <!--                              SelectionChanged="Selector_OnSelectionChanged_1">-->
-                    <!--                        <ComboBoxItem Content="默认" />-->
-                    <!--                        <ComboBoxItem Content="自定义" />-->
-                    <!--                    </ComboBox>-->
                     <CheckBox x:Name="modeCheck" Content="自定义该图标样式" Style="{StaticResource SwitchCheckbox}"
                               Foreground="White" FontSize="18" Margin="2" Checked="ToggleButton_OnChecked"
                               Unchecked="ToggleButton_OnChecked" />
@@ -214,11 +208,6 @@
                     </GroupBox>
                     <TextBlock Text="文字颜色：" FontSize="16" Foreground="White"
                                Visibility="{Binding Visibility, ElementName=colorSelector}" />
-                    <!--                    <ComboBox x:Name="txtColorSelector" Visibility="{Binding Visibility,ElementName=colorSelector}"-->
-                    <!--                              SelectedIndex="0" SelectionChanged="TxtColorSelector_OnSelectionChanged">-->
-                    <!--                        <ComboBoxItem Content="白色（适用暗背景）" />-->
-                    <!--                        <ComboBoxItem Content="黑色（适用亮背景）" />-->
-                    <!--                    </ComboBox>-->
                     <StackPanel Orientation="Horizontal" Visibility="{Binding Visibility, ElementName=colorSelector}">
                         <RadioButton Margin="1" GroupName="TxtColor" Style="{StaticResource BlockRadioButtonStyle}"
                                      x:Name="txtWhiteColor" Width="30" Checked="SaveAndUpdate_RoutedEvent"
@@ -238,7 +227,6 @@
                               ToolTip="自定义图标的更改无法立即生效。&#13;根据Microsoft官方文档，更改应在保存及更新文件后立即生效，但是测试中我们无法保证立即生效&#13;一般只要你重启系统或者缘分到了就会生效&#13;请不要过分依赖此功能"
                               Checked="SaveAndUpdate_RoutedEvent" Unchecked="SaveAndUpdate_RoutedEvent" Opacity="1" />
                     <StackPanel Visibility="{Binding Visibility, ElementName=colorSelector}">
-                        <!--该应用开发者可能已经定义可缩放的自定义图标&#13;更改图标将覆盖开发者定义的图标设定-->
                         <Button Style="{StaticResource Win8UWPBtn}" Content="选择图标. . ."
                                 Click="ButtonBase_OnClick_7" FontSize="14"
                                 IsEnabled="{Binding IsChecked, ElementName=defineIconCheck}" Opacity="1" />
