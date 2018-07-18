@@ -431,7 +431,7 @@ namespace SaberColorfulStartmenu
             else {
                 //modeSelctor.SelectedIndex = 1;
                 modeCheck.IsChecked = true;
-
+                largeAppNameCheck.IsChecked = currentInfo.XmlFile.ShowTitleOnLargeIcon;
                 try {
                     //Color
                     switch (currentInfo.XmlFile.ColorStr) {
