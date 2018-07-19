@@ -93,9 +93,8 @@ namespace SaberColorfulStartmenu
 
         private void ButtonBase_OnClick_4(object sender, RoutedEventArgs e)
         {
-            new ImageSnipWindow().Show();
-            //Process.Start("explorer", App.CommonStartMenu);
-            //Process.Start("explorer", App.StartMenu);
+            Process.Start("explorer", App.CommonStartMenu);
+            Process.Start("explorer", App.StartMenu);
         }
 
         private void AppList_OnSelectionChanged(object sender, SelectionChangedEventArgs e)

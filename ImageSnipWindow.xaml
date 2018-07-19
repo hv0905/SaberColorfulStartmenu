@@ -16,23 +16,23 @@
             <ColumnDefinition Width="40"/>
         </Grid.ColumnDefinitions>
         <DockPanel Grid.Row="0" Grid.ColumnSpan="2">
-            <Button Content="完成" DockPanel.Dock="Right" Style="{StaticResource Win8UWPBtn}" Width="100" FontSize="16" Margin="2" Click="ButtonBase_OnClick_1"/>
-            <Button Content="取消" DockPanel.Dock="Left" Style="{StaticResource Win8UWPBtn}" Width="100" FontSize="16" HorizontalAlignment="Right" Margin="2" Click="ButtonBase_OnClick"/>
-            <TextBlock Text="拖动图像进行裁剪" FontSize="16" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+            <Button Content="完成" DockPanel.Dock="Right" Style="{StaticResource Win8UWPBtn}" Width="100" FontSize="16" Margin="2" Click="ButtonBase_OnClick"/>
+            <Button Content="取消" DockPanel.Dock="Left" Style="{StaticResource Win8UWPBtn}" Width="100" FontSize="16" Margin="2" Click="ButtonBase_OnClick_1"/>
+            <Button Content="不裁剪" DockPanel.Dock="Left" Style="{StaticResource Win8UWPBtn}" Width="100" FontSize="16" Margin="2" Click="ButtonBase_OnClick_4"/>
+            <TextBlock Text="裁剪图像" FontSize="16" Foreground="White" HorizontalAlignment="Stretch" TextAlignment="Center" MouseLeftButtonDown="UIElement_OnMouseLeftButtonDown" VerticalAlignment="Center"></TextBlock>
         </DockPanel>
         <StackPanel Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
             <Button Style="{StaticResource Win8UWPBtn}" FontFamily="Segoe MDL2 Assets" FontSize="20" Content="&#xE109;" Margin="2" Height="36" Click="ButtonBase_OnClick_2"/>
-            <Button Style="{StaticResource Win8UWPBtn}" FontFamily="Segoe MDL2 Assets" FontSize="20" Content="&#xE108;" Margin="2" Height="36"/>
-            <Button Style="{StaticResource Win8UWPBtn}" FontFamily="Segoe MDL2 Assets" FontSize="20" Content="&#xE149;" Margin="2" Height="36"/>
+            <Button Style="{StaticResource Win8UWPBtn}" FontFamily="Segoe MDL2 Assets" FontSize="20" Content="&#xE108;" Margin="2" Height="36" Click="ButtonBase_OnClick_3"/>
         </StackPanel>
         <Canvas x:Name="canvasImg" Grid.Row="1" Grid.Column="0"  Background="{x:Null}" ClipToBounds="True">
-            <Image x:Name="imgDst" Grid.Row="1" Grid.Column="0" Canvas.Left="0" Canvas.Top="0" RenderTransformOrigin="0,0">
+            <Image x:Name="imgDst" Canvas.Left="0" Canvas.Top="0" RenderTransformOrigin="0,0">
                 <Image.RenderTransform>
                     <ScaleTransform x:Name="imgScale" ScaleX="1" ScaleY="{Binding ScaleX,ElementName=imgScale}"></ScaleTransform>
                 </Image.RenderTransform>
             </Image>
         </Canvas>
-        <Grid x:Name="gridImg" Grid.Row="1" Grid.Column="0" MouseLeftButtonDown="UIElement_OnMouseLeftButtonDown" MouseLeftButtonUp="GridImg_OnMouseLeftButtonUp" MouseMove="GridImg_OnMouseMove" MouseWheel="GridImg_OnMouseWheel">
+        <Grid x:Name="gridImg" Grid.Row="1" Grid.Column="0" MouseLeftButtonUp="GridImg_OnMouseLeftButtonUp" MouseMove="GridImg_OnMouseMove" MouseWheel="GridImg_OnMouseWheel" MouseLeave="GridImg_OnMouseLeave">
             <Grid.Resources>
                 <SolidColorBrush x:Key="BlackMask" Color="Black" Opacity="0.4"/>
             </Grid.Resources>
@@ -41,14 +41,12 @@
                 <ColumnDefinition Width="{Binding ActualHeight, ElementName=gridImg}"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-            </Grid.RowDefinitions>
             <Rectangle x:Name="leftMask" Grid.Row="0" Grid.Column="0"  Fill="{StaticResource BlackMask}"/>
             <Rectangle x:Name="rightMask" Grid.Row="0" Grid.Column="2"  Fill="{StaticResource BlackMask}"/>
-            <Border BorderBrush="White" BorderThickness="1" Grid.Column="1">
+            <Border x:Name="centerMask" BorderBrush="White" BorderThickness="1" Grid.Column="1">
                 <Rectangle>
                     <Rectangle.Fill>
-                        <SolidColorBrush Color="White" Opacity="0.05"/>
+                        <SolidColorBrush Color="White" Opacity="0.01"/>
                     </Rectangle.Fill>
                 </Rectangle>
             </Border>
