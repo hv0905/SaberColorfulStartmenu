@@ -517,8 +517,7 @@ namespace SaberColorfulStartmenu
                             //直接获取
                             Debug.WriteLine(
                                 $"Load small icon successfully with file location{currentInfo.XmlFile.SmallLogoLoc}");
-                            _logo = new Bitmap(currentInfo.XmlFile.GetFullPath(currentInfo.XmlFile.SmallLogoLoc))
-                                .ToBitmapSource(); //Load the logo
+                            _logo = new BitmapImage(new Uri(currentInfo.XmlFile.GetFullPath(currentInfo.XmlFile.SmallLogoLoc))); //Load the logo
                             //_scaleMode = false;
                             defineIconCheck.IsChecked = true;
                             grdDevDefIco.Visibility = Visibility.Collapsed;
