@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -68,8 +69,9 @@ namespace SaberColorfulStartmenu
             };
             _openFile = new OpenFileDialog {
                 AddExtension = true,
-                Filter = "图像文件|*.png;*.jpg;*.jpeg;*.gif"
-            };
+                Filter = "图像文件|*.png;*.jpg;*.jpeg;*.gif",
+                Title = "选择150x150大图标 建议比例：1：1",
+        };
             RefreshList();
             appList.ItemsSource = _applistData;
         }
@@ -174,22 +176,44 @@ namespace SaberColorfulStartmenu
 
         private void ButtonBase_OnClick_7(object sender, RoutedEventArgs e)
         {
-            _openFile.Title = "选择150x150大图标 建议比例：1：1";
             if (_scaleMode && MessageBox.Show("警告，本操作不可逆。\n继续将清除开发者定义的可缩放图标，除非重新安装该程序，否则该图标可能不能恢复。\n继续操作？", "警告",
                     MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes) return;
+
+
             if (!(_openFile.ShowDialog() ?? false)) return;
             try {
                 var fs = File.Open(_openFile.FileName, FileMode.Open, FileAccess.Read);
-                _saveFlag = true;
-                _newLogoLoc = _openFile.FileName;
-                _logo = new Bitmap(fs).ToBitmapSource();
-                UpdateRender();
+                var img = new Bitmap(fs);
+                var win = new ImageSnipWindow(img);
+                win.ShowDialog();
+                switch (win.Result) {
+                    case ImageSnipWindow.SnapWindowResult.Ok:
+                        _newLogoLoc = Path.GetTempFileName() + ".png";
+                        win.Dst.Save(_newLogoLoc,ImageFormat.Png);
+                        _logo = win.Dst.ToBitmapSource();
+                        win.Dst.Dispose();
+                        break;
+                    case ImageSnipWindow.SnapWindowResult.Cancel:
+                        img.Dispose();
+                        return;
+                    case ImageSnipWindow.SnapWindowResult.Ignore:
+                        _newLogoLoc = _openFile.FileName;
+                        _logo = img.ToBitmapSource();
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+                img.Dispose();
                 fs.Close();
             }
-            catch (Exception ex) {
+            catch (IOException ex) {
                 MessageBox.Show($"图片载入失败\n未知错误，无法读取此文件\n详细信息：{ex.Message}", "错误", MessageBoxButton.OK,
                     MessageBoxImage.Error);
+                return;
             }
+            _saveFlag = true;
+            UpdateRender();
+
         }
 
         private void ButtonBase_OnClick_6(object sender, RoutedEventArgs e)

@@ -1,20 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel;
+using SaberColorfulStartmenu.Helpers;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using SaberColorfulStartmenu.Helpers;
 using Point = System.Windows.Point;
 using Rectangle = System.Drawing.Rectangle;
 using Size = System.Drawing.Size;
@@ -40,7 +31,7 @@ namespace SaberColorfulStartmenu
             Source = src;
             InitializeComponent();
             imgDst.Source = Source.ToBitmapSource();
-            Scale(0);
+
         }
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
@@ -55,6 +46,7 @@ namespace SaberColorfulStartmenu
             var width = centerMask.ActualWidth / imgScale.ScaleX;
             var rect = new Rectangle((int)(imgX + 0.5), (int)(imgY + 0.5),(int)(width + 0.5),(int)(width + 0.5));
             Debug.WriteLine($"imgX:{imgX}  imgY:{imgY} width:{width} format:{Source.PixelFormat}");
+            GC.Collect();
             Dst = Source.Clone(rect, Source.PixelFormat);
             Result = SnapWindowResult.Ok;
             Close();
@@ -100,10 +92,10 @@ namespace SaberColorfulStartmenu
 
                 var size = GetRealSize();
                 if (size.Width < centerMask.ActualWidth) {
-                    imgScale.ScaleX = canvasImg.ActualWidth / Source.Size.Width;
+                    imgScale.ScaleX = centerMask.ActualWidth / Source.Size.Width;
                 }
-                else if (size.Height < canvasImg.ActualHeight) {
-                    imgScale.ScaleX = canvasImg.ActualHeight / Source.Size.Height;
+                else if (size.Height < centerMask.ActualHeight) {
+                    imgScale.ScaleX = centerMask.ActualHeight / Source.Size.Height;
                 }
 
                 Offset(Canvas.GetLeft(imgDst), Canvas.GetTop(imgDst));
@@ -157,7 +149,11 @@ namespace SaberColorfulStartmenu
             Scale(0);
         }
 
-        private void ImageSnipWindow_OnLoaded(object sender, RoutedEventArgs e) => _loaded = true;
+        private void ImageSnipWindow_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            _loaded = true;
+            Scale(0);
+        }
 
         private void GridImg_OnMouseLeave(object sender, MouseEventArgs e) => _mouseStartPoint = null;
 
@@ -170,15 +166,6 @@ namespace SaberColorfulStartmenu
         {
             Result = SnapWindowResult.Ignore;
             Close();
-        }
-
-
-        public enum SnapWindowResult
-        {
-            Unknown,
-            Ok,
-            Cancel,
-            Ignore
         }
 
         private void ImageSnipWindow_OnKeyUp(object sender, KeyEventArgs e)
@@ -202,6 +189,22 @@ namespace SaberColorfulStartmenu
                     return;
             }
             Offset(newX,newY);
+        }
+
+        private void ImageSnipWindow_OnClosing(object sender, CancelEventArgs e)
+        {
+            if (Result == SnapWindowResult.Unknown) {
+                Result = SnapWindowResult.Cancel;
+            }
+        }
+
+
+        public enum SnapWindowResult
+        {
+            Unknown,
+            Ok,
+            Cancel,
+            Ignore
         }
     }
 }

@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" Loaded="ImageSnipWindow_OnLoaded" KeyUp="ImageSnipWindow_OnKeyUp"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" SizeChanged="ImageSnipWindow_OnSizeChanged"
         xmlns:local="clr-namespace:SaberColorfulStartmenu" Background="BlueViolet" WindowStartupLocation="CenterScreen"
-        mc:Ignorable="d" Style="{StaticResource BorderlessWindowStyle}" Topmost="True" ShowInTaskbar="False"
+        mc:Ignorable="d" Style="{StaticResource BorderlessWindowStyle}" Topmost="True" ShowInTaskbar="False" Closing="ImageSnipWindow_OnClosing"
         Title="ImageSnipWindow" Height="500" Width="800">
     <Grid>
         <Grid.RowDefinitions>
