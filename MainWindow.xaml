@@ -68,9 +68,9 @@
             <ListBox x:Name="appList" Margin="2" SelectionChanged="AppList_OnSelectionChanged">
                 <ListBox.ItemTemplate>
                     <ItemContainerTemplate>
-                        <StackPanel Orientation="Horizontal" Height="25">
-                            <Image Source="{Binding Logo}" />
-                            <TextBlock Text="{Binding AppName}" FontSize="14" />
+                        <StackPanel Orientation="Horizontal" Height="25" ToolTip="{Binding Ui_ToolTipTxt}">
+                            <Image Source="{Binding Logo}"/>
+                            <TextBlock Text="{Binding AppName}" FontSize="14" VerticalAlignment="Center"/>
                         </StackPanel>
                     </ItemContainerTemplate>
                 </ListBox.ItemTemplate>

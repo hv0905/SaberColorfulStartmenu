@@ -71,7 +71,7 @@ namespace SaberColorfulStartmenu
                 AddExtension = true,
                 Filter = "图像文件|*.png;*.jpg;*.jpeg;*.gif",
                 Title = "选择150x150大图标 建议比例：1：1",
-        };
+            };
             RefreshList();
             appList.ItemsSource = _applistData;
         }
@@ -541,7 +541,9 @@ namespace SaberColorfulStartmenu
                             //直接获取
                             Debug.WriteLine(
                                 $"Load small icon successfully with file location{currentInfo.XmlFile.SmallLogoLoc}");
-                            _logo = new BitmapImage(new Uri(currentInfo.XmlFile.GetFullPath(currentInfo.XmlFile.SmallLogoLoc))); //Load the logo
+                            _logo = new BitmapImage(
+                                new Uri(currentInfo.XmlFile.GetFullPath(currentInfo.XmlFile
+                                    .SmallLogoLoc))); //Load the logo
                             //_scaleMode = false;
                             defineIconCheck.IsChecked = true;
                             grdDevDefIco.Visibility = Visibility.Collapsed;
@@ -594,7 +596,7 @@ namespace SaberColorfulStartmenu
                 }
             }
 
-            undoBtn.IsEnabled = File.Exists(currentInfo.BakFileLocation);
+            undoBtn.IsEnabled = currentInfo.BakFileExist;
             UpdateRender();
             _sysChangeing = false;
         }
@@ -654,7 +656,7 @@ namespace SaberColorfulStartmenu
                                 MessageBoxImage.Warning) != MessageBoxResult.Yes) return false;
                         currentInfo.XmlFile = null;
                         File.Delete(currentInfo.XmlFileLocation);
-                        //                        if (File.Exists(currentInfo.BakFileLocation)) {
+                        //                        if (currentInfo.BakFileExist) {
                         //                            File.Delete(currentInfo.BakFileLocation);
                         //                        }
                         //                        if (Directory.Exists(currentInfo.LogoDirLocation)) {
@@ -708,7 +710,7 @@ namespace SaberColorfulStartmenu
                     try {
                         currentInfo.Backup();
                         currentInfo.XmlFile.Save();
-                        undoBtn.IsEnabled = File.Exists(currentInfo.BakFileLocation);
+                        undoBtn.IsEnabled = currentInfo.BakFileExist;
                     }
                     catch (UnauthorizedAccessException) {
                         MessageBox.Show("无法保存设定.\n权限不足.", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
