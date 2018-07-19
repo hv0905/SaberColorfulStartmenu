@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Media.Imaging;
@@ -16,7 +17,6 @@ namespace SaberColorfulStartmenu.Core
             new BitmapImage(new Uri("WpfImages/unknown.png", UriKind.Relative));
         public const string XML_FILE_SIGN = ".visualelementsmanifest.xml";
 
-
         public string AppName { get; set; }
         public BitmapSource Logo { get; set; }
         public StartmenuXmlFile XmlFile { get; set; }
@@ -24,15 +24,21 @@ namespace SaberColorfulStartmenu.Core
         public string FullPath { get; }
         public WshShortcut ShortcutInfo { get; }
         public string TargetPath { get; }
+
         public string LogoDirLocation =>
             Path.Combine(Path.GetDirectoryName(XmlFileLocation), Properties.Resources.IconDirName);
         public string BakFileLocation => XmlFileLocation + ".bak";
+        public bool XmlDefined => File.Exists(XmlFileLocation);
+        public bool BakFileExist => File.Exists(BakFileLocation);
 
+        // ReSharper disable once UnusedMember.Global
+        public string Ui_ToolTipTxt => $"{AppName}\n目标：{TargetPath}\n自定义：{(XmlDefined ? "是" : "否")}";
 
         /// <summary>
         /// 获取现有快捷方式的信息
         /// </summary>
         /// <param name="shortcutFileName"></param>
+        // ReSharper disable once UnusedMember.Global
         public StartmenuShortcutInfo(string shortcutFileName)
         {
             FullPath = shortcutFileName;
@@ -139,7 +145,7 @@ namespace SaberColorfulStartmenu.Core
 
         public void LoadXmlInfo()
         {
-            if (File.Exists(XmlFileLocation)) {
+            if (XmlDefined) {
                 XmlFile = StartmenuXmlFile.Load(XmlFileLocation);
             }
         }
@@ -149,7 +155,7 @@ namespace SaberColorfulStartmenu.Core
         /// </summary>
         public void Backup()
         {
-            if (File.Exists(XmlFileLocation)) {
+            if (XmlDefined) {
                 File.Copy(XmlFileLocation, BakFileLocation, true);
             }
         }
