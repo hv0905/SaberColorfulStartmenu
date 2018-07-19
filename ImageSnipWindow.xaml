@@ -1,10 +1,10 @@
 ﻿<Window x:Class="SaberColorfulStartmenu.ImageSnipWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" Loaded="ImageSnipWindow_OnLoaded"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" Loaded="ImageSnipWindow_OnLoaded" KeyUp="ImageSnipWindow_OnKeyUp"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" SizeChanged="ImageSnipWindow_OnSizeChanged"
         xmlns:local="clr-namespace:SaberColorfulStartmenu" Background="BlueViolet" WindowStartupLocation="CenterScreen"
-        mc:Ignorable="d" Style="{StaticResource BorderlessWindowStyle}"
+        mc:Ignorable="d" Style="{StaticResource BorderlessWindowStyle}" Topmost="True" ShowInTaskbar="False"
         Title="ImageSnipWindow" Height="500" Width="800">
     <Grid>
         <Grid.RowDefinitions>
@@ -16,8 +16,8 @@
             <ColumnDefinition Width="40"/>
         </Grid.ColumnDefinitions>
         <DockPanel Grid.Row="0" Grid.ColumnSpan="2">
-            <Button Content="完成" DockPanel.Dock="Right" Style="{StaticResource Win8UWPBtn}" Width="100" FontSize="16" Margin="2" Click="ButtonBase_OnClick"/>
-            <Button Content="取消" DockPanel.Dock="Left" Style="{StaticResource Win8UWPBtn}" Width="100" FontSize="16" Margin="2" Click="ButtonBase_OnClick_1"/>
+            <Button Content="完成" DockPanel.Dock="Right" Style="{StaticResource Win8UWPBtn}" Width="100" FontSize="16" Margin="2" Click="ButtonBase_OnClick" IsDefault="True"/>
+            <Button Content="取消" DockPanel.Dock="Left" Style="{StaticResource Win8UWPBtn}" Width="100" FontSize="16" Margin="2" Click="ButtonBase_OnClick_1" IsCancel="True"/>
             <Button Content="不裁剪" DockPanel.Dock="Left" Style="{StaticResource Win8UWPBtn}" Width="100" FontSize="16" Margin="2" Click="ButtonBase_OnClick_4"/>
             <TextBlock Text="裁剪图像" FontSize="16" Foreground="White" HorizontalAlignment="Stretch" TextAlignment="Center" MouseLeftButtonDown="UIElement_OnMouseLeftButtonDown" VerticalAlignment="Center"></TextBlock>
         </DockPanel>

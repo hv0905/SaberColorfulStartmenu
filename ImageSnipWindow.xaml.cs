@@ -180,5 +180,28 @@ namespace SaberColorfulStartmenu
             Cancel,
             Ignore
         }
+
+        private void ImageSnipWindow_OnKeyUp(object sender, KeyEventArgs e)
+        {
+            var newX = Canvas.GetLeft(imgDst);
+            var newY = Canvas.GetTop(imgDst);
+            switch (e.Key) {
+                case Key.Up:
+                    newY++;
+                    break;
+                case Key.Down:
+                    newY--;
+                    break;
+                case Key.Left:
+                    newX++;
+                    break;
+                case Key.Right:
+                    newX--;
+                    break;
+                default:
+                    return;
+            }
+            Offset(newX,newY);
+        }
     }
 }

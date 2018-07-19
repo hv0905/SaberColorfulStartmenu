@@ -69,8 +69,8 @@
                 <ListBox.ItemTemplate>
                     <ItemContainerTemplate>
                         <StackPanel Orientation="Horizontal" Height="25">
-                            <Image Source="{Binding Logo}"/>
-                            <TextBlock Text="{Binding AppName}" FontSize="14"/>
+                            <Image Source="{Binding Logo}" />
+                            <TextBlock Text="{Binding AppName}" FontSize="14" />
                         </StackPanel>
                     </ItemContainerTemplate>
                 </ListBox.ItemTemplate>
@@ -224,7 +224,6 @@
                     <CheckBox x:Name="defineIconCheck" Visibility="{Binding Visibility,ElementName=colorSelector}"
                               Style="{StaticResource SwitchCheckbox}"
                               Content="自定义图标" IsChecked="False" FontSize="16" Foreground="White" Margin="2"
-                              ToolTip="自定义图标的更改无法立即生效。&#13;根据Microsoft官方文档，更改应在保存及更新文件后立即生效，但是测试中我们无法保证立即生效&#13;一般只要你重启系统或者缘分到了就会生效&#13;请不要过分依赖此功能"
                               Checked="SaveAndUpdate_RoutedEvent" Unchecked="SaveAndUpdate_RoutedEvent" Opacity="1" />
                     <StackPanel Visibility="{Binding Visibility, ElementName=colorSelector}">
                         <Button Style="{StaticResource Win8UWPBtn}" Content="选择图标. . ."
@@ -239,7 +238,8 @@
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <Image Source="WpfImages/Warning.png" Margin="2" />
-                            <TextBlock Text="该应用开发者可能已经定义可缩放的自定义图标&#13;更改或取消图标将覆盖开发者定义的图标设定" Grid.Column="1" FontSize="16"
+                            <TextBlock Text="该应用开发者可能已经定义可缩放的自定义图标&#13;更改或取消图标将覆盖开发者定义的图标设定" Grid.Column="1"
+                                       FontSize="16"
                                        Foreground="White" />
                         </Grid>
 
@@ -301,7 +301,8 @@
                     </Button.Background>
                     <Button.ContextMenu>
                         <ContextMenu>
-                            <MenuItem x:Name="undoBtn" Header="还原上一次更改" ToolTip="使用.bak文件还原到上一次的更改" Click="UndoBtn_OnClick" IsEnabled="False"/>
+                            <MenuItem x:Name="undoBtn" Header="还原上一次更改" ToolTip="使用.bak文件还原到上一次的更改"
+                                      Click="UndoBtn_OnClick" IsEnabled="False" />
                         </ContextMenu>
                     </Button.ContextMenu>
                     <Grid>
