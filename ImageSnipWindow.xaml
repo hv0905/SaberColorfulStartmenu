@@ -22,8 +22,12 @@
             <TextBlock Text="裁剪图像" FontSize="16" Foreground="White" HorizontalAlignment="Stretch" TextAlignment="Center" MouseLeftButtonDown="UIElement_OnMouseLeftButtonDown" VerticalAlignment="Center"></TextBlock>
         </DockPanel>
         <StackPanel Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
-            <Button Style="{StaticResource Win8UWPBtn}" FontFamily="Segoe MDL2 Assets" FontSize="20" Content="&#xE109;" Margin="2" Height="36" Click="ButtonBase_OnClick_2"/>
-            <Button Style="{StaticResource Win8UWPBtn}" FontFamily="Segoe MDL2 Assets" FontSize="20" Content="&#xE108;" Margin="2" Height="36" Click="ButtonBase_OnClick_3"/>
+            <Button Style="{StaticResource Win8UWPBtn}" FontFamily="Segoe MDL2 Assets" FontSize="20" Content="&#xE010;" Margin="2" Height="36" ToolTip="微调上移(W)" Click="ButtonBase_OnClick_5"/>
+            <Button Style="{StaticResource Win8UWPBtn}" FontFamily="Segoe MDL2 Assets" FontSize="20" Content="&#xE011;" Margin="2" Height="36" ToolTip="微调下移(S)" Click="ButtonBase_OnClick_6"/>
+            <Button Style="{StaticResource Win8UWPBtn}" FontFamily="Segoe MDL2 Assets" FontSize="20" Content="&#xE00E;" Margin="2" Height="36" ToolTip="微调左移(A)" Click="ButtonBase_OnClick_7"/>
+            <Button Style="{StaticResource Win8UWPBtn}" FontFamily="Segoe MDL2 Assets" FontSize="20" Content="&#xE00F;" Margin="2" Height="36" ToolTip="微调右移(D)" Click="ButtonBase_OnClick_8"/>
+            <Button Style="{StaticResource Win8UWPBtn}" FontFamily="Segoe MDL2 Assets" FontSize="20" Content="&#xE109;" Margin="2" Height="36" ToolTip="微调放大(PgUp)" Click="ButtonBase_OnClick_2" />
+            <Button Style="{StaticResource Win8UWPBtn}" FontFamily="Segoe MDL2 Assets" FontSize="20" Content="&#xE108;" Margin="2" Height="36" ToolTip="微调缩小(PgDn)" Click="ButtonBase_OnClick_3" />
         </StackPanel>
         <Canvas x:Name="canvasImg" Grid.Row="1" Grid.Column="0"  Background="{x:Null}" ClipToBounds="True">
             <Image x:Name="imgDst" Canvas.Left="0" Canvas.Top="0" RenderTransformOrigin="0,0">

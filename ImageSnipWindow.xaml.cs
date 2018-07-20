@@ -66,9 +66,9 @@ namespace SaberColorfulStartmenu
             if (_mouseStartPoint.HasValue) {
                 var pos = e.GetPosition(gridImg);
 
-                var newX = Canvas.GetLeft(imgDst) + pos.X - _mouseStartPoint.Value.X;
-                var newY = Canvas.GetTop(imgDst) + pos.Y - _mouseStartPoint.Value.Y;
-                Offset(newX, newY);
+                var deltaX = pos.X - _mouseStartPoint.Value.X;
+                var deltaY = pos.Y - _mouseStartPoint.Value.Y;
+                Offset(deltaX, deltaY);
                 _mouseStartPoint = pos;
             }
             else {
@@ -76,19 +76,19 @@ namespace SaberColorfulStartmenu
             }
         }
 
-        private void GridImg_OnMouseWheel(object sender, MouseWheelEventArgs e) => Scale(e.Delta);
+        private void GridImg_OnMouseWheel(object sender, MouseWheelEventArgs e) => Scale(e.Delta > 0? 4 : -4);
 
 
         public void Scale(int ratio)
         {
             if (ratio > 0) {
                 //放大
-                imgScale.ScaleX += 0.1;
+                imgScale.ScaleX += 0.01 * ratio;
             }
             else {
                 //缩小
                 if (ratio < 0)
-                    imgScale.ScaleX -= 0.1;
+                    imgScale.ScaleX += 0.01 * ratio;
 
                 var size = GetRealSize();
                 if (size.Width < centerMask.ActualWidth) {
@@ -98,11 +98,18 @@ namespace SaberColorfulStartmenu
                     imgScale.ScaleX = centerMask.ActualHeight / Source.Size.Height;
                 }
 
-                Offset(Canvas.GetLeft(imgDst), Canvas.GetTop(imgDst));
+                SetLoc(Canvas.GetLeft(imgDst), Canvas.GetTop(imgDst));
             }
         }
 
-        public void Offset(double x, double y)
+        public void Offset(double deltaX, double deltaY)
+        {
+            var x = Canvas.GetLeft(imgDst);
+            var y = Canvas.GetTop(imgDst);
+            SetLoc(x + deltaX,y + deltaY);
+        }
+
+        public void SetLoc(double x, double y)
         {
             var siz = GetRealSize();
             var newX = x;
@@ -170,25 +177,32 @@ namespace SaberColorfulStartmenu
 
         private void ImageSnipWindow_OnKeyUp(object sender, KeyEventArgs e)
         {
-            var newX = Canvas.GetLeft(imgDst);
-            var newY = Canvas.GetTop(imgDst);
             switch (e.Key) {
                 case Key.Up:
-                    newY++;
+                case Key.W:
+                    Offset(0,-1);
                     break;
                 case Key.Down:
-                    newY--;
+                case Key.S:
+                    Offset(0,1);
                     break;
                 case Key.Left:
-                    newX++;
+                case Key.A:
+                    Offset(-1,0);
                     break;
                 case Key.Right:
-                    newX--;
+                case Key.D:
+                    Offset(1,0);
+                    break;
+                case Key.PageUp:
+                    Scale(1);
+                    break;
+                case Key.PageDown:
+                    Scale(-1);
                     break;
                 default:
                     return;
             }
-            Offset(newX,newY);
         }
 
         private void ImageSnipWindow_OnClosing(object sender, CancelEventArgs e)
@@ -206,5 +220,13 @@ namespace SaberColorfulStartmenu
             Cancel,
             Ignore
         }
+
+        private void ButtonBase_OnClick_5(object sender, RoutedEventArgs e) => Offset(0, -1);
+
+        private void ButtonBase_OnClick_6(object sender, RoutedEventArgs e) => Offset(0, 1);
+
+        private void ButtonBase_OnClick_7(object sender, RoutedEventArgs e) => Offset(-1,0);
+
+        private void ButtonBase_OnClick_8(object sender, RoutedEventArgs e) => Offset(1,0);
     }
 }
