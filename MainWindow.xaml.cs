@@ -438,6 +438,23 @@ namespace SaberColorfulStartmenu
                     appList.SelectedIndex = -1;
                     return;
                 }
+                catch (IOException ex) {
+                    MessageBox.Show("无法读取该文件设定.\n发生了IO异常，请稍后再试\n更多信息:" + ex.Message, "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                    _sysChangeing = false;
+                    appList.SelectedIndex = -1;
+                    return;
+                }
+                catch (Exception e) {
+                    Debug.WriteLine("-----EXCEPTION-----");
+                    Debug.WriteLine(e);
+                    Debug.WriteLine("--------END--------");
+                    // ReSharper disable once HeuristicUnreachableCode
+                    MessageBox.Show("读取配置文件时发生错误\n已重置到初始值", "错误", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    File.Delete(currentInfo.XmlFileLocation);
+                    currentInfo.XmlFile = null;
+                    Load();
+                    return;
+                }
             }
 
             if (currentInfo.XmlFile == null) {
@@ -715,6 +732,12 @@ namespace SaberColorfulStartmenu
                     }
                     catch (UnauthorizedAccessException) {
                         MessageBox.Show("无法保存设定.\n权限不足.", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return false;
+                    }
+                    catch (IOException ex) {
+                        MessageBox.Show("无法读取该文件设定.\n发生了IO异常，请稍后再试\n更多信息:" + ex.Message, "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                        _sysChangeing = false;
+                        appList.SelectedIndex = -1;
                         return false;
                     }
                 }
