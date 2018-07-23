@@ -41,14 +41,14 @@ namespace SaberColorfulStartmenu.Helpers
         [DllImport("user32.dll")]
         public static extern bool DestroyIcon(IntPtr icon);
 
-        //        /// <summary>
-        //        /// 从exe dll中导出图标
-        //        /// </summary>
-        //        [DllImport("shell32.dll")]
-        //        private static extern int ExtractIconEx(string lpszFile, int niconIndex, IntPtr[] phiconLarge,
-        //                                                IntPtr[] phiconSmall, int nIcons);
-
-        [DllImport("shell32.dll")]
+        /// <summary>
+        /// 从dll exe中导出图标
+        /// </summary>
+        /// <param name="hInst">IntPtr.Zero</param>
+        /// <param name="pszExeFileName">exe、dll文件</param>
+        /// <param name="nIconIndex">图标序号</param>
+        /// <returns>若图标不存在返回IntPtr.Zero</returns>
+        [DllImport("shell32.dll",CharSet = CharSet.Unicode)]
         public static extern IntPtr ExtractIcon(IntPtr hInst, string pszExeFileName, int nIconIndex);
 
         /// <summary>

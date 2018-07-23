@@ -189,7 +189,7 @@ namespace SaberColorfulStartmenu
                 switch (win.Result) {
                     case ImageSnipWindow.SnapWindowResult.Ok:
                         _newLogoLoc = Path.GetTempFileName() + ".png";
-                        win.Dst.Save(_newLogoLoc,ImageFormat.Png);
+                        win.Dst.Save(_newLogoLoc, ImageFormat.Png);
                         _logo = win.Dst.ToBitmapSource();
                         win.Dst.Dispose();
                         break;
@@ -203,6 +203,7 @@ namespace SaberColorfulStartmenu
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
+
                 img.Dispose();
                 fs.Close();
             }
@@ -211,9 +212,9 @@ namespace SaberColorfulStartmenu
                     MessageBoxImage.Error);
                 return;
             }
+
             _saveFlag = true;
             UpdateRender();
-
         }
 
         private void ButtonBase_OnClick_6(object sender, RoutedEventArgs e)

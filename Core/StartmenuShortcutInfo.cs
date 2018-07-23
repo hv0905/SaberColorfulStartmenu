@@ -78,9 +78,6 @@ namespace SaberColorfulStartmenu.Core
             XmlFileLocation =
                 Path.Combine(Path.GetDirectoryName(TargetPath), Path.GetFileNameWithoutExtension(TargetPath)) +
                 XML_FILE_SIGN;
-            if (File.Exists(XmlFileLocation)) {
-                XmlFile = StartmenuXmlFile.Load(XmlFileLocation);
-            }
 
             AppName = Path.GetFileNameWithoutExtension(shortcutFileName);
             // ReSharper disable once AssignNullToNotNullAttribute
@@ -165,14 +162,12 @@ namespace SaberColorfulStartmenu.Core
         /// </summary>
         public bool Undo()
         {
-            if (File.Exists(BakFileLocation)) {
-                XmlFile = null;
-                File.Copy(BakFileLocation, XmlFileLocation, true);
-                File.Delete(BakFileLocation);
-                return true;
-            }
+            if (!File.Exists(BakFileLocation)) return false;
+            XmlFile = null;
+            File.Copy(BakFileLocation, XmlFileLocation, true);
+            File.Delete(BakFileLocation);
+            return true;
 
-            return false;
         }
 
 
