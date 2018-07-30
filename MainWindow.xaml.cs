@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,7 +15,6 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.IO;
 using System.Security.Cryptography;
-using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using IWshRuntimeLibrary;
@@ -23,6 +23,7 @@ using __WinForm = System.Windows.Forms;
 using Brushes = System.Windows.Media.Brushes;
 using Color = System.Windows.Media.Color;
 using File = System.IO.File;
+using Point = System.Drawing.Point;
 using Size = System.Drawing.Size;
 
 /*
@@ -183,29 +184,52 @@ namespace SaberColorfulStartmenu
 
             if (!(_openFile.ShowDialog() ?? false)) return;
             try {
-                selectFile:
                 var fs = File.Open(_openFile.FileName, FileMode.Open, FileAccess.Read);
                 var img = new Bitmap(fs);
                 var win = new ImageSnipWindow(img,new Size(150,150));
                 win.ShowDialog();
+                Bitmap tmpBmp;
                 switch (win.Result) {
                     case ImageSnipWindow.SnapWindowResult.Ok:
-                        _newLogoLoc = Path.GetTempFileName() + ".png";
-                        win.Dst.Save(_newLogoLoc, ImageFormat.Png);
-                        _logo = win.Dst.ToBitmapSource();
-                        win.Dst.Dispose();
+                        tmpBmp = win.Dst;
                         break;
                     case ImageSnipWindow.SnapWindowResult.Cancel:
                         img.Dispose();
                         return;
                     case ImageSnipWindow.SnapWindowResult.Ignore:
-                        _newLogoLoc = _openFile.FileName;
-                        _logo = img.ToBitmapSource();
+                        if (img.Size.Width >= 150 && img.Size.Height >= 150) {
+                            //尽量使用原图
+                            _newLogoLoc = _openFile.FileName;
+                            _logo = img.ToBitmapSource();
+                            goto done;
+                        }
+                        tmpBmp = img;
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
 
+                if (tmpBmp.Size.Width < 150 || tmpBmp.Size.Height < 150) {
+                    if (tmpBmp.Size.Width < 150 && tmpBmp.Size.Height < 150) {
+                        var newBmp = new Bitmap(150,150);
+                        var gps = Graphics.FromImage(newBmp);
+                        gps.CompositingQuality = CompositingQuality.HighQuality;
+                        gps.Clear(System.Drawing.Color.Transparent);
+                        var x = (150 - tmpBmp.Size.Width) / 2;
+                        var y = (150 - tmpBmp.Size.Height) / 2;
+                        gps.DrawImage(tmpBmp,new Point(x,y));
+                        tmpBmp = newBmp;
+                    }
+                    else {
+                        tmpBmp = new Bitmap(tmpBmp,150,150);
+                    }
+                }
+                
+                _logo = tmpBmp.ToBitmapSource();
+                _newLogoLoc = Path.GetTempFileName() + ".png";
+                tmpBmp.Save(_newLogoLoc, ImageFormat.Png);
+                tmpBmp.Dispose();
+                done:
                 img.Dispose();
                 fs.Close();
             }
