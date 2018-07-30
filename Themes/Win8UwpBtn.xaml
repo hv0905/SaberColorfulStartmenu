@@ -24,7 +24,8 @@
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal">
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="gridMain" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetName="gridMain"
+                                                         Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.2" />
                                         <DoubleAnimation Storyboard.TargetName="bdBg"
                                                          Storyboard.TargetProperty="Opacity" To="0"
                                                          Duration="0:0:0.1" />
@@ -73,7 +74,9 @@
                                 </VisualState>
                                 <VisualState x:Name="Disabled">
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="gridMain" Storyboard.TargetProperty="Opacity" To="0.35" Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetName="gridMain"
+                                                         Storyboard.TargetProperty="Opacity" To="0.35"
+                                                         Duration="0:0:0.2" />
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>

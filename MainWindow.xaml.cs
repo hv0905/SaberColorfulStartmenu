@@ -23,6 +23,7 @@ using __WinForm = System.Windows.Forms;
 using Brushes = System.Windows.Media.Brushes;
 using Color = System.Windows.Media.Color;
 using File = System.IO.File;
+using Size = System.Drawing.Size;
 
 /*
  * 这里解释下win10下开始菜单重复快捷方式的判定
@@ -70,7 +71,7 @@ namespace SaberColorfulStartmenu
             _openFile = new OpenFileDialog {
                 AddExtension = true,
                 Filter = "图像文件|*.png;*.jpg;*.jpeg;*.gif",
-                Title = "选择150x150大图标 建议比例：1：1",
+                Title = "选择图标 尺寸>150x150",
             };
             RefreshList();
             appList.ItemsSource = _applistData;
@@ -182,9 +183,10 @@ namespace SaberColorfulStartmenu
 
             if (!(_openFile.ShowDialog() ?? false)) return;
             try {
+                selectFile:
                 var fs = File.Open(_openFile.FileName, FileMode.Open, FileAccess.Read);
                 var img = new Bitmap(fs);
-                var win = new ImageSnipWindow(img);
+                var win = new ImageSnipWindow(img,new Size(150,150));
                 win.ShowDialog();
                 switch (win.Result) {
                     case ImageSnipWindow.SnapWindowResult.Ok:

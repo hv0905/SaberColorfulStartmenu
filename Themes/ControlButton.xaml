@@ -82,7 +82,7 @@
     <Style x:Key="closeCaptionButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource captionButtonStyle}">
         <Setter Property="Content" Value="&#xE711;"/>
         <!---->
-        <Setter Property="Foreground" Value="Red"/>
+        <Setter Property="Foreground" Value="#e74c3c"/>
         <Setter Property="Background">
             <Setter.Value>
                 <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">

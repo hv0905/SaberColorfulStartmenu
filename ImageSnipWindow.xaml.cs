@@ -1,11 +1,13 @@
-﻿using System;
+﻿using SaberColorfulStartmenu.Helpers;
+using System;
 using System.ComponentModel;
-using SaberColorfulStartmenu.Helpers;
 using System.Diagnostics;
 using System.Drawing;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using Point = System.Windows.Point;
 using Rectangle = System.Drawing.Rectangle;
 using Size = System.Drawing.Size;
@@ -17,8 +19,14 @@ namespace SaberColorfulStartmenu
     /// </summary>
     public partial class ImageSnipWindow : Window
     {
+        #region Field
+
         private bool _loaded;
         private Point? _mouseStartPoint;
+
+        #endregion
+
+        #region prop
 
         public SnapWindowResult Result { get; private set; } = SnapWindowResult.Unknown;
 
@@ -26,13 +34,19 @@ namespace SaberColorfulStartmenu
 
         public Bitmap Dst { get; private set; }
 
-        public ImageSnipWindow(Bitmap src)
+        public Size? MinSize { get; set; }
+
+        #endregion
+
+        public ImageSnipWindow(Bitmap src, Size? minSize = null)
         {
             Source = src;
+            MinSize = minSize;
             InitializeComponent();
             imgDst.Source = Source.ToBitmapSource();
-
         }
+
+        #region Events
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
@@ -44,7 +58,7 @@ namespace SaberColorfulStartmenu
             var imgY = (0 - canvY) / imgScale.ScaleY;
 
             var width = centerMask.ActualWidth / imgScale.ScaleX;
-            var rect = new Rectangle((int)(imgX + 0.5), (int)(imgY + 0.5),(int)(width + 0.5),(int)(width + 0.5));
+            var rect = new Rectangle((int)(imgX + 0.5), (int)(imgY + 0.5), (int)(width + 0.5), (int)(width + 0.5));
             Debug.WriteLine($"imgX:{imgX}  imgY:{imgY} width:{width} format:{Source.PixelFormat}");
             GC.Collect();
             Dst = Source.Clone(rect, Source.PixelFormat);
@@ -52,7 +66,8 @@ namespace SaberColorfulStartmenu
             Close();
         }
 
-        private void GridImg_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e) => _mouseStartPoint = null;
+        private void GridImg_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e) =>
+            _mouseStartPoint = null;
 
         private void ButtonBase_OnClick_1(object sender, RoutedEventArgs e)
         {
@@ -63,9 +78,9 @@ namespace SaberColorfulStartmenu
         private void GridImg_OnMouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton != MouseButtonState.Pressed) return;
+
             if (_mouseStartPoint.HasValue) {
                 var pos = e.GetPosition(gridImg);
-
                 var deltaX = pos.X - _mouseStartPoint.Value.X;
                 var deltaY = pos.Y - _mouseStartPoint.Value.Y;
                 Offset(deltaX, deltaY);
@@ -76,72 +91,8 @@ namespace SaberColorfulStartmenu
             }
         }
 
-        private void GridImg_OnMouseWheel(object sender, MouseWheelEventArgs e) => Scale(e.Delta > 0? 4 : -4);
+        private void GridImg_OnMouseWheel(object sender, MouseWheelEventArgs e) => Scale(e.Delta > 0 ? 4 : -4);
 
-
-        public void Scale(int ratio)
-        {
-            if (ratio > 0) {
-                //放大
-                imgScale.ScaleX += 0.01 * ratio;
-            }
-            else {
-                //缩小
-                if (ratio < 0)
-                    imgScale.ScaleX += 0.01 * ratio;
-
-                var size = GetRealSize();
-                if (size.Width < centerMask.ActualWidth) {
-                    imgScale.ScaleX = centerMask.ActualWidth / Source.Size.Width;
-                }
-                else if (size.Height < centerMask.ActualHeight) {
-                    imgScale.ScaleX = centerMask.ActualHeight / Source.Size.Height;
-                }
-
-                SetLoc(Canvas.GetLeft(imgDst), Canvas.GetTop(imgDst));
-            }
-        }
-
-        public void Offset(double deltaX, double deltaY)
-        {
-            var x = Canvas.GetLeft(imgDst);
-            var y = Canvas.GetTop(imgDst);
-            SetLoc(x + deltaX,y + deltaY);
-        }
-
-        public void SetLoc(double x, double y)
-        {
-            var siz = GetRealSize();
-            var newX = x;
-            var newY = y;
-
-            //左
-            if (newX > leftMask.ActualWidth) {
-                newX = leftMask.ActualWidth;
-            }
-
-            //上
-            if (newY > 0) {
-                newY = 0;
-            }
-
-            //右
-            if ((newX + siz.Width) < leftMask.ActualWidth + centerMask.ActualWidth) {
-                newX = leftMask.ActualWidth + centerMask.ActualWidth - siz.Width;
-            }
-
-            //下
-            if (newY + siz.Height < centerMask.ActualHeight) {
-                newY = centerMask.ActualHeight - siz.Height;
-            }
-
-            Canvas.SetLeft(imgDst, newX);
-            Canvas.SetTop(imgDst, newY);
-        }
-
-
-        private Size GetRealSize() => new Size((int)(Source.Size.Width * imgScale.ScaleX),
-            (int)(Source.Size.Height * imgScale.ScaleY));
 
         private void ButtonBase_OnClick_2(object sender, RoutedEventArgs e) => Scale(1);
 
@@ -180,19 +131,19 @@ namespace SaberColorfulStartmenu
             switch (e.Key) {
                 case Key.Up:
                 case Key.W:
-                    Offset(0,-1);
+                    Offset(0, -1);
                     break;
                 case Key.Down:
                 case Key.S:
-                    Offset(0,1);
+                    Offset(0, 1);
                     break;
                 case Key.Left:
                 case Key.A:
-                    Offset(-1,0);
+                    Offset(-1, 0);
                     break;
                 case Key.Right:
                 case Key.D:
-                    Offset(1,0);
+                    Offset(1, 0);
                     break;
                 case Key.PageUp:
                     Scale(1);
@@ -213,6 +164,108 @@ namespace SaberColorfulStartmenu
         }
 
 
+        private void ButtonBase_OnClick_5(object sender, RoutedEventArgs e) => Offset(0, -1);
+
+        private void ButtonBase_OnClick_6(object sender, RoutedEventArgs e) => Offset(0, 1);
+
+        private void ButtonBase_OnClick_7(object sender, RoutedEventArgs e) => Offset(-1, 0);
+
+        private void ButtonBase_OnClick_8(object sender, RoutedEventArgs e) => Offset(1, 0);
+
+        #endregion
+
+        #region Method
+
+        public void Scale(int ratio)
+        {
+            if (ratio > 0) {
+                //放大
+                imgScale.ScaleX += 0.01 * ratio;
+            }
+            else {
+                //缩小
+                if (ratio < 0)
+                    imgScale.ScaleX += 0.01 * ratio;
+
+                var size = GetRealSize();
+                if (size.Width < centerMask.ActualWidth) {
+                    imgScale.ScaleX = centerMask.ActualWidth / Source.Size.Width;
+                }
+                else if (size.Height < centerMask.ActualHeight) {
+                    imgScale.ScaleX = centerMask.ActualHeight / Source.Size.Height;
+                }
+
+                SetLoc(Canvas.GetLeft(imgDst), Canvas.GetTop(imgDst));
+            }
+            UpdateInfo();
+        }
+
+        public void Offset(double deltaX, double deltaY)
+        {
+            var x = Canvas.GetLeft(imgDst);
+            var y = Canvas.GetTop(imgDst);
+            SetLoc(x + deltaX, y + deltaY);
+        }
+
+        public void SetLoc(double x, double y)
+        {
+            var siz = GetRealSize();
+            var newX = x;
+            var newY = y;
+
+            //左
+            if (newX > leftMask.ActualWidth) {
+                newX = leftMask.ActualWidth;
+            }
+
+            //上
+            if (newY > 0) {
+                newY = 0;
+            }
+
+            //右
+            if ((newX + siz.Width) < leftMask.ActualWidth + centerMask.ActualWidth) {
+                newX = leftMask.ActualWidth + centerMask.ActualWidth - siz.Width;
+            }
+
+            //下
+            if (newY + siz.Height < centerMask.ActualHeight) {
+                newY = centerMask.ActualHeight - siz.Height;
+            }
+
+            Canvas.SetLeft(imgDst, newX);
+            Canvas.SetTop(imgDst, newY);
+            UpdateInfo();
+        }
+
+        private Size GetRealSize() => new Size((int)(Source.Size.Width * imgScale.ScaleX),
+            (int)(Source.Size.Height * imgScale.ScaleY));
+
+        private void UpdateInfo()
+        {
+            var canvX = Canvas.GetLeft(imgDst);
+            var canvY = Canvas.GetTop(imgDst);
+
+            var imgX = (leftMask.ActualWidth - canvX) / imgScale.ScaleX;
+            var imgY = (0 - canvY) / imgScale.ScaleY;
+
+            var width = centerMask.ActualWidth / imgScale.ScaleX;
+
+            var warningTxt = string.Empty;
+            if (width < MinSize?.Width) {
+                warningTxt = "注意:当前裁剪区域尺寸小于150x150,无法覆盖满整个磁贴图标.\n";
+                info.Text = "";//⚠
+                infoBack.Opacity = 0.6;
+            }
+            else {
+                info.Text = "";//(i)
+                infoBack.Opacity = 0;
+            }
+            info.ToolTip = $"{warningTxt}偏移量:( {(int)(imgX + 0.5)} , {(int)(imgY + 0.5)} )\n尺寸:{(int)(width + 0.5)} * {(int)(width + 0.5)}";
+        }
+
+        #endregion
+
         public enum SnapWindowResult
         {
             Unknown,
@@ -220,13 +273,5 @@ namespace SaberColorfulStartmenu
             Cancel,
             Ignore
         }
-
-        private void ButtonBase_OnClick_5(object sender, RoutedEventArgs e) => Offset(0, -1);
-
-        private void ButtonBase_OnClick_6(object sender, RoutedEventArgs e) => Offset(0, 1);
-
-        private void ButtonBase_OnClick_7(object sender, RoutedEventArgs e) => Offset(-1,0);
-
-        private void ButtonBase_OnClick_8(object sender, RoutedEventArgs e) => Offset(1,0);
     }
 }

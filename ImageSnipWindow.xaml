@@ -28,8 +28,13 @@
             <Button Style="{StaticResource Win8UWPBtn}" FontFamily="Segoe MDL2 Assets" FontSize="20" Content="&#xE00F;" Margin="2" Height="36" ToolTip="微调右移(D)" Click="ButtonBase_OnClick_8"/>
             <Button Style="{StaticResource Win8UWPBtn}" FontFamily="Segoe MDL2 Assets" FontSize="20" Content="&#xE109;" Margin="2" Height="36" ToolTip="微调放大(PgUp)" Click="ButtonBase_OnClick_2" />
             <Button Style="{StaticResource Win8UWPBtn}" FontFamily="Segoe MDL2 Assets" FontSize="20" Content="&#xE108;" Margin="2" Height="36" ToolTip="微调缩小(PgDn)" Click="ButtonBase_OnClick_3" />
+            <TextBlock x:Name="info" FontSize="38" TextAlignment="Center" FontFamily="Segoe MDL2 Assets" Text="&#xE946;" Foreground="White" Margin="2" Height="36">
+                <TextBlock.Background>
+                    <SolidColorBrush x:Name="infoBack" Color="#e67e22" Opacity="0"></SolidColorBrush>
+                </TextBlock.Background>
+            </TextBlock>
         </StackPanel>
-        <Canvas x:Name="canvasImg" Grid.Row="1" Grid.Column="0"  Background="{x:Null}" ClipToBounds="True">
+        <Canvas Grid.Row="1" Grid.Column="0"  Background="{x:Null}" ClipToBounds="True">
             <Image x:Name="imgDst" Canvas.Left="0" Canvas.Top="0" RenderTransformOrigin="0,0">
                 <Image.RenderTransform>
                     <ScaleTransform x:Name="imgScale" ScaleX="1" ScaleY="{Binding ScaleX,ElementName=imgScale}"></ScaleTransform>
@@ -46,7 +51,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Rectangle x:Name="leftMask" Grid.Row="0" Grid.Column="0"  Fill="{StaticResource BlackMask}"/>
-            <Rectangle x:Name="rightMask" Grid.Row="0" Grid.Column="2"  Fill="{StaticResource BlackMask}"/>
+            <Rectangle Grid.Row="0" Grid.Column="2"  Fill="{StaticResource BlackMask}"/>
             <Border x:Name="centerMask" BorderBrush="White" BorderThickness="1" Grid.Column="1">
                 <Rectangle>
                     <Rectangle.Fill>
