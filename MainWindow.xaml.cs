@@ -23,7 +23,6 @@ using __WinForm = System.Windows.Forms;
 using Brushes = System.Windows.Media.Brushes;
 using Color = System.Windows.Media.Color;
 using File = System.IO.File;
-using Point = System.Drawing.Point;
 using Size = System.Drawing.Size;
 
 /*
@@ -186,7 +185,7 @@ namespace SaberColorfulStartmenu
             try {
                 var fs = File.Open(_openFile.FileName, FileMode.Open, FileAccess.Read);
                 var img = new Bitmap(fs);
-                var win = new ImageSnipWindow(img,new Size(150,150));
+                var win = new ImageSnipWindow(img, new Size(150, 150));
                 win.ShowDialog();
                 Bitmap tmpBmp;
                 switch (win.Result) {
@@ -203,6 +202,7 @@ namespace SaberColorfulStartmenu
                             _logo = img.ToBitmapSource();
                             goto done;
                         }
+
                         tmpBmp = img;
                         break;
                     default:
@@ -211,20 +211,21 @@ namespace SaberColorfulStartmenu
 
                 if (tmpBmp.Size.Width < 150 || tmpBmp.Size.Height < 150) {
                     if (tmpBmp.Size.Width < 150 && tmpBmp.Size.Height < 150) {
-                        var newBmp = new Bitmap(150,150);
+                        var newBmp = new Bitmap(150, 150);
                         var gps = Graphics.FromImage(newBmp);
                         gps.CompositingQuality = CompositingQuality.HighQuality;
                         gps.Clear(System.Drawing.Color.Transparent);
                         var x = (150 - tmpBmp.Size.Width) / 2;
                         var y = (150 - tmpBmp.Size.Height) / 2;
-                        gps.DrawImage(tmpBmp,new Point(x,y));
+                        gps.DrawImage(tmpBmp, x, y, tmpBmp.Size.Width, tmpBmp.Size.Height);
+                        tmpBmp.Dispose();
                         tmpBmp = newBmp;
                     }
                     else {
-                        tmpBmp = new Bitmap(tmpBmp,150,150);
+                        tmpBmp = new Bitmap(tmpBmp, 150, 150);
                     }
                 }
-                
+
                 _logo = tmpBmp.ToBitmapSource();
                 _newLogoLoc = Path.GetTempFileName() + ".png";
                 tmpBmp.Save(_newLogoLoc, ImageFormat.Png);
@@ -465,7 +466,8 @@ namespace SaberColorfulStartmenu
                     return;
                 }
                 catch (IOException ex) {
-                    MessageBox.Show("无法读取该文件设定.\n发生了IO异常，请稍后再试\n更多信息:" + ex.Message, "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("无法读取该文件设定.\n发生了IO异常，请稍后再试\n更多信息:" + ex.Message, "错误", MessageBoxButton.OK,
+                        MessageBoxImage.Error);
                     _sysChangeing = false;
                     appList.SelectedIndex = -1;
                     return;
@@ -761,7 +763,8 @@ namespace SaberColorfulStartmenu
                         return false;
                     }
                     catch (IOException ex) {
-                        MessageBox.Show("无法读取该文件设定.\n发生了IO异常，请稍后再试\n更多信息:" + ex.Message, "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("无法读取该文件设定.\n发生了IO异常，请稍后再试\n更多信息:" + ex.Message, "错误", MessageBoxButton.OK,
+                            MessageBoxImage.Error);
                         _sysChangeing = false;
                         appList.SelectedIndex = -1;
                         return false;
