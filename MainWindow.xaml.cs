@@ -38,6 +38,7 @@ using Size = System.Drawing.Size;
 
 namespace SaberColorfulStartmenu
 {
+
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>
@@ -194,6 +195,7 @@ namespace SaberColorfulStartmenu
                         break;
                     case ImageSnipWindow.SnapWindowResult.Cancel:
                         img.Dispose();
+                        fs.Close();
                         return;
                     case ImageSnipWindow.SnapWindowResult.Ignore:
                         if (img.Size.Width >= 150 && img.Size.Height >= 150) {
@@ -751,6 +753,8 @@ namespace SaberColorfulStartmenu
                     }
                     else {
                         currentInfo.XmlFile.LargeLogoLoc = currentInfo.XmlFile.SmallLogoLoc = string.Empty;
+                        if (_newLogoLoc == null)
+                            _logo = null;
                     }
 
                     try {

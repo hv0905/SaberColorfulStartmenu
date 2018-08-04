@@ -110,7 +110,13 @@ namespace SaberColorfulStartmenu
         private void ImageSnipWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
             _loaded = true;
-            Scale(0);
+            //Scale(0);
+            if (imgDst.Width < imgDst.Height) {
+                imgScale.ScaleX = centerMask.ActualWidth / Source.Size.Width;
+            }
+            else {
+                imgScale.ScaleX = centerMask.ActualHeight / Source.Size.Height;
+            }
         }
 
         private void GridImg_OnMouseLeave(object sender, MouseEventArgs e) => _mouseStartPoint = null;

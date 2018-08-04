@@ -167,7 +167,6 @@ namespace SaberColorfulStartmenu.Core
             File.Copy(BakFileLocation, XmlFileLocation, true);
             File.Delete(BakFileLocation);
             return true;
-
         }
 
 
