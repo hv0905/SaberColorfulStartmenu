@@ -69,8 +69,8 @@
                 <ListBox.ItemTemplate>
                     <ItemContainerTemplate>
                         <StackPanel Orientation="Horizontal" Height="25" ToolTip="{Binding Ui_ToolTipTxt}">
-                            <Image Source="{Binding Logo}"/>
-                            <TextBlock Text="{Binding AppName}" FontSize="14" VerticalAlignment="Center"/>
+                            <Image Source="{Binding Logo}" />
+                            <TextBlock Text="{Binding AppName}" FontSize="14" VerticalAlignment="Center" />
                         </StackPanel>
                     </ItemContainerTemplate>
                 </ListBox.ItemTemplate>
@@ -196,7 +196,7 @@
                             <TextBlock Text="RGB颜色" Grid.Row="1" Grid.Column="0" FontSize="16" />
                             <TextBox x:Name="defineColorText" Text="#000000" Grid.Column="1" Grid.Row="1" FontSize="14"
                                      Margin="2" MaxLength="7" input:InputMethod.IsInputMethodEnabled="False"
-                                     KeyUp="DefineColorText_OnKeyUp">
+                                     TextChanged="DefineColorText_OnTextChanged">
                                 <TextBox.Background>
                                     <SolidColorBrush Color="White" Opacity="0.6" />
                                 </TextBox.Background>

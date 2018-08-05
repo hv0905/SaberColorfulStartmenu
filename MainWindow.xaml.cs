@@ -145,28 +145,10 @@ namespace SaberColorfulStartmenu
             _saveFlag = true;
             _currentColor = _colorDialog.Color.ToMediaColor();
             _currentColorString = _currentColor.ToRgbString();
+            _sysChangeing = true;
             defineColorText.Text = _currentColorString;
+            _sysChangeing = false;
             UpdateRender();
-        }
-
-        private void DefineColorText_OnKeyUp(object sender, KeyEventArgs e)
-        {
-            if (_sysChangeing) return;
-            if (defineColorText.Text.Length != 7 || !defineColorText.Text.StartsWith("#")) return;
-            _saveFlag = true;
-            try {
-                // ReSharper disable once PossibleNullReferenceException
-                _currentColor = Helper.GetColorFromRgbString(defineColorText.Text);
-                _currentColorString = defineColorText.Text;
-                defineColorText.Foreground = Brushes.Black;
-                defineColorText.ToolTip = null;
-                UpdateRender();
-            }
-            catch (FormatException) {
-                defineColorText.Foreground = Brushes.DeepPink;
-                defineColorText.ToolTip = "格式错误.";
-                Debug.WriteLine("ChangeColor Canceled.");
-            }
         }
 
         private void SaveAndUpdate_RoutedEvent(object sender, RoutedEventArgs e)
@@ -387,6 +369,27 @@ namespace SaberColorfulStartmenu
             }
 
             Load();
+        }
+
+        private void DefineColorText_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!_loaded) return;
+            if (_sysChangeing) return;
+            if (defineColorText.Text.Length != 7 || !defineColorText.Text.StartsWith("#")) return;
+            _saveFlag = true;
+            try {
+                // ReSharper disable once PossibleNullReferenceException
+                _currentColor = Helper.GetColorFromRgbString(defineColorText.Text);
+                _currentColorString = defineColorText.Text;
+                defineColorText.Foreground = Brushes.Black;
+                defineColorText.ToolTip = null;
+                UpdateRender();
+            }
+            catch (FormatException) {
+                defineColorText.Foreground = Brushes.DeepPink;
+                defineColorText.ToolTip = "格式错误.";
+                Debug.WriteLine("ChangeColor Canceled.");
+            }
         }
 
         #endregion
