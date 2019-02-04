@@ -3,7 +3,7 @@
 
 ## [反馈（或点击Issues）](https://github.com/hv0905/SaberColorfulStartmenu/issues)
 ## [应用下载（最新版本V1.2）](https://github.com/hv0905/SaberColorfulStartmenu/releases)
-## [主页](http://hv0905.github.io/saber_colorful_startmenu/)
+## [主页](https://edgeneko.github.io/2019/01/31/SaberColorfulStartmenu/)
 
 > global:No multi-language support yet. If you want to use this program in multi-language, please tell us in Issues.
 >           Thanks for support ^_^
