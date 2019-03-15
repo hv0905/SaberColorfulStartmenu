@@ -4,7 +4,6 @@
 ![AppVeyor](https://img.shields.io/appveyor/ci/hv0905/SaberColorfulStartmenu.svg?style=flat-square&logo=appveyor)
 
 ## [反馈（或点击Issues） Feedback](https://github.com/hv0905/SaberColorfulStartmenu/issues)
-## [应用下载 AppRelease](https://github.com/hv0905/SaberColorfulStartmenu/releases)
 ## [主页 Homepage](https://edgeneko.github.io/2019/01/31/SaberColorfulStartmenu/)
 
 ### 感谢支持^_^  Thanks for your Support ^_^
@@ -12,6 +11,12 @@
 ### 嗯，这个工具可以更改你的开始菜单应用磁贴的颜色，图标等。
 
 ### This tool can change the app's logo and background color in your Win10 startmenu.
+
+### 应用下载 App Download:
+
+[Github Release下载 Download from Github Release](https://github.com/hv0905/SaberColorfulStartmenu/releases)  
+[你也可以从ci下载最新的非正式发布版本](https://ci.appveyor.com/project/hv0905/sabercolorfulstartmenu/build/artifacts)  
+[you can download the newest developing version from our CI.](https://ci.appveyor.com/project/hv0905/sabercolorfulstartmenu/build/artifacts)  
 
 ### 关于 About:
 > Saber's Colorful Startmenu Version:1.2 (release 1.2)
