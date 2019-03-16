@@ -47,7 +47,7 @@ namespace SaberColorfulStartmenu.Properties {
         }
         
         /// <summary>
-        ///   使用此强类型资源类，为所有资源查找
+        ///   重写当前线程的 CurrentUICulture 属性
         ///   重写当前线程的 CurrentUICulture 属性。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -99,6 +99,16 @@ namespace SaberColorfulStartmenu.Properties {
         internal static string IconDirName {
             get {
                 return ResourceManager.GetString("IconDirName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
+        internal static byte[] ModernMessageBoxLib {
+            get {
+                object obj = ResourceManager.GetObject("ModernMessageBoxLib", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         

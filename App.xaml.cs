@@ -7,6 +7,7 @@ using System.Configuration;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
@@ -26,6 +27,21 @@ namespace SaberColorfulStartmenu
 
         private void App_OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e) =>
             new ErrorReport(e.Exception).ShowDialog();
+
+        static App()
+        {
+            AppDomain.CurrentDomain.AssemblyResolve += (sender, e) => {
+                var assName = new AssemblyName(e.Name);
+
+                switch (assName.FullName.Replace(" ", string.Empty)) {
+                    case "ModernMessageBoxLib,Version=1.3.0.0,Culture=neutral,PublicKeyToken=null":
+                        return Assembly.Load(SaberColorfulStartmenu.Properties.Resources.ModernMessageBoxLib);
+                    default:
+                        return null;
+                }
+
+            };
+        }
 
         protected override void OnStartup(StartupEventArgs e)
         {

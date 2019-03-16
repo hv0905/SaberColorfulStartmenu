@@ -141,6 +141,10 @@
   <data name="IconDirName" xml:space="preserve">
     <value>__StartmenuIcons__</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ModernMessageBoxLib" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ModernMessageBoxLib.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="SysCharMap_CN" xml:space="preserve">
     <value>Magnify,放大镜
 Notepad,记事本
@@ -171,7 +175,6 @@ IIS Client Manager,IIS客户端管理器
 Task Manager,任务管理器
 Character Map,字符映射表</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="龙_飞车" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\龙_飞车.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
