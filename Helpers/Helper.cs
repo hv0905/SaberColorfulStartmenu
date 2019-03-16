@@ -12,7 +12,6 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
-using IWshRuntimeLibrary;
 using Color = System.Windows.Media.Color;
 using ColorConverter = System.Windows.Media.ColorConverter;
 using File = System.IO.File;
@@ -21,8 +20,6 @@ namespace SaberColorfulStartmenu.Helpers
 {
     public static class Helper
     {
-        public static readonly WshShell MainShell = new WshShell();
-
         public static readonly IDictionary EnviromentVar = Environment.GetEnvironmentVariables();
 
         /// <summary>

@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Media.Imaging;
-using IWshRuntimeLibrary;
 using SaberColorfulStartmenu.Helpers;
 using File = System.IO.File;
 
@@ -22,7 +21,6 @@ namespace SaberColorfulStartmenu.Core
         public StartmenuXmlFile XmlFile { get; set; }
         public string XmlFileLocation { get; }
         public string FullPath { get; }
-        public WshShortcut ShortcutInfo { get; }
         public string TargetPath { get; }
 
         public string LogoDirLocation =>
@@ -42,8 +40,7 @@ namespace SaberColorfulStartmenu.Core
         public StartmenuShortcutInfo(string shortcutFileName)
         {
             FullPath = shortcutFileName;
-            ShortcutInfo = Helper.MainShell.CreateShortcut(FullPath);
-            TargetPath = Helper.ConvertEnviromentArgsInPath(ShortcutInfo.TargetPath);
+            TargetPath = Helper.ConvertEnviromentArgsInPath(ShortcutHelper.ResolveShortcut(FullPath));
             //__find:
             if (!File.Exists(TargetPath)) {
                 throw new FileNotFoundException(TargetPath);
@@ -61,15 +58,14 @@ namespace SaberColorfulStartmenu.Core
 
 
         /// <summary>
-        /// 获取现有快捷方式的信息，提供ShortcutInfo
+        /// 获取现有快捷方式的信息，提供TargetPath
         /// </summary>
         /// <param name="shortcutFileName"></param>
-        /// <param name="shortcutInfo"></param>
-        public StartmenuShortcutInfo(string shortcutFileName, WshShortcut shortcutInfo)
+        /// <param name="targetPath"></param>
+        public StartmenuShortcutInfo(string shortcutFileName, string targetPath)
         {
             FullPath = shortcutFileName;
-            ShortcutInfo = shortcutInfo;
-            TargetPath = Helper.ConvertEnviromentArgsInPath(ShortcutInfo.TargetPath);
+            TargetPath = targetPath;
             //__find:
             if (!File.Exists(TargetPath)) {
                 throw new FileNotFoundException(TargetPath);
@@ -90,19 +86,10 @@ namespace SaberColorfulStartmenu.Core
         /// </summary>
         public void LoadIcon()
         {
-            string iconPath;
-            int iconId;
-            if (ShortcutInfo.IconLocation.Trim().StartsWith(",")) {
-                //targetpath对应icon
-                iconId = int.Parse(ShortcutInfo.IconLocation.Substring(1));
+            var iconPath = ShortcutHelper.GetShortcutIconPath(FullPath, out var iconId);
+            if (string.IsNullOrWhiteSpace(iconPath)) {
+                //targetPath对应icon
                 iconPath = TargetPath;
-            }
-            else {
-                var tmp = ShortcutInfo.IconLocation.Split(',');
-
-                iconId = int.Parse(tmp[tmp.Length - 1]);
-                if (iconId < 0) iconId = 0;
-                iconPath = Helper.ConvertEnviromentArgsInPath(tmp[0]);
             }
 
             BitmapSource logo;
