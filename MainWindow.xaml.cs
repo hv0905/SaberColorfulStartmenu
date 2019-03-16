@@ -17,7 +17,6 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using IWshRuntimeLibrary;
 using Microsoft.Win32;
 using __WinForm = System.Windows.Forms;
 using Brushes = System.Windows.Media.Brushes;
@@ -413,33 +412,19 @@ namespace SaberColorfulStartmenu
             fileList.AddRange(Helper.GetAllFilesByDir(App.CommonStartMenu));
             fileList.RemoveAll(str => !str.EndsWith(".lnk", StringComparison.CurrentCultureIgnoreCase));
             foreach (var item in fileList) {
-                WshShortcut shortcut = Helper.MainShell.CreateShortcut(item);
-                var target = Helper.ConvertEnviromentArgsInPath(shortcut.TargetPath);
+                var target = ShortcutHelper.ResolveShortcut(item);
                 //__tf:
 #if DEBUG_SHOW_DETAILS
                 Debug.WriteLine(target);
 #endif
                 if ((!target.EndsWith(".exe", StringComparison.CurrentCultureIgnoreCase)) || !File.Exists(target)) {
-                    //Reason 在目前版本的Win10中（1803）无法再重现此问题，暂时删除
-                    //                    if (target.ToLower().Contains("program files (x86)")) {
-                    //                        //Reason
-                    //                        //实测有部分应用（这包括Microsoft Office） 的快捷方式在使用任何一种Wshshell（这包括C# 的WshShortcut和C++的shlobj.h）获取TargetPath时
-                    //                        //Program Files 都有几率变为 Program Files (x86) 暂时不了解原因，网上也没有相关的错误报告
-                    //                        //msdn居然对IWshShell一个文档都没有= = 
-                    //                        //这种临时的解决方式，只能算是一种下下策了吧 =。=
-                    //                        //如果有知道解决方案的可以当issue汇报
-                    //                        //阿里嘎多
-                    //
-                    //                        target = target.ToLower().Replace("program files (x86)", "program files");
-                    //                        goto __tf;
-                    //                    }
 #if DEBUG_SHOW_DETAILS
                     Debug.WriteLine("Torow!!!");
 #endif
                     continue;
                 }
 
-                var si = new StartmenuShortcutInfo(item, shortcut);
+                var si = new StartmenuShortcutInfo(item,target);
                 si.LoadIcon();
                 _applistData.Add(si);
             }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -12,7 +11,6 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
-using IWshRuntimeLibrary;
 using Color = System.Windows.Media.Color;
 using ColorConverter = System.Windows.Media.ColorConverter;
 using File = System.IO.File;
@@ -21,10 +19,6 @@ namespace SaberColorfulStartmenu.Helpers
 {
     public static class Helper
     {
-        public static readonly WshShell MainShell = new WshShell();
-
-        public static readonly IDictionary EnviromentVar = Environment.GetEnvironmentVariables();
-
         /// <summary>
         /// 通过句柄销毁HBitmap
         /// </summary>
@@ -137,17 +131,6 @@ namespace SaberColorfulStartmenu.Helpers
 
         public static Color ToMediaColor(this System.Drawing.Color color) =>
             Color.FromArgb(color.A, color.R, color.G, color.B);
-
-
-        public static string ConvertEnviromentArgsInPath(string path)
-        {
-            if (!path.Contains("%")) return path;
-            var sb = new StringBuilder(path);
-            foreach (DictionaryEntry dictionaryEntry in EnviromentVar) {
-                sb.Replace($"%{(string)dictionaryEntry.Key}%", (string)dictionaryEntry.Value);
-            }
-            return sb.ToString();
-        }
 
         /// <summary>
         /// 强制更新文件
