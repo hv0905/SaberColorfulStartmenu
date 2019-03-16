@@ -61,7 +61,7 @@ namespace SaberColorfulStartmenu.Properties {
         }
         
         /// <summary>
-        ///   查找类似 Saber&apos;s Colorful Startmenu Version:2.2 (release 2.2)
+        ///   查找类似 Saber&apos;s Colorful Startmenu Version:2.3 (release 2.3)
         ///
         ///作者：HV0905
         ///
