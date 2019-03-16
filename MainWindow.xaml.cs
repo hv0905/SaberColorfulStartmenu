@@ -412,7 +412,7 @@ namespace SaberColorfulStartmenu
             fileList.AddRange(Helper.GetAllFilesByDir(App.CommonStartMenu));
             fileList.RemoveAll(str => !str.EndsWith(".lnk", StringComparison.CurrentCultureIgnoreCase));
             foreach (var item in fileList) {
-                var target = Helper.ConvertEnviromentArgsInPath(ShortcutHelper.ResolveShortcut(item));
+                var target = ShortcutHelper.ResolveShortcut(item);
                 //__tf:
 #if DEBUG_SHOW_DETAILS
                 Debug.WriteLine(target);

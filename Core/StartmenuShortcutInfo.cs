@@ -40,7 +40,7 @@ namespace SaberColorfulStartmenu.Core
         public StartmenuShortcutInfo(string shortcutFileName)
         {
             FullPath = shortcutFileName;
-            TargetPath = Helper.ConvertEnviromentArgsInPath(ShortcutHelper.ResolveShortcut(FullPath));
+            TargetPath = ShortcutHelper.ResolveShortcut(FullPath);
             //__find:
             if (!File.Exists(TargetPath)) {
                 throw new FileNotFoundException(TargetPath);
