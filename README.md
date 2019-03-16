@@ -1,7 +1,7 @@
 # Saber's Color Startmenu
 # 开始菜单磁贴自定义工具
 
-![AppVeyor](https://img.shields.io/appveyor/ci/hv0905/SaberColorfulStartmenu.svg?style=flat-square&logo=appveyor)
+[![AppVeyor](https://img.shields.io/appveyor/ci/hv0905/SaberColorfulStartmenu.svg?style=flat-square&logo=appveyor)](https://ci.appveyor.com/project/hv0905/sabercolorfulstartmenu)
 
 ## [反馈（或点击Issues） Feedback](https://github.com/hv0905/SaberColorfulStartmenu/issues)
 ## [主页 Homepage](https://edgeneko.github.io/2019/01/31/SaberColorfulStartmenu/)
