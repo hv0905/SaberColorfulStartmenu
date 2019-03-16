@@ -18,6 +18,7 @@ using System.Security.Cryptography;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using Microsoft.Win32;
+using ModernMessageBoxLib;
 using __WinForm = System.Windows.Forms;
 using Brushes = System.Windows.Media.Brushes;
 using Color = System.Windows.Media.Color;
@@ -37,7 +38,6 @@ using Size = System.Drawing.Size;
 
 namespace SaberColorfulStartmenu
 {
-
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>
@@ -159,8 +159,8 @@ namespace SaberColorfulStartmenu
 
         private void ButtonBase_OnClick_7(object sender, RoutedEventArgs e)
         {
-            if (_scaleMode && MessageBox.Show("警告，本操作不可逆。\n继续将清除开发者定义的可缩放图标，除非重新安装该程序，否则该图标可能不能恢复。\n继续操作？", "警告",
-                    MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes) return;
+            if (_scaleMode && QModernMessageBox.Show("警告，本操作不可逆。\n继续将清除开发者定义的可缩放图标，除非重新安装该程序，否则该图标可能不能恢复。\n继续操作？", "警告",
+                    QModernMessageBox.QModernMessageBoxButtons.YesNo,ModernMessageboxIcons.Warning) != ModernMessageboxResult.Button1) return;
 
 
             if (!(_openFile.ShowDialog() ?? false)) return;
@@ -218,8 +218,7 @@ namespace SaberColorfulStartmenu
                 fs.Close();
             }
             catch (IOException ex) {
-                MessageBox.Show($"图片载入失败\n未知错误，无法读取此文件\n详细信息：{ex.Message}", "错误", MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                QModernMessageBox.Error($"图片载入失败\n未知错误，无法读取此文件\n详细信息：{ex.Message}", "错误");
                 return;
             }
 
@@ -355,8 +354,8 @@ namespace SaberColorfulStartmenu
         private void UndoBtn_OnClick(object sender, RoutedEventArgs e)
         {
             if (_currentId == -1) return;
-            if (MessageBox.Show("将还原上一次保存的更改\n继续？", "Undo", MessageBoxButton.YesNo, MessageBoxImage.Asterisk) !=
-                MessageBoxResult.Yes) return;
+            if (QModernMessageBox.Show("将还原上一次保存的更改\n继续？", "Undo", QModernMessageBox.QModernMessageBoxButtons.YesNo, ModernMessageboxIcons.Info) !=
+                ModernMessageboxResult.Button1) return;
             _saveFlag = false;
             var currentInfo = _applistData[_currentId];
             currentInfo.Undo();
@@ -424,7 +423,7 @@ namespace SaberColorfulStartmenu
                     continue;
                 }
 
-                var si = new StartmenuShortcutInfo(item,target);
+                var si = new StartmenuShortcutInfo(item, target);
                 si.LoadIcon();
                 _applistData.Add(si);
             }
@@ -450,14 +449,15 @@ namespace SaberColorfulStartmenu
                     currentInfo.LoadXmlInfo();
                 }
                 catch (UnauthorizedAccessException) {
-                    MessageBox.Show("无法读取该文件设定.\n权限不足。", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                    QModernMessageBox.Show("无法读取该文件设定.\n权限不足。", "错误", QModernMessageBox.QModernMessageBoxButtons.Ok,
+                        ModernMessageboxIcons.Error);
                     _sysChangeing = false;
                     appList.SelectedIndex = -1;
                     return;
                 }
                 catch (IOException ex) {
-                    MessageBox.Show("无法读取该文件设定.\n发生了IO异常，请稍后再试\n更多信息:" + ex.Message, "错误", MessageBoxButton.OK,
-                        MessageBoxImage.Error);
+                    QModernMessageBox.Show("无法读取该文件设定.\n发生了IO异常，请稍后再试\n更多信息:" + ex.Message, "错误",
+                        QModernMessageBox.QModernMessageBoxButtons.Ok, ModernMessageboxIcons.Error);
                     _sysChangeing = false;
                     appList.SelectedIndex = -1;
                     return;
@@ -467,7 +467,8 @@ namespace SaberColorfulStartmenu
                     Debug.WriteLine(e);
                     Debug.WriteLine("--------END--------");
                     // ReSharper disable once HeuristicUnreachableCode
-                    MessageBox.Show("读取配置文件时发生错误\n已重置到初始值", "错误", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    QModernMessageBox.Show("读取配置文件时发生错误\n已重置到初始值", "错误", QModernMessageBox.QModernMessageBoxButtons.Ok,
+                        ModernMessageboxIcons.Warning);
                     File.Delete(currentInfo.XmlFileLocation);
                     currentInfo.XmlFile = null;
                     Load();
@@ -624,7 +625,8 @@ namespace SaberColorfulStartmenu
                 catch {
 #endif
                     // ReSharper disable once HeuristicUnreachableCode
-                    MessageBox.Show("读取配置文件时发生错误\n已重置到初始值", "错误", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    QModernMessageBox.Show("读取配置文件时发生错误\n已重置到初始值", "错误", QModernMessageBox.QModernMessageBoxButtons.Ok,
+                        ModernMessageboxIcons.Warning);
                     File.Delete(currentInfo.XmlFileLocation);
                     currentInfo.XmlFile = null;
                     Load();
@@ -664,11 +666,11 @@ namespace SaberColorfulStartmenu
         {
             if (!_saveFlag || _currentId == -1) return true;
             // ReSharper disable once SwitchStatementMissingSomeCases
-            switch (MessageBox.Show("更改尚未保存，是否保存？", "提示", MessageBoxButton.YesNoCancel, MessageBoxImage.Asterisk,
-                MessageBoxResult.Cancel)) {
-                case MessageBoxResult.Yes:
+            switch (QModernMessageBox.Show("更改尚未保存，是否保存？", "提示", QModernMessageBox.QModernMessageBoxButtons.YesNoCancel,
+                ModernMessageboxIcons.Info)) {
+                case ModernMessageboxResult.Button1:
                     return Save();
-                case MessageBoxResult.No:
+                case ModernMessageboxResult.Button2:
                     _saveFlag = false;
                     return true;
                 default:
@@ -688,8 +690,9 @@ namespace SaberColorfulStartmenu
             if (_saveFlag) {
                 if (!(modeCheck.IsChecked ?? false)) {
                     if (currentInfo.XmlFile != null) {
-                        if (MessageBox.Show("将删除所有自定义效果文件\n继续?", "⚠警告", MessageBoxButton.YesNo,
-                                MessageBoxImage.Warning) != MessageBoxResult.Yes) return false;
+                        if (QModernMessageBox.Show("将删除所有自定义效果文件\n继续?", "⚠警告",
+                                QModernMessageBox.QModernMessageBoxButtons.YesNo, ModernMessageboxIcons.Warning) !=
+                            ModernMessageboxResult.Button1) return false;
                         currentInfo.XmlFile = null;
                         File.Delete(currentInfo.XmlFileLocation);
                         //                        if (currentInfo.BakFileExist) {
@@ -735,7 +738,7 @@ namespace SaberColorfulStartmenu
                             _newLogoLoc = null;
                         }
                         else if (string.IsNullOrEmpty(currentInfo.XmlFile.SmallLogoLoc)) {
-                            MessageBox.Show("需要指定作为图标的图片。", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            QModernMessageBox.Info("需要指定作为图标的图片。", "提示");
                             return false;
                         }
                     }
@@ -751,12 +754,11 @@ namespace SaberColorfulStartmenu
                         undoBtn.IsEnabled = currentInfo.BakFileExist;
                     }
                     catch (UnauthorizedAccessException) {
-                        MessageBox.Show("无法保存设定.\n权限不足.", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                        QModernMessageBox.Error("无法保存设定.\n权限不足.", "错误");
                         return false;
                     }
                     catch (IOException ex) {
-                        MessageBox.Show("无法读取该文件设定.\n发生了IO异常，请稍后再试\n更多信息:" + ex.Message, "错误", MessageBoxButton.OK,
-                            MessageBoxImage.Error);
+                        QModernMessageBox.Error("无法读取该文件设定.\n发生了IO异常，请稍后再试\n更多信息:" + ex.Message, "错误");
                         _sysChangeing = false;
                         appList.SelectedIndex = -1;
                         return false;

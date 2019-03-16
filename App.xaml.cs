@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using ModernMessageBoxLib;
 
 namespace SaberColorfulStartmenu
 {
@@ -36,6 +37,16 @@ namespace SaberColorfulStartmenu
                 var word = item.Split(',');
                 charMap_Cn.Add(word[0],word[1]);
             }
+
+            QModernMessageBox.MainLang = new QMetroMessageLang() {
+                Abort = "中止(A)",
+                Cancel = "取消(C)",
+                Ignore = "忽略(I)",
+                No = "否(N)",
+                Ok = "确定",
+                Retry = "重试(R)",
+                Yes = "是(Y)"
+            };
             base.OnStartup(e);
         }
     }
