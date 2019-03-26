@@ -1,14 +1,8 @@
 ﻿#define DISABLE_LOGOS
 
-
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using ModernMessageBoxLib;
@@ -28,26 +22,25 @@ namespace SaberColorfulStartmenu
         private void App_OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e) =>
             new ErrorReport(e.Exception).ShowDialog();
 
-        static App()
+        static App() => AppDomain.CurrentDomain.AssemblyResolve += (sender, e) =>
         {
-            AppDomain.CurrentDomain.AssemblyResolve += (sender, e) => {
-                var assName = new AssemblyName(e.Name);
+            var assName = new AssemblyName(e.Name);
 
-                switch (assName.FullName.Replace(" ", string.Empty)) {
-                    case "ModernMessageBoxLib,Version=1.3.0.0,Culture=neutral,PublicKeyToken=null":
-                        return Assembly.Load(SaberColorfulStartmenu.Properties.Resources.ModernMessageBoxLib);
-                    default:
-                        return null;
-                }
+            switch (assName.FullName.Replace(" ", string.Empty))
+            {
+                case "ModernMessageBoxLib,Version=1.3.0.0,Culture=neutral,PublicKeyToken=null":
+                    return Assembly.Load(SaberColorfulStartmenu.Properties.Resources.ModernMessageBoxLib);
+                default:
+                    return null;
+            }
 
-            };
-        }
+        };
 
         protected override void OnStartup(StartupEventArgs e)
         {
             charMap_Cn = new Dictionary<string, string>();
-            var lens = SaberColorfulStartmenu.Properties.Resources.SysCharMap_CN.Split(new[] {
-                "\r\n"
+            var lens = SaberColorfulStartmenu.Properties.Resources.SysCharMap_CN.Replace("\r\n","\n").Split(new[] {
+                "\n"
             }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var item in lens) {
                 var word = item.Split(',');
@@ -64,6 +57,7 @@ namespace SaberColorfulStartmenu
                 Yes = "是(Y)"
             };
             base.OnStartup(e);
+            
         }
     }
 }

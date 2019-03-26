@@ -12,7 +12,7 @@ namespace SaberColorfulStartmenu
 
         private void button1_Click(object sender, EventArgs e) => Close();
 
-        private void AboutWindow_Load(object sender, EventArgs e) => textBox1.Text = Resources.About;
+        private void AboutWindow_Load(object sender, EventArgs e) => textBox1.Text = Resources.About.Replace("\n", "\r\n");
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => Process.Start("explorer", "https://edgeneko.github.io/2019/01/31/SaberColorfulStartmenu/");
 
