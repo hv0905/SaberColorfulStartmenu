@@ -54,6 +54,7 @@
 > Licensed under MIT License.
 
 # 截图 Snapshots：
+![screenshot](web/shot.png)
 ![shot1](https://user-images.githubusercontent.com/29349119/42812991-f4908e54-89f1-11e8-8d4f-72dde55937d1.PNG)
 ![shot4](https://user-images.githubusercontent.com/29349119/42812994-f611b276-89f1-11e8-8582-1a68ba41b9dd.PNG)
 ![shot5](https://user-images.githubusercontent.com/29349119/42812997-f6ac4e12-89f1-11e8-8588-0971a8756af6.PNG)
