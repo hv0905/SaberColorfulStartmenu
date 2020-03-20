@@ -26,6 +26,8 @@ namespace SaberColorfulStartmenu.Core
         public string LogoDirLocation =>
             Path.Combine(Path.GetDirectoryName(XmlFileLocation), Properties.Resources.IconDirName);
         public string BakFileLocation => XmlFileLocation + ".bak";
+
+        public string ShadowFileLocation => XmlFileLocation + ".shadow";
         public bool XmlDefined => File.Exists(XmlFileLocation);
         public bool BakFileExist => File.Exists(BakFileLocation);
 
@@ -152,6 +154,7 @@ namespace SaberColorfulStartmenu.Core
             if (!File.Exists(BakFileLocation)) return false;
             XmlFile = null;
             File.Copy(BakFileLocation, XmlFileLocation, true);
+            File.Copy(BakFileLocation, ShadowFileLocation, true);
             File.Delete(BakFileLocation);
             return true;
         }

@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SaberColorfulStartmenu.Helpers
 {
@@ -195,15 +191,15 @@ namespace SaberColorfulStartmenu.Helpers
             return sb.ToString();
         }
 
-        public static string GetShortcutIconPath(string fileName,out int id)
+        public static string GetShortcutIconPath(string fileName, out int id)
         {
             var link = new ShellLink();
             ((IPersistFile)link).Load(fileName, STGM_READ);
             // TODO: if I can get hold of the hwnd call resolve first. This handles moved and renamed files. 
             // ((IShellLinkW)link).Resolve(hwnd, 0) 
             var sb = new StringBuilder(MAX_PATH);
-            ((IShellLinkW)link).GetIconLocation(sb, sb.Capacity,out id);
-            return sb.ToString();        
+            ((IShellLinkW)link).GetIconLocation(sb, sb.Capacity, out id);
+            return sb.ToString();
         }
     }
 }

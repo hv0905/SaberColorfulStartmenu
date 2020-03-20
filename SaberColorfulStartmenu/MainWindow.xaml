@@ -331,6 +331,19 @@
                                    Foreground="White" />
                     </StackPanel>
                 </Button>
+                <Button Style="{StaticResource CoreButton}" Click="ButtonBase_OnClick_8" Margin="2"
+                        DockPanel.Dock="Left" Width="160"
+                        ToolTip="可在应用自动更新导致磁贴变更后, 还原到您设定的磁贴"
+                        HorizontalAlignment="Left">
+                    <Button.Background>
+                        <SolidColorBrush Color="Orange" Opacity="0.6" />
+                    </Button.Background>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Image Source="WpfImages/set_1.png" />
+                        <TextBlock Text="应用更新修复" VerticalAlignment="Center" FontSize="16" Margin="4"
+                                   Foreground="White" />
+                    </StackPanel>
+                </Button>
             </DockPanel>
         </Grid>
     </Grid>
