@@ -42,11 +42,13 @@ namespace SaberColorfulStartmenu.Core
             sxf.TxtForeground = sxf._visualElements.Attributes["ForegroundText"].Value == "light"
                 ? TextCol.light
                 : TextCol.dark;
-            if (sxf._visualElements.HasAttribute("Square150x150Logo")) {
+            if (sxf._visualElements.HasAttribute("Square150x150Logo"))
+            {
                 sxf.LargeLogoLoc = sxf._visualElements.Attributes["Square150x150Logo"].Value;
             }
 
-            if (sxf._visualElements.HasAttribute("Square70x70Logo")) {
+            if (sxf._visualElements.HasAttribute("Square70x70Logo"))
+            {
                 sxf.SmallLogoLoc = sxf._visualElements.Attributes["Square70x70Logo"].Value;
             }
 
@@ -97,31 +99,41 @@ namespace SaberColorfulStartmenu.Core
             _visualElements.Attributes["ShowNameOnSquare150x150Logo"].Value = ShowTitleOnLargeIcon ? "on" : "off";
             _visualElements.Attributes["ForegroundText"].Value = TxtForeground.ToString();
             //可选项
-            if (_visualElements.HasAttribute("Square150x150Logo")) {
-                if (string.IsNullOrEmpty(LargeLogoLoc)) {
+            if (_visualElements.HasAttribute("Square150x150Logo"))
+            {
+                if (string.IsNullOrEmpty(LargeLogoLoc))
+                {
                     _visualElements.RemoveAttribute("Square150x150Logo");
                 }
-                else {
+                else
+                {
                     _visualElements.Attributes["Square150x150Logo"].Value = LargeLogoLoc;
                 }
             }
-            else {
-                if (!string.IsNullOrEmpty(LargeLogoLoc)) {
+            else
+            {
+                if (!string.IsNullOrEmpty(LargeLogoLoc))
+                {
                     _visualElements.Attributes.Append(_doc.CreateAttribute("Square150x150Logo"));
                     _visualElements.Attributes["Square150x150Logo"].Value = LargeLogoLoc;
                 }
             }
 
-            if (_visualElements.HasAttribute("Square70x70Logo")) {
-                if (string.IsNullOrEmpty(SmallLogoLoc)) {
+            if (_visualElements.HasAttribute("Square70x70Logo"))
+            {
+                if (string.IsNullOrEmpty(SmallLogoLoc))
+                {
                     _visualElements.RemoveAttribute("Square70x70Logo");
                 }
-                else {
+                else
+                {
                     _visualElements.Attributes["Square70x70Logo"].Value = SmallLogoLoc;
                 }
             }
-            else {
-                if (!string.IsNullOrEmpty(SmallLogoLoc)) {
+            else
+            {
+                if (!string.IsNullOrEmpty(SmallLogoLoc))
+                {
                     _visualElements.Attributes.Append(_doc.CreateAttribute("Square70x70Logo"));
                     _visualElements.Attributes["Square70x70Logo"].Value = SmallLogoLoc;
                 }

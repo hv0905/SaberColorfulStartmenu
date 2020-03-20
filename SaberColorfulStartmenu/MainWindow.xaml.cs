@@ -437,7 +437,7 @@ namespace SaberColorfulStartmenu
                     if (!File.Exists(item.ShadowFileLocation)) continue;
                     if (!File.Exists(item.XmlFileLocation) || !File.ReadAllBytes(item.ShadowFileLocation).SequenceEqual(File.ReadAllBytes(item.XmlFileLocation)))
                     {
-                        File.Copy(item.ShadowFileLocation, item.XmlFileLocation, true);
+                        item.ShadowUndo();
                         Helper.UpdateFile(item.FullPath);
                         counter++;
                     }
@@ -452,7 +452,7 @@ namespace SaberColorfulStartmenu
                 }
             }
 
-            QModernMessageBox.Info(this, $"共修复{counter}个图标.", "修复结果");
+            QModernMessageBox.Info(this, $"修复了{counter}个图标.", "修复结果");
         }
 
         #endregion
@@ -864,13 +864,8 @@ namespace SaberColorfulStartmenu
                 _saveFlag = false;
             }
 
-            //Update file and let the explorer reload the link
-            //需要检查是否有连带文件要update的
-            //Helper.UpdateFile(currentInfo.FullPath);
-            if (File.Exists(currentInfo.XmlFileLocation))
-            {
-                File.Copy(currentInfo.XmlFileLocation, currentInfo.ShadowFileLocation, true);
-            }
+            currentInfo.ShadowBackup(); 
+
             foreach (var item in _applistData)
             {
                 if (item.TargetPath == currentInfo.TargetPath)

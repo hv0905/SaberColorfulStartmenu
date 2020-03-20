@@ -44,7 +44,8 @@ namespace SaberColorfulStartmenu.Core
             FullPath = shortcutFileName;
             TargetPath = ShortcutHelper.ResolveShortcut(FullPath);
             //__find:
-            if (!File.Exists(TargetPath)) {
+            if (!File.Exists(TargetPath))
+            {
                 throw new FileNotFoundException(TargetPath);
             }
 
@@ -69,7 +70,8 @@ namespace SaberColorfulStartmenu.Core
             FullPath = shortcutFileName;
             TargetPath = targetPath;
             //__find:
-            if (!File.Exists(TargetPath)) {
+            if (!File.Exists(TargetPath))
+            {
                 throw new FileNotFoundException(TargetPath);
             }
 
@@ -89,38 +91,47 @@ namespace SaberColorfulStartmenu.Core
         public void LoadIcon()
         {
             var iconPath = ShortcutHelper.GetShortcutIconPath(FullPath, out var iconId);
-            if (string.IsNullOrWhiteSpace(iconPath)) {
+            if (string.IsNullOrWhiteSpace(iconPath))
+            {
                 //targetPath对应icon
                 iconPath = TargetPath;
             }
 
             BitmapSource logo;
             if (iconPath.EndsWith(".exe", StringComparison.CurrentCultureIgnoreCase) ||
-                iconPath.EndsWith(".dll", StringComparison.CurrentCultureIgnoreCase)) {
-                try {
+                iconPath.EndsWith(".dll", StringComparison.CurrentCultureIgnoreCase))
+            {
+                try
+                {
                     var tmp = Helper.GetLargeIconsFromExeFile(iconPath, iconId);
-                    if (tmp != null) {
+                    if (tmp != null)
+                    {
                         logo = tmp.ToBitmap().ToBitmapSource();
                         Helper.DestroyIcon(tmp.Handle);
                         tmp.Dispose();
                     }
-                    else {
+                    else
+                    {
                         logo = Unknown;
                     }
                 }
-                catch {
+                catch
+                {
                     //catch(NotImplementedException) {
                     logo = Unknown;
                 }
             }
-            else {
+            else
+            {
                 //ico
-                try {
+                try
+                {
                     var ico = new Icon(iconPath);
                     logo = ico.ToBitmap().ToBitmapSource();
                     ico.Dispose();
                 }
-                catch {
+                catch
+                {
                     //catch (NotImplementedException) {
                     logo = Unknown;
                 }
@@ -131,7 +142,8 @@ namespace SaberColorfulStartmenu.Core
 
         public void LoadXmlInfo()
         {
-            if (XmlDefined) {
+            if (XmlDefined)
+            {
                 XmlFile = StartmenuXmlFile.Load(XmlFileLocation);
             }
         }
@@ -141,22 +153,37 @@ namespace SaberColorfulStartmenu.Core
         /// </summary>
         public void Backup()
         {
-            if (XmlDefined) {
+            if (XmlDefined)
+            {
                 File.Copy(XmlFileLocation, BakFileLocation, true);
+            }
+        }
+
+        public void ShadowBackup()
+        {
+            if (XmlDefined)
+            {
+                File.Copy(XmlFileLocation, ShadowFileLocation, true);
             }
         }
 
         /// <summary>
         /// 用bak还原xml
         /// </summary>
-        public bool Undo()
+        public void Undo()
         {
-            if (!File.Exists(BakFileLocation)) return false;
+            if (!File.Exists(BakFileLocation)) return;
             XmlFile = null;
             File.Copy(BakFileLocation, XmlFileLocation, true);
-            File.Copy(BakFileLocation, ShadowFileLocation, true);
+            ShadowBackup();
             File.Delete(BakFileLocation);
-            return true;
+        }
+
+        public void ShadowUndo()
+        {
+            if (!File.Exists(ShadowFileLocation)) return;
+            XmlFile = null;
+            File.Copy(ShadowFileLocation, XmlFileLocation, true);
         }
 
 

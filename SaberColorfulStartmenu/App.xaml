@@ -14,7 +14,7 @@
                 <ResourceDictionary Source="Themes/Simple.xaml" />
                 <ResourceDictionary Source="Themes/BlockRadioButton.xaml" />
                 <ResourceDictionary Source="Themes/SwitchCheckbox.xaml" />
-                <ResourceDictionary Source="Themes/Win8UwpBtn.xaml"/>
+                <ResourceDictionary Source="Themes/Win8UwpBtn.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

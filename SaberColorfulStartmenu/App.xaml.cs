@@ -33,18 +33,18 @@ namespace SaberColorfulStartmenu
                 default:
                     return null;
             }
-
         };
 
         protected override void OnStartup(StartupEventArgs e)
         {
             charMap_Cn = new Dictionary<string, string>();
-            var lens = SaberColorfulStartmenu.Properties.Resources.SysCharMap_CN.Replace("\r\n","\n").Split(new[] {
+            var lens = SaberColorfulStartmenu.Properties.Resources.SysCharMap_CN.Replace("\r\n", "\n").Split(new[] {
                 "\n"
             }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (var item in lens) {
+            foreach (var item in lens)
+            {
                 var word = item.Split(',');
-                charMap_Cn.Add(word[0],word[1]);
+                charMap_Cn.Add(word[0], word[1]);
             }
 
             QModernMessageBox.MainLang = new QMetroMessageLang() {
@@ -57,7 +57,6 @@ namespace SaberColorfulStartmenu
                 Yes = "是(Y)"
             };
             base.OnStartup(e);
-            
         }
     }
 }

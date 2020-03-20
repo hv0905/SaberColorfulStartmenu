@@ -7,7 +7,6 @@ namespace SaberColorfulStartmenu
 {
     public partial class AboutWindow : Form
     {
-
         public AboutWindow() => InitializeComponent();
 
         private void button1_Click(object sender, EventArgs e) => Close();
@@ -20,6 +19,6 @@ namespace SaberColorfulStartmenu
 
         private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => Process.Start("explorer", "https://edgeneko.github.io/2019/01/31/SaberColorfulStartmenu/#%E6%94%AF%E6%8C%81-Support");
 
-        private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => MessageBox.Show("This release have not any preview functions.\n Enjoy~","BETA Notice");
+        private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => MessageBox.Show("This release have not any preview functions.\n Enjoy~", "BETA Notice");
     }
 }

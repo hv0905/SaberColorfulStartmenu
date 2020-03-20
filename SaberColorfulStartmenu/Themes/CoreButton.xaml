@@ -4,7 +4,7 @@
     <Style x:Key="CoreButton" TargetType="Button">
         <Setter Property="Background">
             <Setter.Value>
-                <SolidColorBrush Color="DeepSkyBlue" Opacity="0.6"/>
+                <SolidColorBrush Color="DeepSkyBlue" Opacity="0.6" />
             </Setter.Value>
         </Setter>
         <Setter Property="Template">
@@ -15,43 +15,54 @@
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal">
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="rect" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0:0.15"/>
-                                        <DoubleAnimation Storyboard.TargetName="disableCover" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0:0.15"/>
+                                        <DoubleAnimation Storyboard.TargetName="rect"
+                                                         Storyboard.TargetProperty="Opacity" To="1"
+                                                         Duration="0:0:0:0.15" />
+                                        <DoubleAnimation Storyboard.TargetName="disableCover"
+                                                         Storyboard.TargetProperty="Opacity" To="0"
+                                                         Duration="0:0:0:0.15" />
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="MouseOver">
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="rect" Storyboard.TargetProperty="Opacity" To="0.4" Duration="0:0:0:0.15"/>
+                                        <DoubleAnimation Storyboard.TargetName="rect"
+                                                         Storyboard.TargetProperty="Opacity" To="0.4"
+                                                         Duration="0:0:0:0.15" />
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="rect" Storyboard.TargetProperty="Opacity" To="0.1" Duration="0:0:0:0.15"/>
+                                        <DoubleAnimation Storyboard.TargetName="rect"
+                                                         Storyboard.TargetProperty="Opacity" To="0.1"
+                                                         Duration="0:0:0:0.15" />
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Disabled">
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="disableCover" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0:0.15"/>
+                                        <DoubleAnimation Storyboard.TargetName="disableCover"
+                                                         Storyboard.TargetProperty="Opacity" To="1"
+                                                         Duration="0:0:0:0.15" />
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
                             <VisualStateGroup x:Name="FocusStates">
-                                <VisualState x:Name="Focused"/>
+                                <VisualState x:Name="Focused" />
                             </VisualStateGroup>
                             <VisualStateGroup x:Name="ValidationStates">
-                                <VisualState x:Name="InvalidFocused"/>
-                                <VisualState x:Name="InvalidUnfocused"/>
+                                <VisualState x:Name="InvalidFocused" />
+                                <VisualState x:Name="InvalidUnfocused" />
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Rectangle x:Name="rect" Fill="{TemplateBinding Background}" Opacity="1"/>
-                        <Rectangle x:Name="disableCover" Fill="LightGray" Opacity="0"/>
-                        <Border BorderThickness="1" BorderBrush="White"/>
-                        <ContentControl Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Rectangle x:Name="rect" Fill="{TemplateBinding Background}" Opacity="1" />
+                        <Rectangle x:Name="disableCover" Fill="LightGray" Opacity="0" />
+                        <Border BorderThickness="1" BorderBrush="White" />
+                        <ContentControl Content="{TemplateBinding Content}" HorizontalAlignment="Center"
+                                        VerticalAlignment="Center" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontSize" Value="16" />
     </Style>
 
     <!--<Style x:Key="CoreComboBox" TargetType="ComboBox">
@@ -80,6 +91,6 @@
             </Setter.Value>
         </Setter>
     </Style>-->
-    
+
 
 </ResourceDictionary>

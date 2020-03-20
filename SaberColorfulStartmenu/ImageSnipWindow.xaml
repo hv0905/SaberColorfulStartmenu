@@ -28,9 +28,9 @@
                     Margin="2" Click="ButtonBase_OnClick_1" IsCancel="True" />
             <Button Content="不裁剪" DockPanel.Dock="Left" Style="{StaticResource Win8UWPBtn}" Width="100" FontSize="16"
                     Margin="2" Click="ButtonBase_OnClick_4" ToolTip="直接使用原图作为磁贴图标.注意:原图可能会被拉伸" />
-            <TextBlock x:Name="info" DockPanel.Dock="Right" FontSize="32" TextAlignment="Center" FontFamily="Segoe MDL2 Assets"
-                       Text="&#xE946;" Foreground="White" Margin="2">
-            </TextBlock>
+            <TextBlock x:Name="info" DockPanel.Dock="Right" FontSize="32" TextAlignment="Center"
+                       FontFamily="Segoe MDL2 Assets"
+                       Text="&#xE946;" Foreground="White" Margin="2" />
             <TextBlock Text="裁剪图像" FontSize="16" Foreground="White" HorizontalAlignment="Stretch"
                        TextAlignment="Center" MouseLeftButtonDown="UIElement_OnMouseLeftButtonDown"
                        VerticalAlignment="Center" />

@@ -42,7 +42,7 @@ namespace SaberColorfulStartmenu.Helpers
         /// <param name="pszExeFileName">exe、dll文件</param>
         /// <param name="nIconIndex">图标序号</param>
         /// <returns>若图标不存在返回IntPtr.Zero</returns>
-        [DllImport("shell32.dll",CharSet = CharSet.Unicode)]
+        [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
         public static extern IntPtr ExtractIcon(IntPtr hInst, string pszExeFileName, int nIconIndex);
 
         /// <summary>
@@ -54,21 +54,27 @@ namespace SaberColorfulStartmenu.Helpers
         {
             var dirs = new List<string> {dirPath};
             // ReSharper disable once ForCanBeConvertedToForeach
-            for (var i = 0; i < dirs.Count; i++) {
-                try {
+            for (var i = 0; i < dirs.Count; i++)
+            {
+                try
+                {
                     dirs.AddRange(Directory.GetDirectories(dirs[i]));
                 }
-                catch {
+                catch
+                {
                     // ignored
                 }
             }
 
             var files = new List<string>();
-            foreach (var itemDir in dirs) {
-                try {
+            foreach (var itemDir in dirs)
+            {
+                try
+                {
                     files.AddRange(Directory.GetFiles(itemDir));
                 }
-                catch {
+                catch
+                {
                     // ignored
                 }
             }
@@ -84,11 +90,13 @@ namespace SaberColorfulStartmenu.Helpers
         public static BitmapSource ToBitmapSource(this Bitmap target)
         {
             var hbitmap = target.GetHbitmap();
-            try {
+            try
+            {
                 return Imaging.CreateBitmapSourceFromHBitmap(hbitmap, IntPtr.Zero, Int32Rect.Empty,
                     BitmapSizeOptions.FromEmptyOptions());
             }
-            finally {
+            finally
+            {
                 DeleteHBitmap(hbitmap);
             }
         }
@@ -104,7 +112,8 @@ namespace SaberColorfulStartmenu.Helpers
                 throw new ArgumentException("Value cannot be null or empty.", nameof(exeFile));
             var iconCount = ExtractIcon(IntPtr.Zero, exeFile, -1).ToInt32();
             var icons = new IntPtr[iconCount];
-            for (var i = 0; i < iconCount; i++) {
+            for (var i = 0; i < iconCount; i++)
+            {
                 icons[i] = ExtractIcon(IntPtr.Zero, exeFile, i);
             }
 
@@ -123,7 +132,8 @@ namespace SaberColorfulStartmenu.Helpers
             if (string.IsNullOrEmpty(exeFile))
                 throw new ArgumentException("Value cannot be null or empty.", nameof(exeFile));
             var hwnd = ExtractIcon(IntPtr.Zero, exeFile, id);
-            if (hwnd != IntPtr.Zero) {
+            if (hwnd != IntPtr.Zero)
+            {
                 return Icon.FromHandle(hwnd);
             }
             else return null;
@@ -137,7 +147,8 @@ namespace SaberColorfulStartmenu.Helpers
         /// </summary>
         public static void UpdateFile(string path)
         {
-            if (File.Exists(path)) {
+            if (File.Exists(path))
+            {
                 File.SetLastWriteTime(path, DateTime.Now);
             }
         }

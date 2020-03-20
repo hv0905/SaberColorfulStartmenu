@@ -7,6 +7,7 @@ namespace SaberColorfulStartmenu.Helpers
     class ShortcutHelper
     {
         //Big thanks https://stackoverflow.com/questions/139010/how-to-resolve-a-lnk-in-c-sharp
+
         #region Signitures imported from http://pinvoke.net
 
         [DllImport("shfolder.dll", CharSet = CharSet.Auto)]

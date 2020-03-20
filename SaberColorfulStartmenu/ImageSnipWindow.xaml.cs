@@ -79,14 +79,16 @@ namespace SaberColorfulStartmenu
         {
             if (e.LeftButton != MouseButtonState.Pressed) return;
 
-            if (_mouseStartPoint.HasValue) {
+            if (_mouseStartPoint.HasValue)
+            {
                 var pos = e.GetPosition(gridImg);
                 var deltaX = pos.X - _mouseStartPoint.Value.X;
                 var deltaY = pos.Y - _mouseStartPoint.Value.Y;
                 Offset(deltaX, deltaY);
                 _mouseStartPoint = pos;
             }
-            else {
+            else
+            {
                 _mouseStartPoint = e.GetPosition(gridImg);
             }
         }
@@ -100,7 +102,8 @@ namespace SaberColorfulStartmenu
         {
             if (!_loaded) return;
 
-            if (Width < Height * 1.2) {
+            if (Width < Height * 1.2)
+            {
                 Width = Height * 1.2;
             }
 
@@ -111,10 +114,12 @@ namespace SaberColorfulStartmenu
         {
             _loaded = true;
             //Scale(0);
-            if (imgDst.Width < imgDst.Height) {
+            if (imgDst.Width < imgDst.Height)
+            {
                 imgScale.ScaleX = centerMask.ActualWidth / Source.Size.Width;
             }
-            else {
+            else
+            {
                 imgScale.ScaleX = centerMask.ActualHeight / Source.Size.Height;
             }
         }
@@ -134,7 +139,8 @@ namespace SaberColorfulStartmenu
 
         private void ImageSnipWindow_OnKeyUp(object sender, KeyEventArgs e)
         {
-            switch (e.Key) {
+            switch (e.Key)
+            {
                 case Key.Up:
                 case Key.W:
                     Offset(0, -1);
@@ -164,7 +170,8 @@ namespace SaberColorfulStartmenu
 
         private void ImageSnipWindow_OnClosing(object sender, CancelEventArgs e)
         {
-            if (Result == SnapWindowResult.Unknown) {
+            if (Result == SnapWindowResult.Unknown)
+            {
                 Result = SnapWindowResult.Cancel;
             }
         }
@@ -184,25 +191,30 @@ namespace SaberColorfulStartmenu
 
         public void Scale(int ratio)
         {
-            if (ratio > 0) {
+            if (ratio > 0)
+            {
                 //放大
                 imgScale.ScaleX += 0.01 * ratio;
             }
-            else {
+            else
+            {
                 //缩小
                 if (ratio < 0)
                     imgScale.ScaleX += 0.01 * ratio;
 
                 var size = GetRealSize();
-                if (size.Width < centerMask.ActualWidth) {
+                if (size.Width < centerMask.ActualWidth)
+                {
                     imgScale.ScaleX = centerMask.ActualWidth / Source.Size.Width;
                 }
-                else if (size.Height < centerMask.ActualHeight) {
+                else if (size.Height < centerMask.ActualHeight)
+                {
                     imgScale.ScaleX = centerMask.ActualHeight / Source.Size.Height;
                 }
 
                 SetLoc(Canvas.GetLeft(imgDst), Canvas.GetTop(imgDst));
             }
+
             UpdateInfo();
         }
 
@@ -220,22 +232,26 @@ namespace SaberColorfulStartmenu
             var newY = y;
 
             //左
-            if (newX > leftMask.ActualWidth) {
+            if (newX > leftMask.ActualWidth)
+            {
                 newX = leftMask.ActualWidth;
             }
 
             //上
-            if (newY > 0) {
+            if (newY > 0)
+            {
                 newY = 0;
             }
 
             //右
-            if ((newX + siz.Width) < leftMask.ActualWidth + centerMask.ActualWidth) {
+            if ((newX + siz.Width) < leftMask.ActualWidth + centerMask.ActualWidth)
+            {
                 newX = leftMask.ActualWidth + centerMask.ActualWidth - siz.Width;
             }
 
             //下
-            if (newY + siz.Height < centerMask.ActualHeight) {
+            if (newY + siz.Height < centerMask.ActualHeight)
+            {
                 newY = centerMask.ActualHeight - siz.Height;
             }
 
@@ -258,15 +274,18 @@ namespace SaberColorfulStartmenu
             var width = centerMask.ActualWidth / imgScale.ScaleX;
 
             var warningTxt = string.Empty;
-            if (width < MinSize?.Width) {
+            if (width < MinSize?.Width)
+            {
                 warningTxt = "注意:当前裁剪区域尺寸小于150x150,无法覆盖满整个磁贴图标.\n";
-                info.Text = "";//⚠
+                info.Text = ""; //⚠
                 infoBack.Opacity = 0.6;
             }
-            else {
-                info.Text = "";//(i)
+            else
+            {
+                info.Text = ""; //(i)
                 infoBack.Opacity = 0;
             }
+
             info.ToolTip = $"{warningTxt}偏移量:( {(int)(imgX + 0.5)} , {(int)(imgY + 0.5)} )\n尺寸:{(int)(width + 0.5)} * {(int)(width + 0.5)}";
         }
 
