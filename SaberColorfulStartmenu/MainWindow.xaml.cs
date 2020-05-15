@@ -1,4 +1,4 @@
-﻿//#define DEBUG_SHOW_DETAILS
+﻿#define DEBUG_SHOW_DETAILS
 
 using SaberColorfulStartmenu.Core;
 using SaberColorfulStartmenu.Helpers;
@@ -482,7 +482,7 @@ namespace SaberColorfulStartmenu
 #if DEBUG_SHOW_DETAILS
                 Debug.WriteLine(target);
 #endif
-                if ((!target.EndsWith(".exe", StringComparison.CurrentCultureIgnoreCase)) || !File.Exists(target))
+                if (!File.Exists(target))
                 {
 #if DEBUG_SHOW_DETAILS
                     Debug.WriteLine("Torow!!!");
