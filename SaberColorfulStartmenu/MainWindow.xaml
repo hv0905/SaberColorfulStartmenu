@@ -8,7 +8,7 @@
         mc:Ignorable="d" Style="{StaticResource BorderlessWindowStyle}" MinWidth="800" MinHeight="450"
         Title="Saber's Colorful Startmenu 开始菜单定制工具" Height="480" Width="880">
     <Window.Background>
-        <ImageBrush ImageSource="WpfImages/dva_12.jpg" />
+        <ImageBrush ImageSource="WpfImages/dva_12.jpg" Stretch="UniformToFill" />
     </Window.Background>
     <Window.Resources>
         <Storyboard x:Key="saveDoneStory">
