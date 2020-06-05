@@ -496,6 +496,7 @@ namespace SaberColorfulStartmenu
             }
 
             _applistData.Sort();
+            appList.Items.Refresh();
 #if DEBUG
             stop.Stop();
             Debug.WriteLine("Refresh list take:" + stop.Elapsed + " ms");
