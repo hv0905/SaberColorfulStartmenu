@@ -479,12 +479,12 @@ namespace SaberColorfulStartmenu
             {
                 var target = ShortcutHelper.ResolveShortcut(item);
                 //__tf:
-#if DEBUG_SHOW_DETAILS
+#if DEBUG_SHOW_DETAILS && DEBUG
                 Debug.WriteLine(target);
 #endif
                 if (!File.Exists(target))
                 {
-#if DEBUG_SHOW_DETAILS
+#if DEBUG_SHOW_DETAILS && DEBUG
                     Debug.WriteLine("Torow!!!");
 #endif
                     continue;
