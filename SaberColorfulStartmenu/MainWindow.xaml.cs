@@ -435,11 +435,35 @@ namespace SaberColorfulStartmenu
                 try
                 {
                     if (!File.Exists(item.ShadowFileLocation)) continue;
-                    if (!File.Exists(item.XmlFileLocation) || !File.ReadAllBytes(item.ShadowFileLocation).SequenceEqual(File.ReadAllBytes(item.XmlFileLocation)))
+                    if (File.Exists(item.XmlFileLocation) && File.ReadAllBytes(item.ShadowFileLocation).SequenceEqual(File.ReadAllBytes(item.XmlFileLocation))) continue;
+                    try
                     {
+                        var shadow = StartmenuXmlFile.Load(item.ShadowFileLocation);
+                        var largeE = File.Exists(shadow.LargeLogoLoc);
+                        var smallE = File.Exists(shadow.SmallLogoLoc);
+                        if (!largeE || !smallE)
+                        {
+                            if (!largeE && smallE)
+                            {
+                                shadow.LargeLogoLoc = shadow.SmallLogoLoc;
+                            }
+                            else if (largeE)
+                            {
+                                shadow.SmallLogoLoc = shadow.LargeLogoLoc;
+                            }
+                            else
+                            {
+                                shadow.SmallLogoLoc = shadow.LargeLogoLoc = "";
+                            }
+                            shadow.Save();
+                        }
                         item.ShadowUndo();
                         Helper.UpdateFile(item.FullPath);
                         counter++;
+                    }
+                    catch
+                    {
+                        // ignored
                     }
                 }
                 catch (UnauthorizedAccessException)
