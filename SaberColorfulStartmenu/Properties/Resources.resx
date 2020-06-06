@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="About" xml:space="preserve">
-    <value>Saber's Colorful Startmenu Version:2.4 (release 2.4)
+    <value>Saber's Colorful Startmenu Version:2.4.1 (release 2.4.1)
 
 作者：HV0905
 
@@ -129,11 +129,11 @@
 本程序部分图标取自 Windows 9 Icons 作者: dtafalonso
 参考: dtafalonso.deviantart.com/art/Windows-9-icons-359505915
 
-背景：取自b站，如果你知道原作者可以在github反馈。
+背景：pixiv #66754493
 
-基于C# WPF .Net Framework 4.6.2 使用Visual Studio 2017 Community编译
+基于C# WPF .Net Framework 4.6.2 使用Visual Studio 2019 Community编译
 
-本程序开放源代码,任何人可以免费散布/重新编译本程序,如需下载源代码，请前往Github页面。</value>
+本程序遵循MIT协议开放源代码, 如需下载源代码，请前往Github页面。</value>
   </data>
   <data name="AppName" xml:space="preserve">
     <value>Saber's Colorful Startmenu</value>

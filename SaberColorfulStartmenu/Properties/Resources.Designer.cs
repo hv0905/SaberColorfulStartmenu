@@ -61,7 +61,7 @@ namespace SaberColorfulStartmenu.Properties {
         }
         
         /// <summary>
-        ///   查找类似 Saber&apos;s Colorful Startmenu Version:2.4 (release 2.4)
+        ///   查找类似 Saber&apos;s Colorful Startmenu Version:2.4.1 (release 2.4.1)
         ///
         ///作者：HV0905
         ///
@@ -72,11 +72,11 @@ namespace SaberColorfulStartmenu.Properties {
         ///本程序部分图标取自 Windows 9 Icons 作者: dtafalonso
         ///参考: dtafalonso.deviantart.com/art/Windows-9-icons-359505915
         ///
-        ///背景：取自b站，如果你知道原作者可以在github反馈。
+        ///背景：pixiv #66754493
         ///
-        ///基于C# WPF .Net Framework 4.6.2 使用Visual Studio 2017 Community编译
+        ///基于C# WPF .Net Framework 4.6.2 使用Visual Studio 2019 Community编译
         ///
-        ///本程序开放源代码,任何人可以免费散布/重新编译本程序,如需下载源代码，请前往Github页面。 的本地化字符串。
+        ///本程序遵循MIT协议开放源代码, 如需下载源代码，请前往Github页面。 的本地化字符串。
         /// </summary>
         internal static string About {
             get {
