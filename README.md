@@ -29,39 +29,22 @@ MS在20H2 07更新(KB4565503)中更改了磁贴颜色计算方式(就是全部�
 [you can download the newest developing version from our CI.](https://ci.appveyor.com/project/hv0905/sabercolorfulstartmenu/build/artifacts)  
 
 ### 关于 About:
-> Saber's Colorful Startmenu Version:1.2 (release 1.2)
->
-> 作者：EdgeNeko
->
-> by EdgeNeko
->
+> Saber's Colorful Startmenu Version:2.4.1 (release 2.4.1)
+> 
+> 作者：HV0905
+> 
 > 仅支持Win10操作系统
->
-> Only Windows 10 is supported.
->
+> 
 > 本程序可以通过修改快捷方式文件下的visualelementsmanifest.xml对开始菜单图标进行定制
->
-> This program can change the app logo in start menu by changing the visualelementsmanifist.xml file.
->
+> 
 > 本程序部分图标取自 Windows 9 Icons 作者: dtafalonso
->
-> Icon resource is from WIndows 9 Icons (by dtafalonso)
->
-> See also: dtafalonso.deviantart.com/art/Windows-9-icons-359505915
->
-> 背景：取自b站，如果你知道原作者可以在github反馈。
->
-> Background is from bilibili and you can tell me if you know the author.
->
-> 基于C# WPF .Net Framework 4.6.2 使用Visual Studio 2017 Community编译
->
-> Base on C# WPF .Net Framework 4.6.2. Build with Visual Studio 2017 Community
->
-> 本程序开放源代码,任何人可以免费散布/重新编译本程序,如需下载源代码，请前往Github页面。
->
-> 本程序使用MIT许可协议.
->
-> Licensed under MIT License.
+> 参考: dtafalonso.deviantart.com/art/Windows-9-icons-359505915
+> 
+> 背景：pixiv #66754493
+> 
+> 基于C# WPF .Net Framework 4.6.2 使用Visual Studio 2019 Community编译
+> 
+> 本程序遵循MIT协议开放源代码, 如需下载源代码，请前往Github页面。
 
 # 截图 Snapshots：
 ![screenshot](web/shot.png)
